@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据中心 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/data-center.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html" class="active">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 面包屑导航 -->
+    <div class="breadcrumb container">
+        <a href="../index.html">首页</a> &gt; 数据中心
+    </div>
+
+    <!-- 主要内容区 -->
+    <main class="container">
+        <!-- 数据中心导航 -->
+        <div class="data-nav">
+            <ul>
+                <li class="active" data-tab="industry-overview">
+                    <i class="bi bi-pie-chart"></i>
+                    <span>产业概览</span>
+                </li>
+                <li data-tab="market-analysis">
+                    <i class="bi bi-graph-up"></i>
+                    <span>市场分析</span>
+                </li>
+                <li data-tab="supply-chain-data">
+                    <i class="bi bi-diagram-3"></i>
+                    <span>供应链数据</span>
+                </li>
+                <li data-tab="talent-statistics">
+                    <i class="bi bi-people"></i>
+                    <span>人才统计</span>
+                </li>
+                <li data-tab="export-import">
+                    <i class="bi bi-globe"></i>
+                    <span>进出口数据</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 产业概览区域 -->
+        <section class="tab-content active" id="industry-overview">
+            <h2>产业概览</h2>
+            
+            <!-- 产业关键指标 -->
+            <div class="kpi-cards">
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>注册企业</h3>
+                        <p class="kpi-number">16</p>
+                        <p class="kpi-trend up">较上月<span>+3.2%</span></p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-currency-yen"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>产业总产值</h3>
+                        <p class="kpi-number">45.6亿</p>
+                        <p class="kpi-trend up">较上月<span>+12.3%</span></p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>年产量</h3>
+                        <p class="kpi-number">2.8亿件</p>
+                        <p class="kpi-trend up">较上月<span>+8.7%</span></p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>从业人员</h3>
+                        <p class="kpi-number">12.5万</p>
+                        <p class="kpi-trend up">较上月<span>+5.1%</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 产业结构分析 -->
+            <div class="data-section">
+                <h3>产业结构分析</h3>
+                <div class="data-content">
+                    <div class="data-card">
+                        <h4>企业规模分布</h4>
+                        <div class="data-details">
+                            <ul class="data-list">
+                                <li><span class="data-label">大型企业(年产值>5000万):</span> <span class="data-value">8.5%</span></li>
+                                <li><span class="data-label">中型企业(年产值1000-5000万):</span> <span class="data-value">23.6%</span></li>
+                                <li><span class="data-label">小型企业(年产值100-1000万):</span> <span class="data-value">45.2%</span></li>
+                                <li><span class="data-label">微型企业(年产值<100万):</span> <span class="data-value">22.7%</span></li>
+                            </ul>
+                            <p class="data-summary">织里镇童装产业以中小型企业为主体，小型企业占比最高，达到45.2%，形成了灵活多样的产业结构。大型企业虽然数量较少，但贡献了超过40%的产业总产值。</p>
+                        </div>
+                    </div>
+                    <div class="data-card">
+                        <h4>企业类型分布</h4>
+                        <div class="data-details">
+                            <ul class="data-list">
+                                <li><span class="data-label">生产制造型:</span> <span class="data-value">58.3%</span></li>
+                                <li><span class="data-label">设计研发型:</span> <span class="data-value">12.6%</span></li>
+                                <li><span class="data-label">品牌运营型:</span> <span class="data-value">15.8%</span></li>
+                                <li><span class="data-label">贸易服务型:</span> <span class="data-value">13.3%</span></li>
+                            </ul>
+                            <p class="data-summary">织里镇童装产业链完整，以生产制造型企业为主，占比58.3%。近年来设计研发型和品牌运营型企业数量增长迅速，产业结构不断优化升级，向高附加值环节发展。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 产业发展趋势 -->
+            <div class="data-section">
+                <h3>产业发展趋势</h3>
+                <div class="data-content full-width">
+                    <div class="data-card">
+                        <h4>织里镇童装产业产值趋势（2018-2023）</h4>
+                        <div class="data-details">
+                            <div class="trend-data">
+                                <div class="trend-year">
+                                    <span class="year">2018</span>
+                                    <span class="value">28.5亿元</span>
+                                    <span class="growth">+5.2%</span>
+                                </div>
+                                <div class="trend-year">
+                                    <span class="year">2019</span>
+                                    <span class="value">32.1亿元</span>
+                                    <span class="growth">+12.6%</span>
+                                </div>
+                                <div class="trend-year">
+                                    <span class="year">2020</span>
+                                    <span class="value">30.8亿元</span>
+                                    <span class="growth">-4.0%</span>
+                                </div>
+                                <div class="trend-year">
+                                    <span class="year">2021</span>
+                                    <span class="value">36.5亿元</span>
+                                    <span class="growth">+18.5%</span>
+                                </div>
+                                <div class="trend-year">
+                                    <span class="year">2022</span>
+                                    <span class="value">41.2亿元</span>
+                                    <span class="growth">+12.9%</span>
+                                </div>
+                                <div class="trend-year highlight">
+                                    <span class="year">2023</span>
+                                    <span class="value">45.6亿元</span>
+                                    <span class="growth">+10.7%</span>
+                                </div>
+                            </div>
+                            <p class="data-summary">织里镇童装产业总产值呈现稳步增长态势，2020年受疫情影响略有下滑，但2021年迅速恢复并实现高速增长。2023年产值达到45.6亿元，同比增长10.7%，预计未来三年将保持年均8-10%的增速。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 产业集群分析 -->
+            <div class="data-section">
+                <h3>产业集群分析</h3>
+                <div class="data-content">
+                    <div class="data-card">
+                        <h4>产业链分布</h4>
+                        <div class="data-details">
+                            <div class="industry-chain">
+                                <div class="chain-segment">
+                                    <h5>上游原材料</h5>
+                                    <p>占比: 18.5%</p>
+                                    <p>企业数: 232家</p>
+                                    <p>主要业务: 面料、辅料、染料等</p>
+                                </div>
+                                <div class="chain-segment">
+                                    <h5>中游生产加工</h5>
+                                    <p>占比: 52.3%</p>
+                                    <p>企业数: 654家</p>
+                                    <p>主要业务: 裁剪、缝制、印染等</p>
+                                </div>
+                                <div class="chain-segment">
+                                    <h5>下游销售渠道</h5>
+                                    <p>占比: 29.2%</p>
+                                    <p>企业数: 370家</p>
+                                    <p>主要业务: 批发、零售、电商等</p>
+                                </div>
+                            </div>
+                            <p class="data-summary">织里镇已形成完整的童装产业链，中游生产加工环节最为集中，占比超过50%。近年来，下游销售渠道企业增长迅速，电商平台成为新的增长点。</p>
+                        </div>
+                    </div>
+                    <div class="data-card">
+                        <h4>产业空间布局</h4>
+                        <div class="data-details">
+                            <div class="spatial-layout">
+                                <div class="layout-area">
+                                    <h5>织里镇中心区</h5>
+                                    <p>企业集中度: 高</p>
+                                    <p>主要业态: 品牌总部、设计中心</p>
+                                    <p>特色: 高端品牌集聚</p>
+                                </div>
+                                <div class="layout-area">
+                                    <h5>织东产业园</h5>
+                                    <p>企业集中度: 中高</p>
+                                    <p>主要业态: 生产制造、物流</p>
+                                    <p>特色: 智能制造示范</p>
+                                </div>
+                                <div class="layout-area">
+                                    <h5>织南新区</h5>
+                                    <p>企业集中度: 中</p>
+                                    <p>主要业态: 创新研发、电商</p>
+                                    <p>特色: 数字化转型</p>
+                                </div>
+                            </div>
+                            <p class="data-summary">织里镇童装产业呈现"一核两翼"空间布局，形成了差异化发展格局。中心区注重品牌提升，织东产业园专注智能制造，织南新区重点发展数字经济。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 市场分析区域 -->
+        <section class="tab-content" id="market-analysis">
+            <h2>市场分析</h2>
+            
+            <!-- 市场关键指标 -->
+            <div class="kpi-cards">
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-cart-check"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>月度订单</h3>
+                        <p class="kpi-number">8,965</p>
+                        <p class="kpi-trend up">较上月<span>+5.7%</span></p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-shop"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>市场占有率</h3>
+                        <p class="kpi-number">38.5%</p>
+                        <p class="kpi-trend up">较上月<span>+2.1%</span></p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-cash-coin"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>平均订单额</h3>
+                        <p class="kpi-number">¥12,680</p>
+                        <p class="kpi-trend up">较上月<span>+3.5%</span></p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-tags"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>产品种类</h3>
+                        <p class="kpi-number">1,256</p>
+                        <p class="kpi-trend up">较上月<span>+15.2%</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 市场分析图表 -->
+            <div class="data-section">
+                <h3>市场需求分析</h3>
+                <div class="data-content">
+                    <div class="data-card">
+                        <h4>产品类别销量分布</h4>
+                        <div class="data-details">
+                            <div class="category-stats">
+                                <div class="category-item">
+                                    <div class="category-name">婴幼儿服装</div>
+                                    <div class="category-percent">28.5%</div>
+                                    <div class="category-growth">同比增长 +15.3%</div>
+                                    <div class="category-note">0-3岁，以舒适、安全为主</div>
+                                </div>
+                                <div class="category-item">
+                                    <div class="category-name">儿童休闲装</div>
+                                    <div class="category-percent">32.6%</div>
+                                    <div class="category-growth">同比增长 +12.8%</div>
+                                    <div class="category-note">4-12岁，日常穿着</div>
+                                </div>
+                                <div class="category-item">
+                                    <div class="category-name">儿童运动装</div>
+                                    <div class="category-percent">18.4%</div>
+                                    <div class="category-growth">同比增长 +22.5%</div>
+                                    <div class="category-note">增长最快的品类</div>
+                                </div>
+                                <div class="category-item">
+                                    <div class="category-name">儿童礼服</div>
+                                    <div class="category-percent">8.2%</div>
+                                    <div class="category-growth">同比增长 +5.6%</div>
+                                    <div class="category-note">节日、表演等场合</div>
+                                </div>
+                                <div class="category-item">
+                                    <div class="category-name">校园服饰</div>
+                                    <div class="category-percent">12.3%</div>
+                                    <div class="category-growth">同比增长 +9.7%</div>
+                                    <div class="category-note">校服、园服等</div>
+                                </div>
+                            </div>
+                            <p class="data-summary">儿童休闲装和婴幼儿服装是市场主要品类，合计占比超过60%。儿童运动装增长势头强劲，成为市场新热点。高端定制和功能性服装是未来增长潜力较大的细分市场。</p>
+                        </div>
+                    </div>
+                    <div class="data-card">
+                        <h4>季节性销售波动</h4>
+                        <div class="data-details">
+                            <div class="seasonal-stats">
+                                <div class="season-item">
+                                    <div class="season-name">春季 (3-5月)</div>
+                                    <div class="season-percent">26.8%</div>
+                                    <div class="season-products">春装、春秋过渡装</div>
+                                </div>
+                                <div class="season-item">
+                                    <div class="season-name">夏季 (6-8月)</div>
+                                    <div class="season-percent">28.5%</div>
+                                    <div class="season-products">夏装、泳装</div>
+                                </div>
+                                <div class="season-item">
+                                    <div class="season-name">秋季 (9-11月)</div>
+                                    <div class="season-percent">24.3%</div>
+                                    <div class="season-products">秋装、校园服饰</div>
+                                </div>
+                                <div class="season-item">
+                                    <div class="season-name">冬季 (12-2月)</div>
+                                    <div class="season-percent">20.4%</div>
+                                    <div class="season-products">冬装、节日服饰</div>
+                                </div>
+                            </div>
+                            <p class="data-summary">织里镇童装销售呈现明显的季节性特征，夏季销售占比最高，冬季相对较低。节假日促销活动对销售波动影响显著，"六一"儿童节、开学季和年末节日是销售高峰期。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 市场趋势 -->
+            <div class="data-section">
+                <h3>市场趋势</h3>
+                <div class="data-content full-width">
+                    <div class="data-card">
+                        <h4>织里镇童装销售趋势（2018-2023）</h4>
+                        <div class="data-details">
+                            <div class="market-trends">
+                                <div class="trend-block">
+                                    <h5>销售渠道变化</h5>
+                                    <ul class="trend-list">
+                                        <li>线上销售占比: <span class="highlight">58.3%</span> (2023年)，较2018年提升25.6个百分点</li>
+                                        <li>实体批发市场占比: <span>26.5%</span> (2023年)，较2018年下降18.3个百分点</li>
+                                        <li>品牌直营店占比: <span>15.2%</span> (2023年)，较2018年下降7.3个百分点</li>
+                                    </ul>
+                                </div>
+                                <div class="trend-block">
+                                    <h5>消费者偏好变化</h5>
+                                    <ul class="trend-list">
+                                        <li>功能性需求: 抗菌、防污、速干等功能性产品需求增长<span class="up">↑32.5%</span></li>
+                                        <li>个性化定制: 定制化产品需求增长<span class="up">↑28.7%</span></li>
+                                        <li>环保材质: 有机棉、再生面料等环保材质产品需求增长<span class="up">↑45.6%</span></li>
+                                        <li>国潮元素: 融合传统文化元素的设计需求增长<span class="up">↑38.2%</span></li>
+                                    </ul>
+                                </div>
+                                <div class="trend-block">
+                                    <h5>价格带分布</h5>
+                                    <ul class="trend-list">
+                                        <li>高端市场(300元以上/件): <span>12.5%</span>，年增长率<span class="up">↑18.6%</span></li>
+                                        <li>中高端市场(150-300元/件): <span>28.3%</span>，年增长率<span class="up">↑15.2%</span></li>
+                                        <li>中端市场(80-150元/件): <span>35.6%</span>，年增长率<span class="up">↑8.7%</span></li>
+                                        <li>大众市场(80元以下/件): <span>23.6%</span>，年增长率<span class="down">↓2.3%</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p class="data-summary">织里镇童装市场正经历深刻变革，线上渠道快速增长，消费升级趋势明显，高端和中高端市场增长迅速。功能性、环保性和个性化成为消费者关注重点，产品结构不断优化升级。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 供应链数据区域 -->
+        <section class="tab-content" id="supply-chain-data">
+            <h2>供应链数据</h2>
+            
+            <!-- 供应链关键指标 -->
+            <div class="kpi-cards">
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>平均交付周期</h3>
+                        <p class="kpi-number">12.5天</p>
+                        <p class="kpi-trend up">较上月<span>-8.3%</span></p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>库存周转率</h3>
+                        <p class="kpi-number">5.8次/月</p>
+                        <p class="kpi-trend up">较上月<span>+12.6%</span></p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>供应商合规率</h3>
+                        <p class="kpi-number">96.2%</p>
+                        <p class="kpi-trend up">较上月<span>+2.1%</span></p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-graph-up"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>供应链数字化率</h3>
+                        <p class="kpi-number">78.5%</p>
+                        <p class="kpi-trend up">较上月<span>+5.3%</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 供应链分析图表 -->
+            <div class="data-section">
+                <h3>供应链流程分析</h3>
+                <div class="data-content full-width">
+                    <div class="data-card">
+                        <h4>供应链流程及节点效率</h4>
+                        <div class="data-details">
+                            <div class="supply-chain-flow">
+                                <div class="flow-stage">
+                                    <div class="stage-icon">
+                                        <i class="bi bi-box"></i>
+                                    </div>
+                                    <div class="stage-name">原材料采购</div>
+                                    <div class="stage-metrics">
+                                        <div class="metric">
+                                            <span class="label">平均周期:</span>
+                                            <span class="value">12.5天</span>
+                                        </div>
+                                        <div class="metric">
+                                            <span class="label">效率指数:</span>
+                                            <span class="value">78/100</span>
+                                        </div>
+                                        <div class="metric">
+                                            <span class="label">数字化率:</span>
+                                            <span class="value">65.3%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flow-arrow">→</div>
+                                <div class="flow-stage">
+                                    <div class="stage-icon">
+                                        <i class="bi bi-gear"></i>
+                                    </div>
+                                    <div class="stage-name">生产加工</div>
+                                    <div class="stage-metrics">
+                                        <div class="metric">
+                                            <span class="label">平均周期:</span>
+                                            <span class="value">18.3天</span>
+                                        </div>
+                                        <div class="metric">
+                                            <span class="label">效率指数:</span>
+                                            <span class="value">82/100</span>
+                                        </div>
+                                        <div class="metric">
+                                            <span class="label">数字化率:</span>
+                                            <span class="value">72.6%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flow-arrow">→</div>
+                                <div class="flow-stage">
+                                    <div class="stage-icon">
+                                        <i class="bi bi-archive"></i>
+                                    </div>
+                                    <div class="stage-name">仓储物流</div>
+                                    <div class="stage-metrics">
+                                        <div class="metric">
+                                            <span class="label">平均周期:</span>
+                                            <span class="value">5.2天</span>
+                                        </div>
+                                        <div class="metric">
+                                            <span class="label">效率指数:</span>
+                                            <span class="value">85/100</span>
+                                        </div>
+                                        <div class="metric">
+                                            <span class="label">数字化率:</span>
+                                            <span class="value">88.5%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flow-arrow">→</div>
+                                <div class="flow-stage">
+                                    <div class="stage-icon">
+                                        <i class="bi bi-shop"></i>
+                                    </div>
+                                    <div class="stage-name">销售配送</div>
+                                    <div class="stage-metrics">
+                                        <div class="metric">
+                                            <span class="label">平均周期:</span>
+                                            <span class="value">3.8天</span>
+                                        </div>
+                                        <div class="metric">
+                                            <span class="label">效率指数:</span>
+                                            <span class="value">90/100</span>
+                                        </div>
+                                        <div class="metric">
+                                            <span class="label">数字化率:</span>
+                                            <span class="value">92.3%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="data-summary">织里镇童装供应链全流程平均周期为39.8天，较2022年缩短5.6天。销售配送环节效率最高，原材料采购环节效率相对较低。数字化转型成效显著，整体数字化率达到78.5%，较2022年提升12.6个百分点。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 供应链效率分析 -->
+            <div class="data-section">
+                <h3>供应链效率分析</h3>
+                <div class="data-content full-width">
+                    <div class="data-card">
+                        <h4>各环节效率对比分析</h4>
+                        <div class="data-details">
+                            <div class="efficiency-comparison">
+                                <div class="comparison-block">
+                                    <h5>库存周转效率</h5>
+                                    <div class="comparison-stats">
+                                        <div class="stat-item">
+                                            <div class="stat-label">原材料库存周转率</div>
+                                            <div class="stat-value">5.8次/月</div>
+                                            <div class="stat-change up">+12.6%</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-label">成品库存周转率</div>
+                                            <div class="stat-value">7.2次/月</div>
+                                            <div class="stat-change up">+15.3%</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-label">平均库存持有时间</div>
+                                            <div class="stat-value">18.5天</div>
+                                            <div class="stat-change down">-22.4%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comparison-block">
+                                    <h5>订单履行效率</h5>
+                                    <div class="comparison-stats">
+                                        <div class="stat-item">
+                                            <div class="stat-label">订单处理时间</div>
+                                            <div class="stat-value">1.2天</div>
+                                            <div class="stat-change down">-35.6%</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-label">订单准时交付率</div>
+                                            <div class="stat-value">94.8%</div>
+                                            <div class="stat-change up">+5.2%</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-label">订单完成率</div>
+                                            <div class="stat-value">98.5%</div>
+                                            <div class="stat-change up">+2.3%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comparison-block">
+                                    <h5>成本效率</h5>
+                                    <div class="comparison-stats">
+                                        <div class="stat-item">
+                                            <div class="stat-label">供应链总成本占比</div>
+                                            <div class="stat-value">15.6%</div>
+                                            <div class="stat-change down">-2.8%</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-label">物流成本占比</div>
+                                            <div class="stat-value">5.2%</div>
+                                            <div class="stat-change down">-1.5%</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-label">库存持有成本占比</div>
+                                            <div class="stat-value">4.8%</div>
+                                            <div class="stat-change down">-2.1%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="data-summary">织里镇童装产业供应链效率持续提升，数字化转型带来明显成效。库存周转效率提升显著，订单处理时间大幅缩短，供应链总成本占比降至15.6%，处于行业领先水平。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 供应商分析 -->
+            <div class="data-section">
+                <h3>供应商分析</h3>
+                <div class="supplier-stats">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>供应商类型</th>
+                                <th>数量</th>
+                                <th>平均响应时间</th>
+                                <th>合格率</th>
+                                <th>平均合作年限</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>原材料供应商</td>
+                                <td>286</td>
+                                <td>1.8天</td>
+                                <td>97.2%</td>
+                                <td>5.3年</td>
+                            </tr>
+                            <tr>
+                                <td>加工厂商</td>
+                                <td>412</td>
+                                <td>2.5天</td>
+                                <td>95.8%</td>
+                                <td>4.7年</td>
+                            </tr>
+                            <tr>
+                                <td>物流服务商</td>
+                                <td>78</td>
+                                <td>0.5天</td>
+                                <td>98.5%</td>
+                                <td>3.8年</td>
+                            </tr>
+                            <tr>
+                                <td>包装供应商</td>
+                                <td>124</td>
+                                <td>1.2天</td>
+                                <td>96.4%</td>
+                                <td>4.1年</td>
+                            </tr>
+                            <tr>
+                                <td>设备供应商</td>
+                                <td>53</td>
+                                <td>3.5天</td>
+                                <td>94.2%</td>
+                                <td>6.2年</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 人才统计区域 -->
+        <section class="tab-content" id="talent-statistics">
+            <h2>人才统计</h2>
+            
+            <!-- 人才关键指标 -->
+            <div class="kpi-cards">
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-person-plus"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>人才需求</h3>
+                        <p class="kpi-number">2,580</p>
+                        <p class="kpi-trend up">较上月<span>+8.1%</span></p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-mortarboard"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>培训人次</h3>
+                        <p class="kpi-number">1,865</p>
+                        <p class="kpi-trend up">较上月<span>+12.5%</span></p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-cash"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>平均薪资</h3>
+                        <p class="kpi-number">¥6,850</p>
+                        <p class="kpi-trend up">较上月<span>+4.2%</span></p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>人才库规模</h3>
+                        <p class="kpi-number">15,680</p>
+                        <p class="kpi-trend up">较上月<span>+5.8%</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 人才需求分析图表 -->
+            <div class="data-section">
+                <h3>人才需求分析</h3>
+                <div class="data-content">
+                    <div class="data-card">
+                        <h4>职位需求分布</h4>
+                        <div class="data-details">
+                            <div class="job-demand">
+                                <div class="job-category">
+                                    <h5>设计研发类</h5>
+                                    <div class="job-percent">32.5%</div>
+                                    <ul class="job-list">
+                                        <li>服装设计师 <span class="demand high">需求高</span></li>
+                                        <li>面料开发工程师 <span class="demand medium">需求中</span></li>
+                                        <li>图案设计师 <span class="demand high">需求高</span></li>
+                                        <li>打版师 <span class="demand very-high">需求极高</span></li>
+                                    </ul>
+                                </div>
+                                <div class="job-category">
+                                    <h5>生产制造类</h5>
+                                    <div class="job-percent">28.3%</div>
+                                    <ul class="job-list">
+                                        <li>裁剪工 <span class="demand high">需求高</span></li>
+                                        <li>缝纫工 <span class="demand very-high">需求极高</span></li>
+                                        <li>质检员 <span class="demand medium">需求中</span></li>
+                                        <li>设备维护工程师 <span class="demand medium">需求中</span></li>
+                                    </ul>
+                                </div>
+                                <div class="job-category">
+                                    <h5>营销销售类</h5>
+                                    <div class="job-percent">24.6%</div>
+                                    <ul class="job-list">
+                                        <li>电商运营 <span class="demand high">需求高</span></li>
+                                        <li>市场营销专员 <span class="demand medium">需求中</span></li>
+                                        <li>品牌推广经理 <span class="demand medium">需求中</span></li>
+                                        <li>外贸业务员 <span class="demand high">需求高</span></li>
+                                    </ul>
+                                </div>
+                                <div class="job-category">
+                                    <h5>管理与技术类</h5>
+                                    <div class="job-percent">14.6%</div>
+                                    <ul class="job-list">
+                                        <li>供应链管理师 <span class="demand high">需求高</span></li>
+                                        <li>数据分析师 <span class="demand medium">需求中</span></li>
+                                        <li>智能制造工程师 <span class="demand high">需求高</span></li>
+                                        <li>项目经理 <span class="demand medium">需求中</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p class="data-summary">设计研发类和生产制造类人才需求占比超过60%，其中打版师和缝纫工岗位缺口最大。随着产业升级，对智能制造工程师、数据分析师等新兴技术人才需求快速增长。</p>
+                        </div>
+                    </div>
+                    <div class="data-card">
+                        <h4>技能需求热度</h4>
+                        <div class="data-details">
+                            <div class="skill-demand">
+                                <div class="skill-group">
+                                    <h5>专业技能</h5>
+                                    <div class="skill-item">
+                                        <span class="skill-name">服装CAD设计</span>
+                                        <div class="skill-bar very-high"><span class="skill-value">92%</span></div>
+                                    </div>
+                                    <div class="skill-item">
+                                        <span class="skill-name">立体裁剪</span>
+                                        <div class="skill-bar high"><span class="skill-value">85%</span></div>
+                                    </div>
+                                    <div class="skill-item">
+                                        <span class="skill-name">面料开发与应用</span>
+                                        <div class="skill-bar high"><span class="skill-value">78%</span></div>
+                                    </div>
+                                    <div class="skill-item">
+                                        <span class="skill-name">服装工艺设计</span>
+                                        <div class="skill-bar very-high"><span class="skill-value">90%</span></div>
+                                    </div>
+                                </div>
+                                <div class="skill-group">
+                                    <h5>数字技能</h5>
+                                    <div class="skill-item">
+                                        <span class="skill-name">3D虚拟设计</span>
+                                        <div class="skill-bar high"><span class="skill-value">82%</span></div>
+                                    </div>
+                                    <div class="skill-item">
+                                        <span class="skill-name">电商平台运营</span>
+                                        <div class="skill-bar high"><span class="skill-value">86%</span></div>
+                                    </div>
+                                    <div class="skill-item">
+                                        <span class="skill-name">数据分析能力</span>
+                                        <div class="skill-bar medium"><span class="skill-value">68%</span></div>
+                                    </div>
+                                    <div class="skill-item">
+                                        <span class="skill-name">智能制造技术</span>
+                                        <div class="skill-bar medium"><span class="skill-value">65%</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="data-summary">传统专业技能仍是企业招聘的核心需求，但数字化技能需求增长迅速。服装CAD设计和服装工艺设计是最紧缺的专业技能，3D虚拟设计和电商平台运营是增长最快的数字技能。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 人才培育成果 -->
+            <div class="data-section">
+                <h3>人才培育成果</h3>
+                <div class="data-content full-width">
+                    <div class="data-card">
+                        <h4>培训项目成效分析</h4>
+                        <div class="data-details">
+                            <div class="training-stats">
+                                <div class="training-programs">
+                                    <h5>主要培训项目</h5>
+                                    <table class="training-table">
+                                        <thead>
+                                            <tr>
+                                                <th>培训项目</th>
+                                                <th>培训人次</th>
+                                                <th>就业率</th>
+                                                <th>薪资提升</th>
+                                                <th>企业满意度</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>服装设计师培训计划</td>
+                                                <td>485人</td>
+                                                <td>92.5%</td>
+                                                <td>+32.6%</td>
+                                                <td>4.8/5分</td>
+                                            </tr>
+                                            <tr>
+                                                <td>数字化技能提升工程</td>
+                                                <td>356人</td>
+                                                <td>88.7%</td>
+                                                <td>+28.3%</td>
+                                                <td>4.6/5分</td>
+                                            </tr>
+                                            <tr>
+                                                <td>智能制造人才培养</td>
+                                                <td>245人</td>
+                                                <td>85.2%</td>
+                                                <td>+35.8%</td>
+                                                <td>4.7/5分</td>
+                                            </tr>
+                                            <tr>
+                                                <td>高级工艺师培训</td>
+                                                <td>328人</td>
+                                                <td>95.6%</td>
+                                                <td>+25.4%</td>
+                                                <td>4.9/5分</td>
+                                            </tr>
+                                            <tr>
+                                                <td>电商运营人才培训</td>
+                                                <td>412人</td>
+                                                <td>90.3%</td>
+                                                <td>+30.2%</td>
+                                                <td>4.5/5分</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="training-partners">
+                                    <h5>合作培训机构</h5>
+                                    <ul class="partner-list">
+                                        <li>浙江理工大学服装学院</li>
+                                        <li>湖州职业技术学院</li>
+                                        <li>织里镇职业技能培训中心</li>
+                                        <li>中国服装设计师协会</li>
+                                        <li>浙江省服装行业协会</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p class="data-summary">织里镇已建立完善的人才培育体系，培训项目覆盖设计、生产、营销等各环节。2023年共开展各类培训项目15个，培训总人次达1,865人，平均就业率90.5%，平均薪资提升30.2%。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 进出口数据区域 -->
+        <section class="tab-content" id="export-import">
+            <h2>进出口数据</h2>
+            
+            <!-- 进出口关键指标 -->
+            <div class="kpi-cards">
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>年出口总额</h3>
+                        <p class="kpi-number">26.8亿美元</p>
+                        <p class="kpi-trend up">较上年<span>+15.3%</span></p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-box-arrow-in-down"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>年进口总额</h3>
+                        <p class="kpi-number">8.5亿美元</p>
+                        <p class="kpi-trend up">较上年<span>+7.2%</span></p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-globe"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>出口国家/地区</h3>
+                        <p class="kpi-number">86个</p>
+                        <p class="kpi-trend up">较上年<span>+12个</span></p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <i class="bi bi-award"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>国际认证产品</h3>
+                        <p class="kpi-number">1,256种</p>
+                        <p class="kpi-trend up">较上年<span>+23.5%</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 进出口数据分析 -->
+            <div class="data-section">
+                <h3>进出口数据分析</h3>
+                <div class="data-content full-width">
+                    <div class="data-card">
+                        <h4>近五年进出口数据变化</h4>
+                        <div class="data-details">
+                            <div class="export-import-trends">
+                                <div class="year-comparison">
+                                    <table class="trend-table">
+                                        <thead>
+                                            <tr>
+                                                <th>年份</th>
+                                                <th>出口总额(亿美元)</th>
+                                                <th>同比增长</th>
+                                                <th>进口总额(亿美元)</th>
+                                                <th>同比增长</th>
+                                                <th>贸易顺差(亿美元)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>2019</td>
+                                                <td>16.8</td>
+                                                <td>+8.2%</td>
+                                                <td>5.6</td>
+                                                <td>+5.3%</td>
+                                                <td>11.2</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2020</td>
+                                                <td>15.3</td>
+                                                <td>-8.9%</td>
+                                                <td>4.8</td>
+                                                <td>-14.3%</td>
+                                                <td>10.5</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2021</td>
+                                                <td>19.5</td>
+                                                <td>+27.5%</td>
+                                                <td>6.2</td>
+                                                <td>+29.2%</td>
+                                                <td>13.3</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2022</td>
+                                                <td>23.2</td>
+                                                <td>+19.0%</td>
+                                                <td>7.9</td>
+                                                <td>+27.4%</td>
+                                                <td>15.3</td>
+                                            </tr>
+                                            <tr class="highlight">
+                                                <td>2023</td>
+                                                <td>26.8</td>
+                                                <td>+15.5%</td>
+                                                <td>8.5</td>
+                                                <td>+7.6%</td>
+                                                <td>18.3</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="trend-highlights">
+                                    <div class="highlight-item">
+                                        <div class="highlight-title">五年复合增长率</div>
+                                        <div class="highlight-value">出口: +12.4%</div>
+                                        <div class="highlight-value">进口: +11.0%</div>
+                                    </div>
+                                    <div class="highlight-item">
+                                        <div class="highlight-title">主要增长点</div>
+                                        <div class="highlight-value">功能性童装: +32.5%</div>
+                                        <div class="highlight-value">环保材质产品: +28.6%</div>
+                                    </div>
+                                    <div class="highlight-item">
+                                        <div class="highlight-title">新兴市场增速</div>
+                                        <div class="highlight-value">东南亚: +35.8%</div>
+                                        <div class="highlight-value">中东: +27.3%</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="data-summary">织里镇童装进出口贸易在2020年受疫情影响短暂下滑后，迅速恢复增长，2023年出口总额达到26.8亿美元，创历史新高。贸易顺差持续扩大，显示出较强的国际竞争力。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 主要进出口国家/地区 -->
+            <div class="data-section">
+                <h3>主要进出口国家/地区</h3>
+                <div class="data-content full-width">
+                    <div class="data-card">
+                        <h4>主要进出口国家/地区分布</h4>
+                        <div class="data-details">
+                            <div class="country-distribution">
+                                <div class="region-block">
+                                    <h5>出口市场分布</h5>
+                                    <div class="region-stats">
+                                        <div class="region-item">
+                                            <div class="region-name">北美地区</div>
+                                            <div class="region-percent">28.5%</div>
+                                            <div class="region-countries">美国、加拿大、墨西哥</div>
+                                            <div class="region-growth">同比增长 +12.3%</div>
+                                        </div>
+                                        <div class="region-item">
+                                            <div class="region-name">欧洲地区</div>
+                                            <div class="region-percent">26.3%</div>
+                                            <div class="region-countries">德国、英国、法国、意大利等</div>
+                                            <div class="region-growth">同比增长 +15.8%</div>
+                                        </div>
+                                        <div class="region-item">
+                                            <div class="region-name">亚太地区</div>
+                                            <div class="region-percent">32.6%</div>
+                                            <div class="region-countries">日本、韩国、澳大利亚、东南亚</div>
+                                            <div class="region-growth">同比增长 +18.5%</div>
+                                        </div>
+                                        <div class="region-item">
+                                            <div class="region-name">其他地区</div>
+                                            <div class="region-percent">12.6%</div>
+                                            <div class="region-countries">中东、非洲、南美</div>
+                                            <div class="region-growth">同比增长 +22.6%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="region-block">
+                                    <h5>进口来源分布</h5>
+                                    <div class="region-stats">
+                                        <div class="region-item">
+                                            <div class="region-name">亚洲地区</div>
+                                            <div class="region-percent">68.5%</div>
+                                            <div class="region-countries">韩国、日本、越南、印度</div>
+                                            <div class="region-growth">同比增长 +8.3%</div>
+                                        </div>
+                                        <div class="region-item">
+                                            <div class="region-name">欧洲地区</div>
+                                            <div class="region-percent">22.5%</div>
+                                            <div class="region-countries">意大利、法国、德国</div>
+                                            <div class="region-growth">同比增长 +5.6%</div>
+                                        </div>
+                                        <div class="region-item">
+                                            <div class="region-name">其他地区</div>
+                                            <div class="region-percent">9.0%</div>
+                                            <div class="region-countries">美国、澳大利亚、巴西</div>
+                                            <div class="region-growth">同比增长 +3.2%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="data-summary">织里镇童装出口市场呈现多元化趋势，亚太地区占比最高，达到32.6%。新兴市场增长迅速，中东和非洲市场增速超过20%。进口主要来自亚洲地区，主要为面料和辅料。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 进出口产品分析 -->
+            <div class="data-section">
+                <h3>进出口产品分析</h3>
+                <div class="export-product-stats">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>产品类别</th>
+                                <th>出口量（万件）</th>
+                                <th>出口额（万美元）</th>
+                                <th>主要目标市场</th>
+                                <th>同比增长</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>婴幼儿服装</td>
+                                <td>4,856</td>
+                                <td>7,284</td>
+                                <td>欧洲、北美</td>
+                                <td>+18.5%</td>
+                            </tr>
+                            <tr>
+                                <td>儿童外套</td>
+                                <td>3,125</td>
+                                <td>6,250</td>
+                                <td>北美、日韩</td>
+                                <td>+22.3%</td>
+                            </tr>
+                            <tr>
+                                <td>儿童内衣</td>
+                                <td>5,680</td>
+                                <td>4,544</td>
+                                <td>东南亚、中东</td>
+                                <td>+15.7%</td>
+                            </tr>
+                            <tr>
+                                <td>儿童运动装</td>
+                                <td>2,890</td>
+                                <td>5,780</td>
+                                <td>欧洲、澳洲</td>
+                                <td>+26.8%</td>
+                            </tr>
+                            <tr>
+                                <td>儿童配饰</td>
+                                <td>7,520</td>
+                                <td>2,256</td>
+                                <td>全球</td>
+                                <td>+12.4%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="../images/logo-footer.png" alt="织里镇童装产业协同管理平台">
+                    <p>织里镇童装产业协同管理平台</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h3>关于我们</h3>
+                        <ul>
+                            <li><a href="#">平台介绍</a></li>
+                            <li><a href="#">联系我们</a></li>
+                            <li><a href="#">服务条款</a></li>
+                            <li><a href="#">隐私政策</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>企业服务</h3>
+                        <ul>
+                            <li><a href="#">企业入驻</a></li>
+                            <li><a href="#">供应链对接</a></li>
+                            <li><a href="#">产品展示</a></li>
+                            <li><a href="#">人才招聘</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>个人服务</h3>
+                        <ul>
+                            <li><a href="#">求职信息</a></li>
+                            <li><a href="#">技能培训</a></li>
+                            <li><a href="#">设计比赛</a></li>
+                            <li><a href="#">资源下载</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-contact">
+                    <h3>联系方式</h3>
+                    <p><i class="icon-address"></i>浙江省湖州市织里镇XXX路XX号</p>
+                    <p><i class="icon-phone"></i>0572-XXXXXXXX</p>
+                    <p><i class="icon-email"></i>contact@zhili-industry.com</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="icon-weixin"></i></a>
+                        <a href="#" class="social-link"><i class="icon-weibo"></i></a>
+                        <a href="#" class="social-link"><i class="icon-douyin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 织里镇童装产业协同管理平台 版权所有 浙ICP备XXXXXXXX号</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/auth-header.js?v=20260510"></script>
+    <script src="../js/common.js?v=20260510"></script>
+    <script src="../js/data-center.js?v=20260510"></script>
+</body>
+</html> 

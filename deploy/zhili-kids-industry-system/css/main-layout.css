@@ -1,0 +1,112 @@
+/* =============================================
+   main-layout.css - 首页布局样式（由 index.html <style> 提取）
+   ============================================= */
+
+/* 确保导航栏样式正确 */
+.main-nav ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    margin: 0;
+    padding: 0;
+}
+
+.main-nav li {
+    margin: 0 5px;
+    white-space: nowrap;
+}
+
+.main-nav a {
+    padding: 10px 8px;
+    font-size: 14px;
+    display: block;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    border-bottom: none;
+}
+
+.main-nav a.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 3px;
+}
+
+@media (max-width: 992px) {
+    .header .container {
+        flex-wrap: wrap;
+    }
+
+    .logo {
+        margin-right: 0;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .main-nav {
+        order: 3;
+        width: 100%;
+    }
+
+    .user-info {
+        order: 2;
+        margin: 0 auto;
+    }
+}
+
+/* 开发模式切换按钮样式 */
+#dev-mode-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    z-index: 9999;
+    display: none;
+}
+
+#dev-mode-toggle.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* 头部右侧仅小头像或登录/注册，禁止用户区撑开 */
+.header .user-info {
+    flex-shrink: 0;
+    max-width: 200px;
+}
+
+.header .user-info-logged,
+.header .user-info-logged .user-dropdown-wrap {
+    width: 40px !important;
+    min-width: 40px !important;
+    max-width: 40px !important;
+}
+
+.header .user-info-logged .user-avatar {
+    width: 40px !important;
+    height: 40px !important;
+    max-width: 40px !important;
+    max-height: 40px !important;
+    object-fit: cover !important;
+}
+
+.header .user-dropdown-panel {
+    display: none;
+    position: fixed;
+    left: -9999px;
+}

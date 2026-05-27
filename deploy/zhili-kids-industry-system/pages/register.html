@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户注册 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/register.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区 -->
+    <main class="register-container">
+        <div class="register-box">
+            <div class="register-header">
+                <h2>用户注册</h2>
+                <p>创建您的账号，加入织里镇童装产业协同管理平台</p>
+            </div>
+            
+            <!-- 注册步骤指示器 -->
+            <div class="register-steps">
+                <div class="step active">
+                    <div class="step-number">1</div>
+                    <div class="step-label">填写信息</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-label">验证身份</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-label">注册成功</div>
+                </div>
+            </div>
+            
+            <!-- 注册表单 -->
+            <form class="register-form">
+                <!-- 步骤1：填写信息（以邮箱为登录账号，无需单独用户名） -->
+                <div class="form-step active" id="step1">
+                    <div class="form-group">
+                        <label for="email">邮箱账号</label>
+                        <div class="input-with-icon">
+                            <i class="bi bi-envelope"></i>
+                            <input type="email" id="email" name="email" placeholder="请输入邮箱账号" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">密码</label>
+                        <div class="input-with-icon">
+                            <i class="bi bi-lock"></i>
+                            <input type="password" id="password" name="password" placeholder="请输入密码（8-20个字符）" required>
+                            <i class="bi bi-eye-slash toggle-password"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm-password">确认密码</label>
+                        <div class="input-with-icon">
+                            <i class="bi bi-lock"></i>
+                            <input type="password" id="confirm-password" name="confirm-password" placeholder="请再次输入密码" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>用户类型</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="type-personal" name="user-type" value="personal" checked>
+                                <label for="type-personal">个人用户</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="type-enterprise" name="user-type" value="enterprise">
+                                <label for="type-enterprise">企业用户</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="btn-primary btn-next">下一步</button>
+                </div>
+                
+                <!-- 步骤2：验证身份 -->
+                <div class="form-step" id="step2">
+                    <div class="form-group">
+                        <label for="verification-code">邮箱验证码</label>
+                        <div class="verification-code-group">
+                            <input type="text" id="verification-code" name="verification-code" placeholder="请输入验证码" required>
+                            <button type="button" class="btn-get-code">发送验证码</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 企业用户额外信息 -->
+                    <div class="enterprise-info" style="display: none;">
+                        <div class="form-group">
+                            <label for="enterprise-name">企业名称</label>
+                            <input type="text" id="enterprise-name" name="enterprise-name" placeholder="请输入企业名称">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="enterprise-license">营业执照号码</label>
+                            <input type="text" id="enterprise-license" name="enterprise-license" placeholder="请输入营业执照号码">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="enterprise-license-upload">上传营业执照</label>
+                            <div class="file-upload">
+                                <input type="file" id="enterprise-license-upload" name="enterprise-license-upload" accept="image/*,.pdf">
+                                <div class="upload-button">
+                                    <i class="bi bi-upload"></i>
+                                    <span>点击上传</span>
+                                </div>
+                                <div class="file-name"></div>
+                                <div class="license-upload-status" style="font-size:13px;margin-top:6px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="agree-terms" name="agree-terms" required>
+                            <label for="agree-terms">我已阅读并同意<a href="#" class="terms-link">《用户协议》</a>和<a href="#" class="terms-link">《隐私政策》</a></label>
+                        </div>
+                    </div>
+                    
+                    <div class="step-buttons">
+                        <button type="button" class="btn-secondary btn-prev">上一步</button>
+                        <button type="button" class="btn-primary btn-submit">提交注册</button>
+                    </div>
+                </div>
+                
+                <!-- 步骤3：注册成功 -->
+                <div class="form-step" id="step3">
+                    <div class="success-message">
+                        <div class="success-icon">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+                        <h3>注册成功！</h3>
+                        <p id="registerSuccessMsg">您的账号已成功创建，现在可以登录系统使用更多功能。</p>
+                        <div class="success-actions">
+                            <a href="login.html" class="btn-primary">立即登录</a>
+                            <a href="../index.html" class="btn-outline">返回首页</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+            <div class="login-link">
+                已有账号？<a href="login.html">立即登录</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="../images/logo-footer.png" alt="织里镇童装产业协同管理平台">
+                    <p>织里镇童装产业协同管理平台</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h3>关于我们</h3>
+                        <ul>
+                            <li><a href="#">平台介绍</a></li>
+                            <li><a href="#">联系我们</a></li>
+                            <li><a href="#">服务条款</a></li>
+                            <li><a href="#">隐私政策</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>企业服务</h3>
+                        <ul>
+                            <li><a href="#">企业入驻</a></li>
+                            <li><a href="#">供应链对接</a></li>
+                            <li><a href="#">产品展示</a></li>
+                            <li><a href="#">人才招聘</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>个人服务</h3>
+                        <ul>
+                            <li><a href="#">求职信息</a></li>
+                            <li><a href="#">技能培训</a></li>
+                            <li><a href="#">设计比赛</a></li>
+                            <li><a href="#">资源下载</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-contact">
+                    <h3>联系方式</h3>
+                    <p><i class="icon-address"></i>浙江省湖州市织里镇XXX路XX号</p>
+                    <p><i class="icon-phone"></i>0572-XXXXXXXX</p>
+                    <p><i class="icon-email"></i>contact@zhili-industry.com</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="icon-weixin"></i></a>
+                        <a href="#" class="social-link"><i class="icon-weibo"></i></a>
+                        <a href="#" class="social-link"><i class="icon-douyin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 织里镇童装产业协同管理平台 版权所有 浙ICP备XXXXXXXX号</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/oss-upload.js"></script>
+    <script src="../js/auth-header.js"></script>
+    <script src="../js/register.js"></script>
+</body>
+</html> 

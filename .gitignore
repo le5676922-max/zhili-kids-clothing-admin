@@ -1,0 +1,41 @@
+# === IDE ===
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# === Java / Maven ===
+java/target/
+java/**/target/
+*.class
+*.jar
+*.war
+*.log
+!.mvn/wrapper/maven-wrapper.jar
+
+# === OS ===
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# === Logs ===
+logs/
+*.log
+
+# === Temp ===
+*.tmp
+*.bak
+
+# === Sensitive ===
+**/application-local.yaml
+**/application-local.yml
+.env
+.env.*
+**/credentials*
+**/secret*
+
+# === Dependencies ===
+node_modules/

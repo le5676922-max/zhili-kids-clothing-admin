@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.SupplyDemandMapper">
+
+    <resultMap id="SupplyDemandVOResultMap" type="com.example.java.dto.SupplyDemandVO">
+        <id column="id" property="id"/>
+        <result column="demand_id" property="demandId"/>
+        <result column="title" property="title"/>
+        <result column="type" property="type"/>
+        <result column="category" property="category"/>
+        <result column="urgency" property="urgency"/>
+        <result column="status" property="status"/>
+        <result column="user_id" property="userId"/>
+        <result column="company_name" property="companyName"/>
+        <result column="contact_name" property="contactName"/>
+        <result column="contact_phone" property="contactPhone"/>
+        <result column="email" property="email"/>
+        <result column="location" property="location"/>
+        <result column="description" property="description"/>
+        <result column="specifications" property="specifications"/>
+        <result column="budget" property="budget"/>
+        <result column="deadline" property="deadline"/>
+        <result column="publish_date" property="publishDate"/>
+        <result column="tags" property="tags"/>
+        <result column="requirements" property="requirements"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <!-- 查询所有需求列表 -->
+    <select id="findAll" resultMap="SupplyDemandVOResultMap">
+        SELECT id, demand_id, title, type, category, urgency, status,
+               user_id, company_name, contact_name, contact_phone, email, location,
+               description, specifications, budget, deadline, publish_date,
+               tags, requirements, view_count, created_at, updated_at
+        FROM supply_demands
+        ORDER BY publish_date DESC, created_at DESC
+    </select>
+
+    <!-- 搜索/筛选需求列表 -->
+    <select id="search" resultMap="SupplyDemandVOResultMap">
+        SELECT id, demand_id, title, type, category, urgency, status,
+               user_id, company_name, contact_name, contact_phone, email, location,
+               description, specifications, budget, deadline, publish_date,
+               tags, requirements, view_count, created_at, updated_at
+        FROM supply_demands
+        WHERE 1=1
+        <if test="keyword != null and keyword != ''">
+            AND (title LIKE CONCAT('%', #{keyword}, '%')
+            OR description LIKE CONCAT('%', #{keyword}, '%')
+            OR company_name LIKE CONCAT('%', #{keyword}, '%')
+            OR tags LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <if test="type != null and type != ''">
+            AND type = #{type}
+        </if>
+        <if test="urgency != null and urgency != ''">
+            AND urgency = #{urgency}
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        ORDER BY publish_date DESC, created_at DESC
+    </select>
+
+    <!-- 根据ID查询需求详情 -->
+    <select id="selectById" resultMap="SupplyDemandVOResultMap">
+        SELECT id, demand_id, title, type, category, urgency, status,
+               user_id, company_name, contact_name, contact_phone, email, location,
+               description, specifications, budget, deadline, publish_date,
+               tags, requirements, view_count, created_at, updated_at
+        FROM supply_demands
+        WHERE id = #{id}
+    </select>
+
+    <!-- 根据用户ID查询需求列表 -->
+    <select id="findByUserId" resultMap="SupplyDemandVOResultMap">
+        SELECT id, demand_id, title, type, category, urgency, status,
+               user_id, company_name, contact_name, contact_phone, email, location,
+               description, specifications, budget, deadline, publish_date,
+               tags, requirements, view_count, created_at, updated_at
+        FROM supply_demands
+        WHERE user_id = #{userId}
+        ORDER BY publish_date DESC, created_at DESC
+    </select>
+
+    <!-- 新增需求 -->
+    <insert id="insert" parameterType="com.example.java.entity.SupplyDemand" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO supply_demands (
+            demand_id, title, type, category, urgency, status,
+            user_id, company_name, contact_name, contact_phone, email, location,
+            description, specifications, budget, deadline, publish_date,
+            tags, requirements, view_count, created_at, updated_at
+        ) VALUES (
+            #{demandId}, #{title}, #{type}, #{category}, #{urgency}, #{status},
+            #{userId}, #{companyName}, #{contactName}, #{contactPhone}, #{email}, #{location},
+            #{description}, #{specifications}, #{budget}, #{deadline}, #{publishDate},
+            #{tags}, #{requirements}, #{viewCount}, #{createdAt}, #{updatedAt}
+        )
+    </insert>
+
+    <!-- 更新需求 -->
+    <update id="update" parameterType="com.example.java.entity.SupplyDemand">
+        UPDATE supply_demands
+        SET title = #{title},
+            type = #{type},
+            category = #{category},
+            urgency = #{urgency},
+            company_name = #{companyName},
+            contact_name = #{contactName},
+            contact_phone = #{contactPhone},
+            email = #{email},
+            location = #{location},
+            description = #{description},
+            specifications = #{specifications},
+            budget = #{budget},
+            deadline = #{deadline},
+            tags = #{tags},
+            requirements = #{requirements},
+            updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除需求 -->
+    <delete id="deleteById">
+        DELETE FROM supply_demands WHERE id = #{id}
+    </delete>
+
+    <!-- 增加浏览次数 -->
+    <update id="incrementViewCount">
+        UPDATE supply_demands
+        SET view_count = view_count + 1
+        WHERE id = #{id}
+    </update>
+
+    <!-- 更新需求状态 -->
+    <update id="updateStatus">
+        UPDATE supply_demands
+        SET status = #{status},
+            updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <!-- 管理端：需求信息分页查询 -->
+    <select id="findListForAdmin" resultMap="SupplyDemandVOResultMap">
+        SELECT id, demand_id, title, type, category, urgency, status,
+               user_id, company_name, contact_name, contact_phone, email, location,
+               description, specifications, budget, deadline, publish_date,
+               tags, requirements, view_count, created_at, updated_at
+        FROM supply_demands
+        ORDER BY created_at DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- 管理端：需求信息总数 -->
+    <select id="countForAdmin" resultType="int">
+        SELECT COUNT(*) FROM supply_demands
+    </select>
+
+</mapper>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.ProductSearchMapper">
+
+    <resultMap id="ProductVOResultMap" type="com.example.java.dto.ProductVO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="category" property="category"/>
+        <result column="age_range" property="ageRange"/>
+        <result column="season" property="season"/>
+        <result column="material" property="material"/>
+        <result column="certification" property="certification"/>
+        <result column="price" property="price"/>
+        <result column="original_price" property="originalPrice"/>
+        <result column="sales" property="sales"/>
+        <result column="stock" property="stock"/>
+        <result column="badge" property="badge"/>
+        <result column="image_url" property="imageUrl"/>
+        <result column="enterprise_name" property="enterpriseName"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <!-- 搜索产品列表 -->
+    <select id="searchProducts" resultMap="ProductVOResultMap">
+        SELECT p.id, p.user_id, p.name, p.description, p.category, p.age_range, p.season, p.material,
+               p.certification, p.price, p.original_price, p.sales, p.stock, p.badge, p.image_url, p.status,
+               u.enterprise_name
+        FROM products p
+        LEFT JOIN users u ON p.user_id = u.id
+        WHERE p.status = 1
+        <if test="request.keyword != null and request.keyword != ''">
+            AND (p.name LIKE CONCAT('%', #{request.keyword}, '%')
+               OR p.description LIKE CONCAT('%', #{request.keyword}, '%')
+               OR p.category LIKE CONCAT('%', #{request.keyword}, '%'))
+        </if>
+        <if test="request.category != null and request.category != ''">
+            AND p.category = #{request.category}
+        </if>
+        <if test="request.ageRange != null and request.ageRange != ''">
+            AND p.age_range = #{request.ageRange}
+        </if>
+        <if test="request.season != null and request.season != ''">
+            AND p.season LIKE CONCAT('%', #{request.season}, '%')
+        </if>
+        <if test="request.material != null and request.material != ''">
+            AND p.material = #{request.material}
+        </if>
+        <if test="request.certification != null and request.certification != ''">
+            AND p.certification = #{request.certification}
+        </if>
+        <if test="request.badge != null and request.badge != ''">
+            AND p.badge = #{request.badge}
+        </if>
+        <if test="request.minPrice != null">
+            AND p.price &gt;= #{request.minPrice}
+        </if>
+        <if test="request.maxPrice != null">
+            AND p.price &lt;= #{request.maxPrice}
+        </if>
+        ORDER BY
+            <choose>
+                <when test="request.sortBy == 'price'">
+                    p.price ${request.sortOrder == 'asc' ? 'ASC' : 'DESC'}
+                </when>
+                <when test="request.sortBy == 'created_at'">
+                    p.created_at ${request.sortOrder == 'asc' ? 'ASC' : 'DESC'}
+                </when>
+                <when test="request.sortBy == 'sales'">
+                    p.sales DESC
+                </when>
+                <otherwise>
+                    p.sales DESC, p.created_at DESC
+                </otherwise>
+            </choose>
+        <if test="request.page != null and request.pageSize != null">
+            LIMIT #{request.offset}, #{request.pageSize}
+        </if>
+    </select>
+
+    <!-- 统计搜索结果数量 -->
+    <select id="countSearchProducts" resultType="long">
+        SELECT COUNT(*)
+        FROM products p
+        WHERE p.status = 1
+        <if test="request.keyword != null and request.keyword != ''">
+            AND (p.name LIKE CONCAT('%', #{request.keyword}, '%')
+               OR p.description LIKE CONCAT('%', #{request.keyword}, '%')
+               OR p.category LIKE CONCAT('%', #{request.keyword}, '%'))
+        </if>
+        <if test="request.category != null and request.category != ''">
+            AND p.category = #{request.category}
+        </if>
+        <if test="request.ageRange != null and request.ageRange != ''">
+            AND p.age_range = #{request.ageRange}
+        </if>
+        <if test="request.season != null and request.season != ''">
+            AND p.season LIKE CONCAT('%', #{request.season}, '%')
+        </if>
+        <if test="request.material != null and request.material != ''">
+            AND p.material = #{request.material}
+        </if>
+        <if test="request.certification != null and request.certification != ''">
+            AND p.certification = #{request.certification}
+        </if>
+        <if test="request.badge != null and request.badge != ''">
+            AND p.badge = #{request.badge}
+        </if>
+        <if test="request.minPrice != null">
+            AND p.price &gt;= #{request.minPrice}
+        </if>
+        <if test="request.maxPrice != null">
+            AND p.price &lt;= #{request.maxPrice}
+        </if>
+    </select>
+
+    <!-- 获取热门产品 -->
+    <select id="findHotProducts" resultMap="ProductVOResultMap">
+        SELECT p.id, p.user_id, p.name, p.description, p.category, p.age_range, p.season, p.material,
+               p.certification, p.price, p.original_price, p.sales, p.stock, p.badge, p.image_url, p.status,
+               u.enterprise_name
+        FROM products p
+        LEFT JOIN users u ON p.user_id = u.id
+        WHERE p.status = 1
+        ORDER BY p.sales DESC, p.created_at DESC
+        LIMIT #{limit}
+    </select>
+
+    <!-- 获取新品 -->
+    <select id="findNewProducts" resultMap="ProductVOResultMap">
+        SELECT p.id, p.user_id, p.name, p.description, p.category, p.age_range, p.season, p.material,
+               p.certification, p.price, p.original_price, p.sales, p.stock, p.badge, p.image_url, p.status,
+               u.enterprise_name
+        FROM products p
+        LEFT JOIN users u ON p.user_id = u.id
+        WHERE p.status = 1
+        ORDER BY p.created_at DESC
+        LIMIT #{limit}
+    </select>
+
+</mapper>

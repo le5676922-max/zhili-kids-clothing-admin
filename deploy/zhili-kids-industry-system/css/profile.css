@@ -1,0 +1,431 @@
+/* 个人中心页面 */
+
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 200px);
+    padding: 40px 20px;
+    background-color: var(--light-bg);
+}
+
+.profile-box {
+    width: 100%;
+    max-width: 480px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.profile-header h2 {
+    font-size: 24px;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.profile-header p {
+    color: var(--light-text);
+    font-size: 14px;
+}
+
+.profile-avatar-wrap {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.profile-avatar-wrap .avatar-preview {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+    margin-bottom: 12px;
+    display: inline-block;
+    background: var(--light-bg);
+}
+
+/* 头像上传区域：点击 / 拖拽 */
+.avatar-upload-zone {
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    padding: 24px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    background: var(--light-bg);
+}
+
+.avatar-upload-zone:hover,
+.avatar-upload-zone.dragover {
+    border-color: var(--primary-color);
+    background: rgba(66, 153, 225, 0.06);
+}
+
+.avatar-upload-zone.uploading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.avatar-upload-zone .avatar-upload-inner i {
+    font-size: 32px;
+    color: var(--light-text);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.avatar-upload-zone .avatar-upload-inner p {
+    margin: 0 0 6px;
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+.avatar-upload-zone .avatar-upload-hint {
+    font-size: 12px;
+    color: var(--light-text);
+}
+
+.profile-form .form-group {
+    margin-bottom: 22px;
+}
+
+.profile-form .form-group:last-of-type {
+    margin-bottom: 24px;
+}
+
+.profile-form .form-group label {
+    display: block;
+    font-size: 14px;
+    color: var(--text-color);
+    margin-bottom: 8px;
+}
+
+.profile-form .form-hint {
+    font-size: 12px;
+    color: var(--light-text);
+    margin-top: 10px;
+    margin-bottom: 4px;
+    line-height: 1.5;
+}
+
+.profile-form .form-group input[readonly] {
+    background: var(--light-bg);
+    color: var(--light-text);
+    cursor: default;
+}
+
+/* 覆盖 login.css 的 .input-with-icon，避免图标绝对定位导致与文字重叠、双重边框 */
+.profile-form .input-with-icon {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0 14px;
+    background: #fff;
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.profile-form .input-with-icon:focus-within {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2);
+}
+
+.profile-form .input-with-icon i {
+    color: var(--light-text);
+    margin-right: 12px;
+    font-size: 16px;
+    width: 20px;
+    min-width: 20px;
+    flex-shrink: 0;
+    text-align: center;
+    /* 覆盖 login.css 的 position:absolute，让图标参与 flex 布局，避免压住文字 */
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+}
+
+.profile-form .input-with-icon input {
+    flex: 1;
+    min-width: 0;
+    border: none !important;
+    padding: 12px 0 12px 4px;
+    font-size: 14px;
+    outline: none;
+    min-height: 20px;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.profile-form .input-with-icon input:focus {
+    box-shadow: none !important;
+}
+
+.profile-form .btn-full {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    margin-top: 16px;
+}
+
+.profile-form .error-message,
+.profile-form .success-message {
+    margin-top: 14px;
+    margin-bottom: 4px;
+}
+
+.profile-form .error-message {
+    color: var(--error-color, #e53e3e);
+    font-size: 14px;
+    padding: 10px;
+    background-color: #fff5f5;
+    border-radius: 4px;
+    border-left: 3px solid var(--error-color, #e53e3e);
+}
+
+.profile-form .success-message {
+    color: var(--success-color, #38a169);
+    font-size: 14px;
+    padding: 10px;
+    background-color: #f0fff4;
+    border-radius: 4px;
+    border-left: 3px solid var(--success-color, #38a169);
+}
+
+.profile-back-link {
+    text-align: center;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.profile-back-link a {
+    font-size: 14px;
+    color: var(--light-text);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.profile-back-link a:hover {
+    color: var(--primary-color);
+}
+
+/* 修改绑定邮箱 */
+.email-change-group {
+    margin-top: 8px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.email-change-group .form-hint {
+    margin-bottom: 12px;
+}
+
+.form-group-inline {
+    margin-bottom: 12px;
+}
+
+.form-group-inline.input-with-icon input {
+    flex: 1;
+    min-width: 0;
+}
+
+.form-group-inline .btn-get-code {
+    margin-left: 10px;
+    white-space: nowrap;
+    padding: 10px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid var(--primary-color);
+    background: #fff;
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+.form-group-inline .btn-get-code:hover:not(:disabled) {
+    background: rgba(66, 153, 225, 0.08);
+}
+
+.form-group-inline .btn-get-code:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-confirm-email {
+    margin-top: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid var(--primary-color);
+    background: var(--primary-color);
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn-confirm-email:hover {
+    opacity: 0.9;
+}
+
+.btn-confirm-email:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* 企业资料区块（仅企业用户且审核通过后显示） */
+.profile-divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 32px 0 24px;
+}
+
+.enterprise-profile-section {
+    margin-top: 8px;
+}
+
+.enterprise-profile-title {
+    font-size: 18px;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.enterprise-profile-title i {
+    margin-right: 8px;
+}
+
+.required-star {
+    color: var(--error-color, #e53e3e);
+}
+
+.input-readonly {
+    background: var(--light-bg);
+    color: var(--light-text);
+    cursor: default;
+}
+
+.enterprise-profile-section textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* 自定义标签 */
+.tags-input-wrap {
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 10px 12px;
+    background: #fff;
+}
+
+.tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 24px;
+    margin-bottom: 10px;
+}
+
+.tags-list:empty {
+    margin-bottom: 0;
+}
+
+.tag-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.tag-chip.tag-green {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.tag-chip.tag-orange {
+    background: #ffedd5;
+    color: #c2410c;
+}
+
+.tag-chip .tag-remove {
+    margin-left: 6px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.tag-chip .tag-remove:hover {
+    opacity: 1;
+}
+
+.tags-add-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.tags-add-row input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.tags-add-row .btn-sm {
+    padding: 8px 14px;
+    font-size: 13px;
+}
+
+#btnSaveEnterprise {
+    margin-top: 16px;
+}
+
+/* 保存成功弹窗 */
+.save-success-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+.save-success-overlay.show {
+    display: flex;
+}
+.save-success-modal {
+    background: #fff;
+    border-radius: 10px;
+    padding: 28px 36px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    min-width: 260px;
+}
+.save-success-icon {
+    font-size: 48px;
+    color: var(--primary-color, #4299e1);
+    margin-bottom: 12px;
+}
+.save-success-text {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+}
+.save-success-modal .btn-primary {
+    min-width: 100px;
+}

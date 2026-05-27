@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.InventoryProductMapper">
+    <resultMap id="VOResultMap" type="com.example.java.dto.InventoryProductVO">
+        <id column="id" property="id"/>
+        <result column="product_code" property="productCode"/>
+        <result column="name" property="name"/>
+        <result column="spec" property="spec"/>
+        <result column="category" property="category"/>
+        <result column="unit" property="unit"/>
+        <result column="price" property="price"/>
+        <result column="stock" property="stock"/>
+        <result column="min_stock" property="minStock"/>
+        <result column="warehouse_id" property="warehouseId"/>
+        <result column="warehouse_name" property="warehouseName"/>
+        <result column="supplier_id" property="supplierId"/>
+        <result column="supplier_name" property="supplierName"/>
+        <result column="remark" property="remark"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="VOResultMap">
+        SELECT p.*, w.name as warehouse_name, s.name as supplier_name
+        FROM inventory_products p
+        LEFT JOIN inventory_warehouses w ON p.warehouse_id = w.id
+        LEFT JOIN inventory_suppliers s ON p.supplier_id = s.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND (p.name LIKE CONCAT('%', #{keyword}, '%') OR p.product_code LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="category != null and category != ''">
+                AND p.category = #{category}
+            </if>
+            <if test="warehouseId != null">
+                AND p.warehouse_id = #{warehouseId}
+            </if>
+        </where>
+        ORDER BY p.id DESC
+    </select>
+
+    <select id="findLowStock" resultMap="VOResultMap">
+        SELECT p.*, w.name as warehouse_name, s.name as supplier_name
+        FROM inventory_products p
+        LEFT JOIN inventory_warehouses w ON p.warehouse_id = w.id
+        LEFT JOIN inventory_suppliers s ON p.supplier_id = s.id
+        WHERE p.stock &lt;= p.min_stock AND p.min_stock > 0
+        ORDER BY (p.min_stock - p.stock) DESC
+    </select>
+
+    <select id="selectById" resultMap="VOResultMap">
+        SELECT p.*, w.name as warehouse_name, s.name as supplier_name
+        FROM inventory_products p
+        LEFT JOIN inventory_warehouses w ON p.warehouse_id = w.id
+        LEFT JOIN inventory_suppliers s ON p.supplier_id = s.id
+        WHERE p.id = #{id}
+    </select>
+
+    <select id="selectEntityById" resultType="com.example.java.entity.InventoryProduct">
+        SELECT * FROM inventory_products WHERE id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO inventory_products (product_code, name, spec, category, unit, price, stock, min_stock, warehouse_id, supplier_id, remark)
+        VALUES (#{productCode}, #{name}, #{spec}, #{category}, #{unit}, #{price}, #{stock}, #{minStock}, #{warehouseId}, #{supplierId}, #{remark})
+    </insert>
+
+    <update id="update">
+        UPDATE inventory_products
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="spec != null">spec = #{spec},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="stock != null">stock = #{stock},</if>
+            <if test="minStock != null">min_stock = #{minStock},</if>
+            <if test="warehouseId != null">warehouse_id = #{warehouseId},</if>
+            <if test="supplierId != null">supplier_id = #{supplierId},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM inventory_products WHERE id = #{id}
+    </delete>
+
+    <!-- 原子增加库存，防止竞态条件 -->
+    <update id="incrementStock">
+        UPDATE inventory_products SET stock = stock + #{quantity} WHERE id = #{id}
+    </update>
+
+    <!-- 原子扣减库存，防止超卖 -->
+    <update id="decrementStock">
+        UPDATE inventory_products SET stock = stock - #{quantity} WHERE id = #{id} AND stock >= #{quantity}
+    </update>
+
+    <select id="countByWarehouseId" resultType="int">
+        SELECT COUNT(*) FROM inventory_products WHERE warehouse_id = #{warehouseId}
+    </select>
+
+    <select id="countBySupplierId" resultType="int">
+        SELECT COUNT(*) FROM inventory_products WHERE supplier_id = #{supplierId}
+    </select>
+
+    <select id="countTotal" resultType="int">
+        SELECT COUNT(*) FROM inventory_products
+    </select>
+
+    <select id="countLowStock" resultType="int">
+        SELECT COUNT(*) FROM inventory_products WHERE stock &lt;= min_stock AND min_stock > 0
+    </select>
+</mapper>

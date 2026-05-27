@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.InventoryOutboundMapper">
+    <resultMap id="VOResultMap" type="com.example.java.dto.InventoryOutboundVO">
+        <id column="id" property="id"/>
+        <result column="record_no" property="recordNo"/>
+        <result column="outbound_date" property="outboundDate"/>
+        <result column="type" property="type"/>
+        <result column="warehouse_id" property="warehouseId"/>
+        <result column="warehouse_name" property="warehouseName"/>
+        <result column="target_name" property="targetName"/>
+        <result column="status" property="status"/>
+        <result column="operator" property="operator"/>
+        <result column="remark" property="remark"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="VOResultMap">
+        SELECT r.*, w.name as warehouse_name
+        FROM inventory_outbound_records r
+        LEFT JOIN inventory_warehouses w ON r.warehouse_id = w.id
+        <where>
+            <if test="status != null and status != ''">
+                AND r.status = #{status}
+            </if>
+            <if test="type != null and type != ''">
+                AND r.type = #{type}
+            </if>
+        </where>
+        ORDER BY r.created_at DESC
+    </select>
+
+    <select id="selectEntityById" resultType="com.example.java.entity.InventoryOutboundRecord">
+        SELECT * FROM inventory_outbound_records WHERE id = #{id}
+    </select>
+
+    <select id="selectById" resultMap="VOResultMap">
+        SELECT r.*, w.name as warehouse_name
+        FROM inventory_outbound_records r
+        LEFT JOIN inventory_warehouses w ON r.warehouse_id = w.id
+        WHERE r.id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO inventory_outbound_records (record_no, outbound_date, type, warehouse_id, target_name, products, status, operator, remark)
+        VALUES (#{recordNo}, #{outboundDate}, #{type}, #{warehouseId}, #{targetName}, #{products}, #{status}, #{operator}, #{remark})
+    </insert>
+
+    <update id="updateStatus">
+        UPDATE inventory_outbound_records SET status = #{status} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM inventory_outbound_records WHERE id = #{id}
+    </delete>
+
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(*) FROM inventory_outbound_records
+        <where>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="countToday" resultType="int">
+        SELECT COUNT(*) FROM inventory_outbound_records WHERE DATE(outbound_date) = CURDATE()
+    </select>
+</mapper>

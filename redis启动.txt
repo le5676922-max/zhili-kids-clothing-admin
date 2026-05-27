@@ -1,0 +1,2 @@
+cd C:\Users\zjl\Desktop\Project\redis
+.\redis-server.exe

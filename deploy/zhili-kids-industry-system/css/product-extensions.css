@@ -1,0 +1,276 @@
+/* 产品页面扩展样式 */
+
+/* 购物车图标样式 */
+.cart-icon {
+    position: relative;
+    margin-right: 15px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-icon i {
+    font-size: 20px;
+    color: #4a6bdf;
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #e74c3c;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-icon.shake {
+    animation: shakeCart 0.5s;
+}
+
+@keyframes shakeCart {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* 飞向购物车动画 */
+.fly-to-cart {
+    position: fixed;
+    font-size: 24px;
+    color: #4a6bdf;
+    z-index: 2000;
+    transition: all 1s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+/* 通知提示样式 */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s;
+    color: white;
+}
+
+.notification.show {
+    opacity: 1;
+}
+
+.notification.info {
+    background-color: #4a6bdf;
+}
+
+.notification.success {
+    background-color: #4caf50;
+}
+
+.notification.warning {
+    background-color: #ff9800;
+}
+
+.notification.error {
+    background-color: #f44336;
+}
+
+/* 结算页面模态框 */
+.checkout-modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.checkout-content {
+    background-color: #fff;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 800px;
+    padding: 20px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.checkout-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.checkout-product,
+.checkout-address,
+.checkout-payment,
+.checkout-summary {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.product-item {
+    display: flex;
+    padding: 10px 0;
+}
+
+.item-image {
+    width: 80px;
+    height: 80px;
+    margin-right: 15px;
+}
+
+.item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.item-info h4 {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+}
+
+.item-info p {
+    margin: 5px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.checkout-address .address-item p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.checkout-address .address-item p span {
+    color: #666;
+}
+
+.payment-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.payment-option.active {
+    border-color: #4a6bdf;
+    background-color: #f0f4ff;
+}
+
+.payment-option input {
+    margin-right: 5px;
+}
+
+.checkout-summary {
+    border-top: 1px solid #eee;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.summary-item.total {
+    font-size: 18px;
+    font-weight: bold;
+    color: #e74c3c;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.checkout-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+}
+
+.close-modal:hover {
+    color: #333;
+}
+
+/* 分页样式增强 */
+.pagination a.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: default;
+}
+
+/* 收藏按钮样式 */
+.product-actions .btn-icon.favorited {
+    color: #f44336;
+    border-color: #f44336;
+}
+
+/* 产品卡片悬停效果 */
+.product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* 确保产品卡片内部按钮在悬停时可见 */
+.product-card .product-actions {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.product-card:hover .product-actions {
+    opacity: 1;
+}

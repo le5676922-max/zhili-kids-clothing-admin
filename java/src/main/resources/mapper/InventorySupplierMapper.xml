@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.InventorySupplierMapper">
+    <resultMap id="VOResultMap" type="com.example.java.dto.InventorySupplierVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="contact_person" property="contactPerson"/>
+        <result column="contact_phone" property="contactPhone"/>
+        <result column="address" property="address"/>
+        <result column="status" property="status"/>
+        <result column="product_count" property="productCount"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="VOResultMap">
+        SELECT s.*, (SELECT COUNT(*) FROM inventory_products p WHERE p.supplier_id = s.id) as product_count
+        FROM inventory_suppliers s
+        ORDER BY s.id ASC
+    </select>
+
+    <select id="selectById" resultMap="VOResultMap">
+        SELECT s.*, (SELECT COUNT(*) FROM inventory_products p WHERE p.supplier_id = s.id) as product_count
+        FROM inventory_suppliers s
+        WHERE s.id = #{id}
+    </select>
+
+    <select id="selectEntityById" resultType="com.example.java.entity.InventorySupplier">
+        SELECT * FROM inventory_suppliers WHERE id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO inventory_suppliers (name, contact_person, contact_phone, address, status)
+        VALUES (#{name}, #{contactPerson}, #{contactPhone}, #{address}, #{status})
+    </insert>
+
+    <update id="update">
+        UPDATE inventory_suppliers
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="contactPerson != null">contact_person = #{contactPerson},</if>
+            <if test="contactPhone != null">contact_phone = #{contactPhone},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="status != null">status = #{status},</if>
+            updated_at = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM inventory_suppliers WHERE id = #{id}
+    </delete>
+
+    <select id="countTotal" resultType="int">
+        SELECT COUNT(*) FROM inventory_suppliers
+    </select>
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.JobApplicationMapper">
+
+    <resultMap id="JobApplicationResultMap" type="com.example.java.entity.JobApplication">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="job_id" property="jobId"/>
+        <result column="resume_url" property="resumeUrl"/>
+        <result column="status" property="status"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO job_applications (user_id, job_id, resume_url, status)
+        VALUES (#{userId}, #{jobId}, #{resumeUrl}, #{status})
+    </insert>
+
+    <select id="selectByUserIdAndJobId" resultMap="JobApplicationResultMap">
+        SELECT id, user_id, job_id, resume_url, status, created_at, updated_at
+        FROM job_applications
+        WHERE user_id = #{userId} AND job_id = #{jobId}
+        LIMIT 1
+    </select>
+
+    <!-- 根据ID查询申请记录 -->
+    <select id="selectById" resultType="com.example.java.dto.JobApplicationVO">
+        SELECT id, user_id AS userId, job_id AS jobId, resume_url AS resumeUrl,
+               status, created_at AS createdAt, updated_at AS updatedAt
+        FROM job_applications
+        WHERE id = #{id}
+    </select>
+
+    <!-- 更新申请状态 -->
+    <update id="updateStatus">
+        UPDATE job_applications SET status = #{status}, updated_at = NOW() WHERE id = #{id}
+    </update>
+
+    <!-- 企业端：查询投递到本企业职位下的所有申请（含职位名、申请人信息） -->
+    <select id="selectReceivedByEnterpriseUserId" resultType="com.example.java.dto.JobApplicationVO">
+        SELECT a.id, a.job_id AS jobId, j.job_name AS jobName,
+               a.user_id AS applicantId, u.nickname AS applicantNickname, u.email AS applicantEmail,
+               a.resume_url AS resumeUrl, a.status, a.created_at AS createdAt
+        FROM job_applications a
+        INNER JOIN job_positions j ON a.job_id = j.id AND j.user_id = #{enterpriseUserId}
+        LEFT JOIN users u ON a.user_id = u.id
+        ORDER BY a.created_at DESC
+    </select>
+
+    <!-- 个人端：我的投递记录 -->
+    <select id="selectByApplicantUserId" resultType="com.example.java.dto.MyJobApplicationVO">
+        SELECT a.id,
+               a.job_id AS jobId,
+               j.job_name AS jobName,
+               COALESCE(e.enterprise_name, e.nickname, e.email) AS companyName,
+               a.resume_url AS resumeUrl,
+               a.status,
+               a.created_at AS createdAt
+        FROM job_applications a
+        INNER JOIN job_positions j ON a.job_id = j.id
+        LEFT JOIN users e ON j.user_id = e.id
+        WHERE a.user_id = #{userId}
+        ORDER BY a.created_at DESC
+    </select>
+</mapper>

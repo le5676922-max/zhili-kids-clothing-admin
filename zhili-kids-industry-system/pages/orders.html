@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的订单 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        .orders-page { padding: 20px 0 40px; min-height: 500px; }
+        .orders-title { font-size: 24px; font-weight: 600; color: var(--primary-color); margin: 0 0 20px 0; }
+        .orders-card { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 24px; }
+        .empty-orders { text-align: center; padding: 60px 20px; color: #999; }
+        .empty-orders i { font-size: 48px; margin-bottom: 16px; color: #ddd; }
+        .empty-orders p { margin: 0 0 20px 0; font-size: 15px; }
+        .btn-go-shopping { display: inline-block; padding: 10px 24px; background: var(--primary-color); color: #fff; border-radius: 6px; text-decoration: none; font-size: 14px; }
+        .btn-go-shopping:hover { background: var(--secondary-color); color: #fff; }
+
+        .order-list { margin-top: 20px; }
+        .order-item { border: 1px solid #eee; border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
+        .order-header { background: #f9f9f9; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .order-id { font-size: 14px; color: #666; }
+        .order-id span { color: #333; font-weight: 500; }
+        .order-status { font-size: 14px; font-weight: 500; }
+        .order-status.pending { color: #ff9800; }
+        .order-status.paid { color: #4caf50; }
+        .order-status.shipped { color: #2196f3; }
+        .order-status.completed { color: #9e9e9e; }
+        .order-status.cancelled { color: #f44336; }
+
+        .order-body { padding: 20px; }
+        .order-item-product { display: flex; gap: 15px; padding: 15px 0; border-bottom: 1px solid #f5f5f5; }
+        .order-item-product:last-child { border-bottom: none; padding-bottom: 0; }
+        .order-item-product:first-child { padding-top: 0; }
+        .product-img { width: 80px; height: 80px; object-fit: cover; border-radius: 6px; background: #f5f5f5; }
+        .product-info { flex: 1; }
+        .product-name { font-size: 15px; font-weight: 500; color: #333; margin-bottom: 5px; }
+        .product-spec { font-size: 13px; color: #999; margin-bottom: 5px; }
+        .product-price { font-size: 14px; color: var(--primary-color); font-weight: 500; }
+        .product-quantity { font-size: 14px; color: #666; }
+
+        .order-footer { background: #f9f9f9; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .order-total { font-size: 15px; }
+        .order-total strong { color: #f44336; font-size: 18px; }
+        .order-actions { display: flex; gap: 10px; }
+        .btn-order { padding: 6px 16px; font-size: 13px; border-radius: 4px; cursor: pointer; border: 1px solid #ddd; background: #fff; color: #666; }
+        .btn-order:hover { border-color: var(--primary-color); color: var(--primary-color); }
+        .btn-order.primary { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+        .btn-order.primary:hover { background: var(--secondary-color); border-color: var(--secondary-color); }
+
+        .loading { text-align: center; padding: 40px; color: #999; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb container">
+        <a href="../index.html">首页</a> &gt; 我的订单
+    </div>
+
+    <main class="container orders-page">
+        <h1 class="orders-title">我的订单</h1>
+        <div class="orders-card">
+            <div class="loading" id="ordersContent">
+                <i class="bi bi-arrow-repeat"></i>
+                <p>加载中...</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 织里镇童装产业协同管理平台 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/auth-header.js"></script>
+    <script src="../js/common.js"></script>
+    <script>
+        const API_BASE = window.ZhiliApi.apiAuth();
+
+        // 获取 token
+        function getToken() {
+            return localStorage.getItem('token');
+        }
+
+        // 检查登录状态
+        function checkLogin() {
+            const token = getToken();
+            const userInfo = localStorage.getItem('userInfo');
+            if (!token || !userInfo) {
+                window.location.href = 'login.html?redirect=orders.html';
+                return false;
+            }
+            return true;
+        }
+
+        // 加载订单列表（商品订单 + 课程订单）
+        function loadOrders() {
+            if (!checkLogin()) return;
+
+            const token = getToken();
+            const container = document.getElementById('ordersContent');
+            
+            // 同时加载商品订单和课程订单
+            Promise.all([
+                fetch(API_BASE + '/orders', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                }).then(res => res.json()),
+                fetch(API_BASE + '/training-orders', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                }).then(res => res.json())
+            ])
+            .then(([productOrdersResult, courseOrdersResult]) => {
+                const productOrders = (productOrdersResult.code === 200 && productOrdersResult.data) ? productOrdersResult.data : [];
+                const courseOrders = (courseOrdersResult.code === 200 && courseOrdersResult.data) ? courseOrdersResult.data : [];
+                
+                if (productOrders.length === 0 && courseOrders.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-orders">
+                            <i class="bi bi-receipt"></i>
+                            <p>暂无订单</p>
+                            <a href="product.html" class="btn-go-shopping">去逛逛</a>
+                        </div>
+                    `;
+                } else {
+                    renderOrders(productOrders, courseOrders);
+                }
+            })
+            .catch(err => {
+                console.error('加载订单失败:', err);
+                container.innerHTML = `
+                    <div class="empty-orders">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        <p>加载失败，请稍后重试</p>
+                    </div>
+                `;
+            });
+        }
+
+        // 渲染订单列表（商品订单 + 课程订单）
+        function renderOrders(productOrders, courseOrders) {
+            const container = document.getElementById('ordersContent');
+            container.innerHTML = '<div class="order-list"></div>';
+            const orderList = container.querySelector('.order-list');
+
+            // 渲染商品订单
+            productOrders.forEach(order => {
+                const orderEl = document.createElement('div');
+                orderEl.className = 'order-item';
+                orderEl.setAttribute('data-order-type', 'product');
+
+                let itemsHtml = '';
+                order.items.forEach(item => {
+                    itemsHtml += `
+                        <div class="order-item-product">
+                            <img class="product-img" src="${item.productImage || '../images/logo.png'}" alt="${item.productName}">
+                            <div class="product-info">
+                                <div class="product-name">${item.productName}</div>
+                                <div class="product-spec">
+                                    ${item.selectedColor ? '颜色: ' + item.selectedColor : ''}
+                                    ${item.selectedSize ? ' / 尺码: ' + item.selectedSize : ''}
+                                </div>
+                                <div class="product-price">￥${item.price.toFixed(2)} × ${item.quantity}</div>
+                            </div>
+                            <div class="product-quantity"></div>
+                        </div>
+                    `;
+                });
+
+                let actionsHtml = '';
+                if (order.status === 'pending') {
+                    actionsHtml = `
+                        <button class="btn-order primary" onclick="payOrder('${order.id}')">去支付</button>
+                        <button class="btn-order" onclick="cancelOrder('${order.id}')">取消订单</button>
+                    `;
+                } else if (order.status === 'paid') {
+                    actionsHtml = `
+                        <button class="btn-order" onclick="viewOrder('${order.id}')">查看详情</button>
+                    `;
+                } else if (order.status === 'shipped') {
+                    actionsHtml = `
+                        <button class="btn-order primary" onclick="confirmReceive('${order.id}')">确认收货</button>
+                        <button class="btn-order" onclick="viewOrder('${order.id}')">查看详情</button>
+                        <button class="btn-order" onclick="goToRefunds('${order.id}','${order.totalAmount}')">申请退款</button>
+                    `;
+                } else if (order.status === 'completed') {
+                    actionsHtml = `
+                        <button class="btn-order" onclick="goToReview('${order.id}')">去评价</button>
+                        <button class="btn-order" onclick="viewOrder('${order.id}')">查看详情</button>
+                        <button class="btn-order" onclick="goToRefunds('${order.id}','${order.totalAmount}')">申请退款</button>
+                    `;
+                } else if (order.status === 'refund_pending' || order.status === 'refund_approved') {
+                    actionsHtml = `
+                        <button class="btn-order" onclick="viewOrder('${order.id}')">查看详情</button>
+                        <button class="btn-order" onclick="goToRefunds()">查看退款进度</button>
+                    `;
+                } else if (order.status === 'refunded') {
+                    actionsHtml = `
+                        <button class="btn-order" onclick="viewOrder('${order.id}')">查看详情</button>
+                    `;
+                }
+
+                const createdAt = new Date(order.createdAt).toLocaleString('zh-CN');
+                const trackingHtml = (order.trackingNo && (order.status === 'shipped' || order.status === 'completed')) ? '<p style="margin:8px 0 0 0;font-size:13px;color:#666;">快递单号：' + order.trackingNo + '</p>' : '';
+
+                orderEl.innerHTML = `
+                    <div class="order-header">
+                        <div class="order-id">订单号: <span>${order.id}</span> <span style="color:#999;font-size:12px;">(商品订单)</span></div>
+                        <div class="order-status ${order.status}">${order.statusText}</div>
+                    </div>
+                    <div class="order-body">
+                        ${itemsHtml}
+                        ${trackingHtml}
+                    </div>
+                    <div class="order-footer">
+                        <div class="order-total">合计: <strong>￥${order.totalAmount.toFixed(2)}</strong></div>
+                        <div class="order-actions">${actionsHtml}</div>
+                    </div>
+                `;
+                orderList.appendChild(orderEl);
+            });
+
+            // 渲染课程订单
+            courseOrders.forEach(order => {
+                const orderEl = document.createElement('div');
+                orderEl.className = 'order-item';
+                orderEl.setAttribute('data-order-type', 'course');
+
+                const createdAt = new Date(order.createdAt).toLocaleString('zh-CN');
+                const statusText = order.status === 'paid' ? '已支付' : order.status || '未知';
+                const statusClass = order.status === 'paid' ? 'paid' : 'pending';
+
+                orderEl.innerHTML = `
+                    <div class="order-header">
+                        <div class="order-id">订单号: <span>${order.id}</span> <span style="color:#999;font-size:12px;">(课程订单)</span></div>
+                        <div class="order-status ${statusClass}">${statusText}</div>
+                    </div>
+                    <div class="order-body">
+                        <div class="order-item-product">
+                            <div class="product-info" style="width:100%;">
+                                <div class="product-name">
+                                    <i class="bi bi-book" style="margin-right:8px;color:var(--primary-color);"></i>
+                                    ${order.courseName || '课程'}
+                                </div>
+                                <div class="product-spec" style="margin-top:8px;">
+                                    <span><i class="bi bi-calendar3"></i> 下单时间：${createdAt}</span>
+                                </div>
+                                <div class="product-price" style="margin-top:8px;">￥${order.price ? parseFloat(order.price).toFixed(2) : '0.00'}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-footer">
+                        <div class="order-total">合计: <strong>￥${order.price ? parseFloat(order.price).toFixed(2) : '0.00'}</strong></div>
+                        <div class="order-actions">
+                            <button class="btn-order" onclick="viewCourseOrder('${order.id}')">查看详情</button>
+                        </div>
+                    </div>
+                `;
+                orderList.appendChild(orderEl);
+            });
+        }
+
+        // 查看课程订单详情
+        function viewCourseOrder(orderId) {
+            const token = getToken();
+            fetch(API_BASE + '/training-orders', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 200 && data.data) {
+                    const order = data.data.find(o => o.id == orderId);
+                    if (order) {
+                        let detail = `订单号: ${order.id}\n`;
+                        detail += `课程名称: ${order.courseName}\n`;
+                        detail += `订单金额: ￥${order.price ? parseFloat(order.price).toFixed(2) : '0.00'}\n`;
+                        detail += `订单状态: ${order.status === 'paid' ? '已支付' : order.status || '未知'}\n`;
+                        detail += `下单时间: ${new Date(order.createdAt).toLocaleString('zh-CN')}`;
+                        alert(detail);
+                    } else {
+                        alert('订单不存在');
+                    }
+                }
+            })
+            .catch(err => {
+                console.error('获取订单详情失败:', err);
+                alert('获取订单详情失败');
+            });
+        }
+
+        // 去支付
+        function payOrder(orderId) {
+            const token = getToken();
+            if (!confirm('确认支付该订单？')) return;
+
+            fetch(API_BASE + '/orders/' + orderId + '/pay', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 200) {
+                    alert('支付成功！');
+                    loadOrders();
+                } else {
+                    alert(data.message || '支付失败');
+                }
+            })
+            .catch(err => {
+                console.error('支付失败:', err);
+                alert('支付失败，请稍后重试');
+            });
+        }
+
+        // 取消订单
+        function cancelOrder(orderId) {
+            const token = getToken();
+            if (!confirm('确定要取消该订单吗？')) return;
+
+            fetch(API_BASE + '/orders/' + orderId + '/cancel', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 200) {
+                    alert('订单已取消');
+                    loadOrders();
+                } else {
+                    alert(data.message || '取消失败');
+                }
+            })
+            .catch(err => {
+                console.error('取消失败:', err);
+                alert('取消失败，请稍后重试');
+            });
+        }
+
+        // 确认收货
+        function confirmReceive(orderId) {
+            const token = getToken();
+            if (!confirm('确认已收到货物？')) return;
+
+            fetch(API_BASE + '/orders/' + orderId + '/confirm', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 200) {
+                    alert('确认收货成功！');
+                    loadOrders();
+                } else {
+                    alert(data.message || '确认收货失败');
+                }
+            })
+            .catch(err => {
+                console.error('确认收货失败:', err);
+                alert('确认收货失败，请稍后重试');
+            });
+        }
+
+        // 查看详情
+        function viewOrder(orderId) {
+            const token = getToken();
+            fetch(API_BASE + '/orders/' + orderId, {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 200) {
+                    const order = data.data;
+                    let detail = `订单号: ${order.id}\n`;
+                    detail += `状态: ${order.statusText}\n`;
+                    detail += `收货人: ${order.receiverName}\n`;
+                    detail += `电话: ${order.receiverPhone}\n`;
+                    detail += `地址: ${order.receiverAddress}\n`;
+                    detail += `合计: ￥${order.totalAmount.toFixed(2)}\n`;
+                    detail += `创建时间: ${new Date(order.createdAt).toLocaleString('zh-CN')}`;
+                    alert(detail);
+                }
+            });
+        }
+
+        // 去评价（弹出评价框）
+        function goToReview(orderId) {
+            const token = getToken();
+            fetch(API_BASE + '/orders/' + orderId, {
+                headers: { 'Authorization': 'Bearer ' + token }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 200) {
+                    showReviewModal(data.data);
+                }
+            });
+        }
+
+        // 显示评价模态框
+        function showReviewModal(order) {
+            const modal = document.createElement('div');
+            modal.className = 'review-modal';
+            modal.id = 'reviewModal';
+
+            let itemsHtml = '';
+            order.items.forEach((item, idx) => {
+                itemsHtml += `
+                    <div class="review-item" data-product-id="${item.productId}" data-order-item-id="${item.id}">
+                        <div class="review-product">
+                            <img src="${item.productImage || '../images/logo.png'}" alt="${item.productName}">
+                            <div class="product-info">
+                                <div class="product-name">${item.productName}</div>
+                                <div class="product-spec">
+                                    ${item.selectedColor ? '颜色: ' + item.selectedColor : ''}
+                                    ${item.selectedSize ? ' / ���码: ' + item.selectedSize : ''}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-form">
+                            <div class="rating-row">
+                                <span class="rating-label">评分：</span>
+                                <div class="star-rating" data-product-id="${item.productId}">
+                                    <i class="bi bi-star" data-rating="1"></i>
+                                    <i class="bi bi-star" data-rating="2"></i>
+                                    <i class="bi bi-star" data-rating="3"></i>
+                                    <i class="bi bi-star" data-rating="4"></i>
+                                    <i class="bi bi-star" data-rating="5"></i>
+                                </div>
+                                <span class="rating-text">5分</span>
+                            </div>
+                            <textarea class="review-content" placeholder="分享购买心得，帮助更多买家~" maxlength="500"></textarea>
+                            <div class="review-actions">
+                                <button class="btn-order primary submit-review-btn" data-product-id="${item.productId}" data-order-item-id="${item.id}" onclick="submitReview(this)">提交评价</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            modal.innerHTML = `
+                <div class="review-modal-content">
+                    <span class="close-modal"><i class="bi bi-x-lg"></i></span>
+                    <h2>商品评价</h2>
+                    <div class="review-order-info">
+                        <span>订单号: ${order.id}</span>
+                        <span>${order.statusText}</span>
+                    </div>
+                    <div class="review-items">${itemsHtml}</div>
+                </div>
+            `;
+
+            const style = document.createElement('style');
+            style.textContent = `
+                .review-modal {
+                    position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
+                    background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center;
+                }
+                .review-modal-content {
+                    background: #fff; border-radius: 8px; width: 90%; max-width: 700px;
+                    max-height: 90vh; overflow-y: auto; padding: 20px; position: relative;
+                }
+                .review-modal-content h2 { text-align: center; margin-bottom: 10px; color: #333; }
+                .review-order-info { text-align: center; font-size: 13px; color: #999; margin-bottom: 15px; }
+                .review-order-info span { margin: 0 8px; }
+                .review-item { border: 1px solid #eee; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
+                .review-product { display: flex; gap: 10px; margin-bottom: 12px; }
+                .review-product img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
+                .review-product .product-info { flex: 1; }
+                .review-product .product-name { font-size: 14px; font-weight: 500; color: #333; }
+                .review-product .product-spec { font-size: 12px; color: #999; margin-top: 4px; }
+                .rating-row { display: flex; align-items: center; margin-bottom: 8px; }
+                .rating-label { font-size: 14px; color: #666; margin-right: 8px; }
+                .star-rating { display: flex; gap: 4px; }
+                .star-rating i { font-size: 20px; color: #ddd; cursor: pointer; }
+                .star-rating i.active, .star-rating i:hover { color: #f5a623; }
+                .rating-text { font-size: 14px; color: #f5a623; margin-left: 8px; }
+                .review-content {
+                    width: 100%; min-height: 80px; padding: 10px; border: 1px solid #ddd;
+                    border-radius: 4px; font-size: 14px; resize: vertical; box-sizing: border-box;
+                }
+                .review-content:focus { outline: none; border-color: var(--primary-color); }
+                .review-actions { text-align: right; margin-top: 8px; }
+                .close-modal {
+                    position: absolute; top: 10px; right: 15px; font-size: 24px;
+                    cursor: pointer; color: #999;
+                }
+                .close-modal:hover { color: #333; }
+            `;
+            document.head.appendChild(style);
+            document.body.appendChild(modal);
+
+            modal.querySelector('.close-modal').addEventListener('click', () => modal.remove());
+            modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+
+            // 绑定星级评分
+            modal.querySelectorAll('.star-rating').forEach(starContainer => {
+                const stars = starContainer.querySelectorAll('i');
+                const ratingText = starContainer.parentElement.querySelector('.rating-text');
+                stars.forEach((star, idx) => {
+                    star.addEventListener('click', () => {
+                        const rating = idx + 1;
+                        stars.forEach((s, i) => {
+                            s.classList.toggle('active', i < rating);
+                        });
+                        if (ratingText) ratingText.textContent = rating + '分';
+                    });
+                    star.addEventListener('mouseover', () => {
+                        stars.forEach((s, i) => {
+                            s.classList.toggle('active', i <= idx);
+                        });
+                    });
+                    star.addEventListener('mouseout', () => {
+                        const active = starContainer.querySelectorAll('i.active').length;
+                        stars.forEach((s, i) => {
+                            s.classList.toggle('active', i < active);
+                        });
+                    });
+                });
+            });
+        }
+
+        // 提交评价
+        function submitReview(btn) {
+            const token = getToken();
+            const form = btn.closest('.review-item');
+            const productId = btn.dataset.productId;
+            const orderItemId = btn.dataset.orderItemId;
+            const rating = form.querySelectorAll('.star-rating i.active').length;
+            const content = form.querySelector('.review-content').value.trim();
+
+            if (rating === 0) { alert('请选择评分'); return; }
+            if (!content) { alert('请输入评价内容'); return; }
+
+            btn.textContent = '提交中...';
+            btn.disabled = true;
+
+            fetch(API_BASE + '/reviews', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                body: JSON.stringify({
+                    orderId: null,
+                    orderItemId: parseInt(orderItemId),
+                    productId: productId,
+                    rating: rating,
+                    content: content
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 200) {
+                    alert('评价成功，感谢您的反馈！');
+                    form.querySelector('.review-form').innerHTML = '<div style="text-align:center;color:#4caf50;padding:15px;">已评价</div>';
+                } else {
+                    alert(data.message || '评价失败');
+                    btn.textContent = '提交评价';
+                    btn.disabled = false;
+                }
+            })
+            .catch(err => {
+                console.error('评价失败:', err);
+                alert('评价失败，请稍后重试');
+                btn.textContent = '提交评价';
+                btn.disabled = false;
+            });
+        }
+
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', loadOrders);
+        function goToRefunds(orderId, totalAmount) {
+            var params = [];
+            if (orderId) params.push('orderId=' + encodeURIComponent(orderId));
+            if (totalAmount) params.push('amount=' + encodeURIComponent(totalAmount));
+            var query = params.length > 0 ? '?' + params.join('&') : '';
+            window.location.href = 'refunds.html' + query;
+        }
+    </script>
+</body>
+</html>

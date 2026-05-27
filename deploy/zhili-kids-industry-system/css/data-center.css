@@ -1,0 +1,1193 @@
+/* 数据中心页面样式 */
+
+/* 数据中心导航 */
+.data-nav {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.data-nav ul {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+}
+
+.data-nav li {
+    flex: 1;
+    text-align: center;
+    padding: 15px 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.data-nav li.active {
+    background-color: #fff;
+    border-bottom: 3px solid var(--primary-color);
+}
+
+.data-nav li:hover:not(.active) {
+    background-color: #e9ecef;
+}
+
+.data-nav i {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+}
+
+.data-nav span {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* 内容区域 */
+.tab-content {
+    display: none;
+    padding: 20px 0;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-content h2 {
+    margin-bottom: 25px;
+    color: var(--primary-color);
+    font-size: 24px;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.tab-content h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background-color: var(--accent-color);
+}
+
+/* 产业关键指标卡片 */
+.kpi-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.kpi-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.kpi-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+/* 图标光晕效果 */
+.kpi-card:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(66, 153, 225, 0.08), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.kpi-card:hover:before {
+    opacity: 1;
+}
+
+.kpi-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    transition: all 0.5s ease;
+}
+
+/* 不同图标的渐变背景 */
+.kpi-icon:nth-child(1) {
+    background: linear-gradient(45deg, rgba(66, 153, 225, 0.1), rgba(49, 130, 206, 0.2));
+}
+
+.kpi-icon:nth-child(2) {
+    background: linear-gradient(45deg, rgba(72, 187, 120, 0.1), rgba(56, 161, 105, 0.2));
+}
+
+.kpi-icon:nth-child(3) {
+    background: linear-gradient(45deg, rgba(237, 100, 166, 0.1), rgba(213, 63, 140, 0.2));
+}
+
+.kpi-icon:nth-child(4) {
+    background: linear-gradient(45deg, rgba(246, 173, 85, 0.1), rgba(221, 107, 32, 0.2));
+}
+
+.kpi-card:hover .kpi-icon {
+    transform: scale(1.1) rotate(10deg);
+    box-shadow: 0 0 15px rgba(66, 153, 225, 0.3);
+}
+
+.kpi-icon i {
+    font-size: 28px;
+    color: var(--primary-color);
+    transition: all 0.5s ease;
+}
+
+.kpi-card:hover .kpi-icon i {
+    color: var(--primary-color);
+    transform: scale(1.2);
+}
+
+.kpi-content {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+}
+
+.kpi-content h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--light-text);
+    transition: color 0.3s ease;
+}
+
+.kpi-card:hover .kpi-content h3 {
+    color: var(--primary-color);
+}
+
+.kpi-number {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.kpi-card:hover .kpi-number {
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.kpi-trend {
+    font-size: 14px;
+    color: var(--light-text);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: transform 0.3s ease;
+}
+
+.kpi-card:hover .kpi-trend {
+    transform: translateY(-2px);
+}
+
+.kpi-trend.up:before {
+    content: '↑';
+    color: var(--success-color);
+}
+
+.kpi-trend.down:before {
+    content: '↓';
+    color: var(--error-color);
+}
+
+.kpi-trend.up span {
+    color: var(--success-color);
+    font-weight: 500;
+}
+
+/* 数据部分样式 */
+.data-section {
+    margin-bottom: 40px;
+}
+
+.data-section h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 20px;
+}
+
+.chart-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.chart-container.full-width {
+    grid-template-columns: 1fr;
+}
+
+.chart-wrapper {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.chart-wrapper h4 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.chart-placeholder {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.chart-placeholder img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* 数据表格样式 */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.data-table thead {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.data-table th {
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.data-table td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.data-table tbody tr {
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+.data-table tbody tr:hover {
+    background-color: #edf2f7;
+}
+
+.data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* 供应商统计和出口产品统计 */
+.supplier-stats,
+.export-product-stats {
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow-x: auto;
+}
+
+/* 数据内容样式 */
+.data-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.data-content.full-width {
+    grid-template-columns: 1fr;
+}
+
+.data-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.data-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.data-card h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: var(--primary-color);
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.data-details {
+    font-size: 14px;
+}
+
+.data-summary {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #eee;
+    font-style: italic;
+    color: var(--light-text);
+}
+
+/* 数据列表样式 */
+.data-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+}
+
+.data-list li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px dotted #eee;
+}
+
+.data-label {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.data-value {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* 趋势数据样式 */
+.trend-data {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.trend-year {
+    flex: 1;
+    min-width: 120px;
+    background-color: #f8f9fa;
+    padding: 12px;
+    border-radius: 6px;
+    margin: 5px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.trend-year:hover {
+    background-color: #e9ecef;
+    transform: translateY(-3px);
+}
+
+.trend-year.highlight {
+    background-color: rgba(66, 153, 225, 0.15);
+    border-left: 3px solid var(--primary-color);
+}
+
+.trend-year .year {
+    display: block;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+}
+
+.trend-year .value {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+
+.trend-year .growth {
+    display: block;
+    font-size: 12px;
+    color: var(--success-color);
+}
+
+/* 产业链分布样式 */
+.industry-chain {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.chain-segment {
+    flex: 1;
+    min-width: 150px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 5px;
+    text-align: center;
+}
+
+.chain-segment h5 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    font-size: 16px;
+}
+
+.chain-segment p {
+    margin: 5px 0;
+    font-size: 13px;
+}
+
+/* 空间布局样式 */
+.spatial-layout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.layout-area {
+    flex: 1;
+    min-width: 150px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 5px;
+    text-align: center;
+}
+
+.layout-area h5 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    font-size: 16px;
+}
+
+.layout-area p {
+    margin: 5px 0;
+    font-size: 13px;
+}
+
+/* 产品类别统计样式 */
+.category-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.category-item {
+    flex: 1;
+    min-width: 150px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 5px;
+    text-align: center;
+}
+
+.category-name {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.category-percent {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.category-growth, .category-note {
+    font-size: 12px;
+    color: var(--light-text);
+}
+
+/* 季节性销售样式 */
+.seasonal-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.season-item {
+    flex: 1;
+    min-width: 150px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 5px;
+    text-align: center;
+}
+
+.season-name {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.season-percent {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.season-products {
+    font-size: 12px;
+    color: var(--light-text);
+}
+
+/* 市场趋势样式 */
+.market-trends {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.trend-block {
+    flex: 1;
+    min-width: 250px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 5px;
+}
+
+.trend-block h5 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    font-size: 16px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.trend-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.trend-list li {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px dotted #eee;
+}
+
+.trend-list span.highlight {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.trend-list span.up {
+    color: var(--success-color);
+    font-weight: 600;
+    margin-left: 5px;
+}
+
+.trend-list span.down {
+    color: var(--error-color);
+    font-weight: 600;
+    margin-left: 5px;
+}
+
+/* 职位需求样式 */
+.job-demand {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.job-category {
+    flex: 1;
+    min-width: 200px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 5px;
+}
+
+.job-category h5 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+    font-size: 16px;
+}
+
+.job-percent {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.job-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.job-list li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px dotted #eee;
+    font-size: 13px;
+}
+
+.demand {
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+}
+
+.demand.very-high {
+    background-color: #fed7d7;
+    color: #e53e3e;
+}
+
+.demand.high {
+    background-color: #feebc8;
+    color: #dd6b20;
+}
+
+.demand.medium {
+    background-color: #bee3f8;
+    color: #3182ce;
+}
+
+.demand.low {
+    background-color: #c6f6d5;
+    color: #38a169;
+}
+
+/* 技能需求样式 */
+.skill-demand {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.skill-group {
+    flex: 1;
+    min-width: 250px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 5px;
+}
+
+.skill-group h5 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    font-size: 16px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.skill-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.skill-name {
+    flex: 1;
+    font-size: 13px;
+}
+
+.skill-bar {
+    flex: 2;
+    height: 20px;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-bar.very-high {
+    background-color: rgba(237, 100, 166, 0.2);
+}
+
+.skill-bar.high {
+    background-color: rgba(246, 173, 85, 0.2);
+}
+
+.skill-bar.medium {
+    background-color: rgba(72, 187, 120, 0.2);
+}
+
+.skill-bar.low {
+    background-color: rgba(66, 153, 225, 0.2);
+}
+
+.skill-bar .skill-value {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* 培训统计样式 */
+.training-stats {
+    margin-bottom: 15px;
+}
+
+.training-programs {
+    margin-bottom: 20px;
+}
+
+.training-programs h5 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    font-size: 16px;
+}
+
+.training-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.training-table th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+.training-table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.training-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.training-partners h5 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    font-size: 16px;
+}
+
+.partner-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.partner-list li {
+    background-color: #f8f9fa;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin: 0 10px 10px 0;
+    font-size: 13px;
+}
+
+/* 供应链流程样式 */
+.supply-chain-flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.flow-stage {
+    flex: 1;
+    min-width: 180px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 5px;
+    text-align: center;
+}
+
+.flow-arrow {
+    font-size: 24px;
+    color: var(--primary-color);
+    margin: 0 5px;
+}
+
+.stage-icon {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(66, 153, 225, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+}
+
+.stage-icon i {
+    font-size: 24px;
+    color: var(--primary-color);
+}
+
+.stage-name {
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.stage-metrics {
+    text-align: left;
+}
+
+.metric {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+
+.metric .label {
+    color: var(--light-text);
+}
+
+.metric .value {
+    font-weight: 600;
+}
+
+/* 效率对比分析样式 */
+.efficiency-comparison {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.comparison-block {
+    flex: 1;
+    min-width: 250px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 5px;
+}
+
+.comparison-block h5 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    font-size: 16px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.comparison-stats {
+    margin-top: 10px;
+}
+
+.stat-item {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dotted #eee;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: var(--light-text);
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.stat-change {
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.stat-change.up {
+    color: var(--success-color);
+}
+
+.stat-change.down {
+    color: var(--error-color);
+}
+
+/* 进出口趋势样式 */
+.export-import-trends {
+    margin-bottom: 15px;
+}
+
+.year-comparison {
+    margin-bottom: 20px;
+    overflow-x: auto;
+}
+
+.trend-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.trend-table th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+.trend-table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.trend-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.trend-table tr.highlight {
+    background-color: rgba(66, 153, 225, 0.1);
+    font-weight: 600;
+}
+
+.trend-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.highlight-item {
+    flex: 1;
+    min-width: 200px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 5px;
+    text-align: center;
+}
+
+.highlight-title {
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.highlight-value {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+/* 国家/地区分布样式 */
+.country-distribution {
+    margin-bottom: 15px;
+}
+
+.region-block {
+    margin-bottom: 20px;
+}
+
+.region-block h5 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+    font-size: 16px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.region-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.region-item {
+    flex: 1;
+    min-width: 200px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 5px;
+    text-align: center;
+}
+
+.region-name {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.region-percent {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.region-countries {
+    font-size: 12px;
+    color: var(--light-text);
+    margin-bottom: 5px;
+}
+
+.region-growth {
+    font-size: 12px;
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+/* 响应式调整 */
+@media (max-width: 992px) {
+    .data-nav ul {
+        flex-wrap: wrap;
+    }
+    
+    .data-nav li {
+        flex-basis: 33.333%;
+    }
+    
+    .chart-container {
+        grid-template-columns: 1fr;
+    }
+
+    .data-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .supply-chain-flow {
+        flex-direction: column;
+    }
+    
+    .flow-arrow {
+        transform: rotate(90deg);
+        margin: 10px 0;
+    }
+    
+    .trend-data, .industry-chain, .spatial-layout, 
+    .category-stats, .seasonal-stats, .market-trends,
+    .job-demand, .skill-demand, .efficiency-comparison,
+    .trend-highlights, .region-stats {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .kpi-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .data-nav li {
+        flex-basis: 50%;
+    }
+
+    .data-table {
+        font-size: 12px;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 8px 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .kpi-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .data-nav li {
+        flex-basis: 100%;
+    }
+
+    .supplier-stats,
+    .export-product-stats {
+        padding: 10px;
+    }
+    
+    .data-table {
+        font-size: 11px;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 6px 8px;
+    }
+
+    .data-card {
+        padding: 15px;
+    }
+    
+    .data-card h4 {
+        font-size: 16px;
+    }
+    
+    .data-details {
+        font-size: 13px;
+    }
+    
+    .trend-year, .chain-segment, .layout-area,
+    .category-item, .season-item, .trend-block,
+    .job-category, .skill-group, .comparison-block,
+    .highlight-item, .region-item {
+        min-width: 100%;
+        margin: 5px 0;
+    }
+} 

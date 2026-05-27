@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        .cart-page { padding: 20px 0 40px; min-height: 500px; }
+        .cart-title { font-size: 24px; font-weight: 600; color: var(--primary-color); margin: 0 0 20px 0; display: flex; align-items: center; gap: 10px; }
+        .cart-title i { font-size: 28px; }
+        .cart-card { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 24px; }
+        .empty-cart { text-align: center; padding: 80px 20px; color: #999; }
+        .empty-cart i { font-size: 64px; margin-bottom: 16px; color: #ddd; }
+        .empty-cart p { margin: 0 0 20px 0; font-size: 15px; }
+        .btn-go-shopping { display: inline-block; padding: 10px 24px; background: var(--primary-color); color: #fff; border-radius: 6px; text-decoration: none; font-size: 14px; }
+        .btn-go-shopping:hover { background: var(--secondary-color); color: #fff; }
+
+        .cart-header { display: flex; align-items: center; padding: 12px 0; border-bottom: 2px solid #f0f0f0; font-size: 14px; color: #666; font-weight: 500; }
+        .cart-header-check { width: 40px; text-align: center; }
+        .cart-header-img { width: 100px; }
+        .cart-header-info { flex: 1; }
+        .cart-header-price { width: 100px; text-align: center; }
+        .cart-header-qty { width: 140px; text-align: center; }
+        .cart-header-subtotal { width: 120px; text-align: center; }
+        .cart-header-action { width: 60px; text-align: center; }
+
+        .cart-item { display: flex; align-items: center; padding: 20px 0; border-bottom: 1px solid #f5f5f5; transition: background 0.2s; }
+        .cart-item:hover { background: #fafbfc; }
+        .cart-item-check { width: 40px; text-align: center; }
+        .cart-item-check input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-color); }
+        .cart-item-img { width: 100px; text-align: center; }
+        .cart-item-img img { width: 80px; height: 80px; object-fit: cover; border-radius: 6px; background: #f5f5f5; }
+        .cart-item-info { flex: 1; padding: 0 10px; }
+        .cart-item-name { font-size: 15px; font-weight: 500; color: #333; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .cart-item-spec { font-size: 13px; color: #999; }
+        .cart-item-price { width: 100px; text-align: center; font-size: 15px; color: #666; }
+        .cart-item-qty { width: 140px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0; }
+        .qty-btn { width: 32px; height: 32px; border: 1px solid #ddd; background: #fff; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; color: #666; transition: all 0.2s; }
+        .qty-btn:hover { background: #f5f5f5; border-color: var(--primary-color); color: var(--primary-color); }
+        .qty-btn:first-child { border-radius: 4px 0 0 4px; }
+        .qty-btn:last-child { border-radius: 0 4px 4px 0; }
+        .qty-input { width: 48px; height: 32px; border: 1px solid #ddd; border-left: none; border-right: none; text-align: center; font-size: 14px; outline: none; color: #333; }
+        .qty-input::-webkit-inner-spin-button { display: none; }
+        .cart-item-subtotal { width: 120px; text-align: center; font-size: 16px; font-weight: 600; color: #f44336; }
+        .cart-item-action { width: 60px; text-align: center; }
+        .btn-delete { background: none; border: none; color: #ccc; cursor: pointer; font-size: 18px; padding: 4px 8px; transition: color 0.2s; }
+        .btn-delete:hover { color: #f44336; }
+
+        .cart-footer { display: flex; justify-content: space-between; align-items: center; padding: 16px 0 0 0; border-top: 2px solid #f0f0f0; margin-top: 4px; }
+        .cart-footer-left { display: flex; align-items: center; gap: 16px; font-size: 14px; color: #666; }
+        .cart-footer-left input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-color); }
+        .cart-footer-right { display: flex; align-items: center; gap: 20px; }
+        .cart-total-label { font-size: 14px; color: #666; }
+        .cart-total-amount { font-size: 24px; font-weight: 600; color: #f44336; }
+        .btn-checkout { padding: 12px 40px; background: var(--primary-color); color: #fff; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; transition: background 0.2s; }
+        .btn-checkout:hover { background: var(--secondary-color); }
+        .btn-checkout:disabled { background: #ccc; cursor: not-allowed; }
+
+        .loading { text-align: center; padding: 40px; color: #999; }
+        .loading i { font-size: 32px; display: block; margin-bottom: 10px; animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb container">
+        <a href="../index.html">首页</a> &gt; 购物车
+    </div>
+
+    <main class="container cart-page">
+        <h1 class="cart-title"><i class="bi bi-cart"></i>我的购物车</h1>
+        <div class="cart-card">
+            <div class="cart-header">
+                <div class="cart-header-check"><input type="checkbox" id="selectAllCheckbox"></div>
+                <div class="cart-header-img"></div>
+                <div class="cart-header-info">商品信息</div>
+                <div class="cart-header-price">单价</div>
+                <div class="cart-header-qty">数量</div>
+                <div class="cart-header-subtotal">小计</div>
+                <div class="cart-header-action">操作</div>
+            </div>
+            <div id="cartContent">
+                <div class="loading">
+                    <i class="bi bi-arrow-repeat"></i>
+                    <p>加载中...</p>
+                </div>
+            </div>
+            <div class="cart-footer" id="cartSummary" style="display:none;">
+                <div class="cart-footer-left">
+                    <input type="checkbox" id="selectAllCheckboxFooter">
+                    <span>全选</span>
+                    <span>已选 <strong id="cartSelectedCount">0</strong> 件</span>
+                </div>
+                <div class="cart-footer-right">
+                    <span class="cart-total-label">合计：</span>
+                    <span class="cart-total-amount" id="cartTotalAmount">¥0.00</span>
+                    <button class="btn-checkout" id="checkoutBtn" disabled>去结算</button>
+                </div>
+            </div>
+        </div>
+        <div style="text-align:center;margin-top:16px;">
+            <a href="product.html" class="btn-go-shopping" style="background:var(--secondary-color);"><i class="bi bi-arrow-left"></i> 继续购物</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 织里镇童装产业协同管理平台 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/auth-header.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/cart.js"></script>
+</body>
+</html>

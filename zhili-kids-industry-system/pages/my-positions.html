@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的岗位 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/recruitment.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        .my-positions-page { padding: 20px 0 40px; min-height: 500px; }
+        .my-positions-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+        .my-positions-title { font-size: 24px; font-weight: 600; color: var(--primary-color); margin: 0; }
+        .job-card .position-status { font-size: 12px; padding: 2px 8px; border-radius: 4px; margin-left: 8px; }
+        .job-card .position-status.on { background: #4caf50; color: #fff; }
+        .job-card .position-status.off { background: #999; color: #fff; }
+        .job-card .position-actions { display: flex; gap: 8px; margin-top: 12px; }
+        .job-card .position-actions .btn { font-size: 13px; padding: 6px 12px; }
+        .loading { text-align: center; padding: 40px; color: #999; }
+        .no-results { padding: 60px 20px; text-align: center; color: #999; }
+        .no-results a { color: var(--primary-color); margin-top: 12px; display: inline-block; }
+        #positionFormModal { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+        #positionFormModal .modal-content { background: #fff; border-radius: 8px; padding: 24px; max-width: 520px; width: 100%; max-height: 90vh; overflow-y: auto; }
+        #positionFormModal .modal-close { float: right; font-size: 24px; cursor: pointer; color: #666; }
+        #positionFormModal .form-group { margin-bottom: 14px; }
+        #positionFormModal label { display: block; margin-bottom: 4px; font-weight: 500; }
+        #positionFormModal input, #positionFormModal select, #positionFormModal textarea { width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+        #positionFormModal .modal-actions { margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb container">
+        <a href="../index.html">首页</a> &gt; <a href="my-shop.html">我的店铺</a> &gt; 我的岗位
+    </div>
+
+    <main class="container my-positions-page">
+        <div class="my-positions-header">
+            <h1 class="my-positions-title">我的岗位</h1>
+            <button type="button" class="btn btn-primary" id="btnAddPosition"><i class="bi bi-plus-lg"></i> 添加岗位</button>
+        </div>
+        <div id="myPositionsContent">
+            <div class="loading"><i class="bi bi-arrow-repeat"></i><p>加载中...</p></div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 织里镇童装产业协同管理平台 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 添加/编辑岗位弹窗 -->
+    <div id="positionFormModal" style="display: none;">
+        <div class="modal-content">
+            <span class="modal-close" id="positionFormModalClose">&times;</span>
+            <h2 id="positionFormTitle">添加岗位</h2>
+            <form id="positionForm">
+                <input type="hidden" id="positionId" name="id">
+                <div class="form-group">
+                    <label for="positionJobName">职位名称 *</label>
+                    <input type="text" id="positionJobName" name="jobName" required placeholder="如：童装设计师">
+                </div>
+                <div class="form-group">
+                    <label>薪资范围（K/月）</label>
+                    <div style="display:flex;gap:10px;align-items:center;">
+                        <input type="number" id="positionSalaryMin" name="salaryMin" min="0" placeholder="最低" style="width:80px;"> - <input type="number" id="positionSalaryMax" name="salaryMax" min="0" placeholder="最高" style="width:80px;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="positionWorkLocation">工作地点</label>
+                    <input type="text" id="positionWorkLocation" name="workLocation" placeholder="如：湖州市织里镇">
+                </div>
+                <div class="form-group">
+                    <label for="positionExperience">工作经验</label>
+                    <select id="positionExperience" name="experience">
+                        <option value="">不限</option>
+                        <option value="应届毕业生">应届毕业生</option>
+                        <option value="1-3年">1-3年</option>
+                        <option value="3-5年">3-5年</option>
+                        <option value="5-10年">5-10年</option>
+                        <option value="10年以上">10年以上</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="positionEducation">学历要求</label>
+                    <select id="positionEducation" name="education">
+                        <option value="">不限</option>
+                        <option value="高中及以下">高中及以下</option>
+                        <option value="大专">大专</option>
+                        <option value="本科">本科</option>
+                        <option value="硕士">硕士</option>
+                        <option value="博士">博士</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="positionRecruitCount">招聘人数</label>
+                    <input type="number" id="positionRecruitCount" name="recruitCount" min="1" value="1">
+                </div>
+                <div class="form-group">
+                    <label for="positionJobCategory">职位类别</label>
+                    <select id="positionJobCategory" name="jobCategory">
+                        <option value="">请选择</option>
+                        <option value="design">设计类</option>
+                        <option value="production">生产类</option>
+                        <option value="marketing">营销类</option>
+                        <option value="management">管理类</option>
+                        <option value="technical">技术类</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="positionJobDescription">职位描述</label>
+                    <textarea id="positionJobDescription" name="jobDescription" rows="3" placeholder="岗位职责、任职要求等"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="positionSkills">技能标签（逗号分隔）</label>
+                    <input type="text" id="positionSkills" name="skills" placeholder="如：Photoshop, 服装设计">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" id="positionFormCancel">取消</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/auth-header.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/my-positions.js"></script>
+</body>
+</html>

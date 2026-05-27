@@ -1,0 +1,608 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>企业信息 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/enterprise.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <!-- 内联样式，确保企业卡片初始状态正确 -->
+    <style>
+        /* 默认隐藏所有企业卡片 */
+        .enterprise-card {
+            display: none;
+        }
+        
+        /* 默认显示第一页的企业卡片 */
+        .enterprise-card[data-page="1"] {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html" class="active">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 面包屑导航 -->
+    <div class="breadcrumb container">
+        <a href="../index.html">首页</a> &gt; 企业信息
+    </div>
+
+    <!-- 主要内容区 -->
+    <main class="container">
+        <!-- 企业检索区 -->
+        <section class="search-section">
+            <h2>企业检索</h2>
+            <div class="search-box">
+                <form id="enterprise-search">
+                    <div class="search-row">
+                        <div class="search-field">
+                            <label for="enterprise-name">企业名称</label>
+                            <input type="text" id="enterprise-name" placeholder="请输入企业名称">
+                        </div>
+                        <div class="search-field">
+                            <label for="enterprise-type">企业类型</label>
+                            <select id="enterprise-type">
+                                <option value="">全部</option>
+                                <option value="design">设计企业</option>
+                                <option value="manufacture">生产企业</option>
+                                <option value="material">原材料供应</option>
+                                <option value="distribution">销售渠道</option>
+                                <option value="service">配套服务</option>
+                            </select>
+                        </div>
+                        <div class="search-field">
+                            <label for="enterprise-scale">企业规模</label>
+                            <select id="enterprise-scale">
+                                <option value="">全部</option>
+                                <option value="large">大型企业</option>
+                                <option value="medium">中型企业</option>
+                                <option value="small">小型企业</option>
+                                <option value="micro">微型企业</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="search-row">
+                        <div class="search-field">
+                            <label for="enterprise-cert">认证类型</label>
+                            <select id="enterprise-cert">
+                                <option value="">全部</option>
+                                <option value="iso9001">ISO9001质量认证</option>
+                                <option value="iso14001">ISO14001环境认证</option>
+                                <option value="oeko">Oeko-Tex认证</option>
+                                <option value="gots">GOTS有机认证</option>
+                                <option value="other">其他认证</option>
+                            </select>
+                        </div>
+                        <div class="search-field">
+                            <!-- 此处可以放置其他搜索字段 -->
+                        </div>
+                        <div class="search-buttons">
+                            <button type="submit" class="btn-primary">搜索</button>
+                            <button type="reset" class="btn-secondary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- 企业展示区 -->
+        <section class="enterprise-showcase">
+            <h2>企业展示</h2>
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <span>排序方式：</span>
+                    <a href="#" class="active" data-sort="default">综合排序</a>
+                    <a href="#" data-sort="createdAt">注册时间</a>
+                    <a href="#" data-sort="scale">企业规模</a>
+                    <a href="#" data-sort="certCount">认证数量</a>
+                </div>
+                <div class="view-toggle">
+                    <button class="active" data-view="grid"><i class="bi bi-grid"></i></button>
+                    <button data-view="list"><i class="bi bi-list-ul"></i></button>
+                </div>
+            </div>
+
+            <!-- 企业列表（后端可用时由 JS 从 /api/auth/enterprises 动态渲染，后端不可用时显示下方示例） -->
+            <div id="enterpriseListContainer" class="enterprise-list grid-view">
+                <p id="enterpriseListLoading" class="enterprise-list-placeholder">加载中...</p>
+                <p id="enterpriseListEmpty" class="enterprise-list-placeholder" style="display:none;">暂无企业信息</p>
+                <!-- 后端不可用时的静态示例（实际使用中会被 JS 动态内容覆盖） -->
+                <div class="enterprise-card" data-page="1" data-enterprise-id="demo1">
+                    <div class="enterprise-logo">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect fill='%23e3f2fd' width='64' height='64'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%231975c9' font-size='10'%3E织里%3C/text%3E%3C/svg%3E" alt="织里童装有限公司">
+                    </div>
+                    <div class="enterprise-info">
+                        <h3>织里童装有限公司</h3>
+                        <p class="enterprise-tags"><span class="tag">设计</span><span class="tag">时尚</span></p>
+                        <p class="enterprise-brief">专业生产各类童装，拥有多年童装设计与生产经验，致力于为孩子们提供舒适、时尚的穿着体验。</p>
+                        <div class="enterprise-contact">
+                            <p><i class="bi bi-geo-alt"></i> 浙江省湖州市吴兴区织里镇</p>
+                            <p><i class="bi bi-telephone"></i> 0572-1234567</p>
+                        </div>
+                        <div class="enterprise-actions">
+                            <a href="#" class="btn-outline" data-action="detail">查看详情</a>
+                            <a href="mailto:demo1@example.com" class="btn-primary">联系企业</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="enterprise-card" data-page="1" data-enterprise-id="demo2">
+                    <div class="enterprise-logo">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect fill='%23f3e5f5' width='64' height='64'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%237b1fa2' font-size='10'%3E时尚%3C/text%3E%3C/svg%3E" alt="时尚潮童服饰">
+                    </div>
+                    <div class="enterprise-info">
+                        <h3>时尚潮童服饰</h3>
+                        <p class="enterprise-tags"><span class="tag">创新</span><span class="tag">潮流</span></p>
+                        <p class="enterprise-brief">专注于潮流童装的设计与品牌运营，融合国际时尚元素，打造独具特色的童装品牌。</p>
+                        <div class="enterprise-contact">
+                            <p><i class="bi bi-geo-alt"></i> 浙江省湖州市吴兴区织里镇</p>
+                            <p><i class="bi bi-telephone"></i> 0572-2345678</p>
+                        </div>
+                        <div class="enterprise-actions">
+                            <a href="#" class="btn-outline" data-action="detail">查看详情</a>
+                            <a href="mailto:demo2@example.com" class="btn-primary">联系企业</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="enterprise-card" data-page="1" data-enterprise-id="demo3">
+                    <div class="enterprise-logo">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect fill='%23e8f5e9' width='64' height='64'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23388e3c' font-size='10'%3E环保%3C/text%3E%3C/svg%3E" alt="环保童装坊">
+                    </div>
+                    <div class="enterprise-info">
+                        <h3>环保童装坊</h3>
+                        <p class="enterprise-tags"><span class="tag">环保</span><span class="tag">有机棉</span></p>
+                        <p class="enterprise-brief">采用天然有机棉面料，专注生产环保舒适的婴幼儿服装，呵护宝宝健康成长。</p>
+                        <div class="enterprise-contact">
+                            <p><i class="bi bi-geo-alt"></i> 浙江省湖州市吴兴区织里镇</p>
+                            <p><i class="bi bi-telephone"></i> 0572-3456789</p>
+                        </div>
+                        <div class="enterprise-actions">
+                            <a href="#" class="btn-outline" data-action="detail">查看详情</a>
+                            <a href="mailto:demo3@example.com" class="btn-primary">联系企业</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="enterprise-card" data-page="2" data-enterprise-id="demo4">
+                    <div class="enterprise-logo">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect fill='%23fff3e0' width='64' height='64'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23f57c00' font-size='10'%3E出口%3C/text%3E%3C/svg%3E" alt="出口童装制衣厂">
+                    </div>
+                    <div class="enterprise-info">
+                        <h3>出口童装制衣厂</h3>
+                        <p class="enterprise-tags"><span class="tag">出口</span><span class="tag">加工</span></p>
+                        <p class="enterprise-brief">专业从事童装出口加工，拥有完善的生产线和出口资质，产品远销欧美市场。</p>
+                        <div class="enterprise-contact">
+                            <p><i class="bi bi-geo-alt"></i> 浙江省湖州市吴兴区织里镇</p>
+                            <p><i class="bi bi-telephone"></i> 0572-4567890</p>
+                        </div>
+                        <div class="enterprise-actions">
+                            <a href="#" class="btn-outline" data-action="detail">查看详情</a>
+                            <a href="mailto:demo4@example.com" class="btn-primary">联系企业</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="enterprise-card" data-page="2" data-enterprise-id="demo5">
+                    <div class="enterprise-logo">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect fill='%23fce4ec' width='64' height='64'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c2185b' font-size='10'%3E公主%3C/text%3E%3C/svg%3E" alt="公主日记童装">
+                    </div>
+                    <div class="enterprise-info">
+                        <h3>公主日记童装</h3>
+                        <p class="enterprise-tags"><span class="tag">公主</span><span class="tag">甜美</span></p>
+                        <p class="enterprise-brief">专注于女童公主裙、甜美风格童装的设计与生产，满足小女孩的公主梦想。</p>
+                        <div class="enterprise-contact">
+                            <p><i class="bi bi-geo-alt"></i> 浙江省湖州市吴兴区织里镇</p>
+                            <p><i class="bi bi-telephone"></i> 0572-5678901</p>
+                        </div>
+                        <div class="enterprise-actions">
+                            <a href="#" class="btn-outline" data-action="detail">查看详情</a>
+                            <a href="mailto:demo5@example.com" class="btn-primary">联系企业</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="enterprise-card" data-page="2" data-enterprise-id="demo6">
+                    <div class="enterprise-logo">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect fill='%23e0f7fa' width='64' height='64'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2300897b' font-size='10'%3E运动%3C/text%3E%3C/svg%3E" alt="运动童装专营店">
+                    </div>
+                    <div class="enterprise-info">
+                        <h3>运动童装专营店</h3>
+                        <p class="enterprise-tags"><span class="tag">运动</span><span class="tag">休闲</span></p>
+                        <p class="enterprise-brief">专业生产运动休闲类童装，适合儿童日常穿着和户外活动，舒适透气易打理。</p>
+                        <div class="enterprise-contact">
+                            <p><i class="bi bi-geo-alt"></i> 浙江省湖州市吴兴区织里镇</p>
+                            <p><i class="bi bi-telephone"></i> 0572-6789012</p>
+                        </div>
+                        <div class="enterprise-actions">
+                            <a href="#" class="btn-outline" data-action="detail">查看详情</a>
+                            <a href="mailto:demo6@example.com" class="btn-primary">联系企业</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 分页 -->
+            <div class="pagination">
+                <a href="#" class="prev disabled" data-page="prev"><i class="bi bi-chevron-left"></i></a>
+                <a href="#" class="active" data-page="1">1</a>
+                <a href="#" data-page="2">2</a>
+                <a href="#" data-page="3">3</a>
+                <a href="#" class="next" data-page="next"><i class="bi bi-chevron-right"></i></a>
+            </div>
+            <!-- 调试信息 -->
+            <div id="debug-info" style="margin-top: 20px; padding: 10px; background-color: #f8f9fa; border-radius: 4px; display: none;">
+                <h3>调试信息</h3>
+                <div id="debug-content"></div>
+                <button onclick="document.getElementById('debug-info').style.display = 'none';">关闭</button>
+            </div>
+        </section>
+
+        <!-- 企业认证介绍部分已移除 -->
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="../images/logo-footer.png" alt="织里镇童装产业协同管理平台">
+                    <p>织里镇童装产业协同管理平台</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h3>关于我们</h3>
+                        <ul>
+                            <li><a href="#">平台介绍</a></li>
+                            <li><a href="#">联系我们</a></li>
+                            <li><a href="#">服务条款</a></li>
+                            <li><a href="#">隐私政策</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>企业服务</h3>
+                        <ul>
+                            <li><a href="#">企业入驻</a></li>
+                            <li><a href="#">供应链对接</a></li>
+                            <li><a href="#">产品展示</a></li>
+                            <li><a href="#">人才招聘</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>个人服务</h3>
+                        <ul>
+                            <li><a href="#">求职信息</a></li>
+                            <li><a href="#">技能培训</a></li>
+                            <li><a href="#">设计比赛</a></li>
+                            <li><a href="#">资源下载</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-contact">
+                    <h3>联系方式</h3>
+                    <p><i class="icon-address"></i>浙江省湖州市织里镇XXX路XX号</p>
+                    <p><i class="icon-phone"></i>0572-XXXXXXXX</p>
+                    <p><i class="icon-email"></i>contact@zhili-industry.com</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="icon-weixin"></i></a>
+                        <a href="#" class="social-link"><i class="icon-weibo"></i></a>
+                        <a href="#" class="social-link"><i class="icon-douyin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 织里镇童装产业协同管理平台 版权所有 浙ICP备XXXXXXXX号</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 企业详情弹窗 -->
+    <div id="enterprise-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="enterprise-detail">
+                <div class="enterprise-header">
+                    <div class="enterprise-logo-large">
+                        <img id="modal-logo" src="" alt="企业Logo">
+                    </div>
+                    <div class="enterprise-title">
+                        <h1 id="modal-name">企业名称</h1>
+                        <div class="enterprise-tags" id="modal-tags">
+                            <span class="tag type">企业类型</span>
+                            <span class="tag scale">企业规模</span>
+                            <span class="tag cert">认证信息</span>
+                        </div>
+                        <div class="enterprise-contact-info">
+                            <p><i class="bi bi-geo-alt"></i> <span id="modal-address">企业地址</span></p>
+                            <p><i class="bi bi-telephone"></i> <span id="modal-phone">联系电话</span></p>
+                            <p><i class="bi bi-envelope"></i> <span id="modal-email">企业邮箱</span></p>
+                            <p><i class="bi bi-globe"></i> <span id="modal-website">企业网站</span></p>
+                        </div>
+                        <div class="enterprise-actions">
+                            <a href="#" class="btn btn-primary">联系企业</a>
+                            <a href="#" class="btn btn-outline">关注企业</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 企业介绍（长文可展开/收起） -->
+                <div class="enterprise-section">
+                    <h2>企业介绍</h2>
+                    <div class="enterprise-description-wrap">
+                        <div class="enterprise-description collapsed" id="modal-description"></div>
+                        <a href="javascript:void(0)" id="modal-description-toggle" class="description-toggle" style="display:none;">展开全文</a>
+                    </div>
+                </div>
+
+                <!-- 企业认证 -->
+                <div class="enterprise-section">
+                    <h2>企业认证</h2>
+                    <div class="enterprise-certificates" id="modal-certificates">
+                        <!-- 认证信息将通过JS动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* 弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalopen 0.3s;
+        }
+        
+        @keyframes modalopen {
+            from {opacity: 0; transform: translateY(-20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #333;
+            text-decoration: none;
+        }
+        
+        /* 企业详情样式 */
+        .enterprise-logo-large {
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .enterprise-logo-large img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .enterprise-title {
+            flex: 1;
+        }
+        
+        .enterprise-title h1 {
+            margin: 0 0 15px 0;
+            font-size: 24px;
+            color: #333;
+        }
+        
+        .enterprise-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            gap: 30px;
+        }
+        
+        .enterprise-contact-info {
+            margin-bottom: 20px;
+        }
+        
+        .enterprise-contact-info p {
+            margin: 8px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .enterprise-section {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .enterprise-section h2 {
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            font-size: 18px;
+        }
+        
+        .enterprise-description {
+            line-height: 1.8;
+            color: #444;
+        }
+        
+        .enterprise-certificates {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .certificate-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .certificate-item i {
+            color: #4caf50;
+            font-size: 16px;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+            
+            .enterprise-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .enterprise-logo-large {
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+
+    <script src="../js/auth-header.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/pagination.js"></script>
+    <script src="../js/enterprise.js"></script>
+    
+    <!-- 页面加载后立即执行的脚本 -->
+    <script>
+        // 直接在HTML中添加分页处理代码，确保一定能执行
+        window.onload = function() {
+            console.log('页面完全加载完成，执行内联分页处理');
+            
+            // 获取所有分页按钮
+            const pageButtons = document.querySelectorAll('.pagination a');
+            
+            // 为每个分页按钮添加点击事件
+            pageButtons.forEach(function(button) {
+                button.onclick = function(e) {
+                    e.preventDefault();
+                    
+                    // 获取页码
+                    const pageNum = this.getAttribute('data-page');
+                    console.log('点击了页码按钮:', pageNum);
+                    
+                    // 处理页码
+                    if (pageNum === 'prev') {
+                        // 上一页
+                        const activePage = document.querySelector('.pagination a.active');
+                        if (activePage && activePage.previousElementSibling && 
+                            !activePage.previousElementSibling.classList.contains('prev')) {
+                            activePage.previousElementSibling.click();
+                        }
+                    } else if (pageNum === 'next') {
+                        // 下一页
+                        const activePage = document.querySelector('.pagination a.active');
+                        if (activePage && activePage.nextElementSibling && 
+                            !activePage.nextElementSibling.classList.contains('next')) {
+                            activePage.nextElementSibling.click();
+                        }
+                    } else {
+                        // 直接点击页码
+                        // 移除所有active类
+                        pageButtons.forEach(btn => btn.classList.remove('active'));
+                        
+                        // 添加当前按钮的active类
+                        this.classList.add('active');
+                        
+                        // 获取页码
+                        const page = parseInt(pageNum);
+                        
+                        // 显示对应页面的企业卡片
+                        const allCards = document.querySelectorAll('.enterprise-card');
+                        
+                        allCards.forEach(card => {
+                            const cardPage = parseInt(card.getAttribute('data-page'));
+                            if (cardPage === page) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+                        
+                        // 更新上一页/下一页按钮状态
+                        const prevBtn = document.querySelector('.pagination a.prev');
+                        const nextBtn = document.querySelector('.pagination a.next');
+                        
+                        if (page === 1) {
+                            prevBtn.classList.add('disabled');
+                        } else {
+                            prevBtn.classList.remove('disabled');
+                        }
+                        
+                        if (page === 3) { // 总共3页
+                            nextBtn.classList.add('disabled');
+                        } else {
+                            nextBtn.classList.remove('disabled');
+                        }
+                        
+                        // 滚动功能已移除
+                    }
+                    
+                    return false;
+                };
+            });
+        };
+    </script>
+</body>
+</html> 

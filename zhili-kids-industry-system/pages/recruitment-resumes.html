@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>招聘信息 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/recruitment.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        .resumes-page { padding: 20px 0 40px; min-height: 500px; }
+        .resumes-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+        .resumes-title { font-size: 24px; font-weight: 600; color: var(--primary-color); margin: 0; }
+        .resume-card { background: #fff; border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #eee; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+        .resume-card .job-name { font-weight: 600; color: #333; font-size: 16px; }
+        .resume-card .applicant { color: #666; font-size: 14px; }
+        .resume-card .applicant i { margin-right: 4px; }
+        .resume-card .date { color: #999; font-size: 13px; }
+        .resume-card .resume-link { color: var(--primary-color); text-decoration: none; font-size: 14px; display: inline-flex; align-items: center; gap: 4px; }
+        .resume-card .resume-link:hover { text-decoration: underline; }
+        .loading { text-align: center; padding: 40px; color: #999; }
+        .no-results { padding: 60px 20px; text-align: center; color: #999; }
+        .no-results a { color: var(--primary-color); margin-top: 12px; display: inline-block; }
+        .status-badge { font-size: 12px; padding: 2px 8px; border-radius: 4px; }
+        .status-badge.pending { background: #fff3e0; color: #e65100; }
+        .status-badge.viewed { background: #e3f2fd; color: #1565c0; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb container">
+        <a href="../index.html">首页</a> &gt; <a href="recruitment.html">人才招聘</a> &gt; 招聘信息
+    </div>
+
+    <main class="container resumes-page">
+        <div class="resumes-header">
+            <h1 class="resumes-title">招聘信息</h1>
+            <a href="recruitment.html" class="btn btn-outline"><i class="bi bi-arrow-left"></i> 返回人才招聘</a>
+        </div>
+        <div id="resumesContent">
+            <div class="loading"><i class="bi bi-arrow-repeat"></i><p>加载中...</p></div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 织里镇童装产业协同管理平台 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/auth-header.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/recruitment-resumes.js"></script>
+</body>
+</html>

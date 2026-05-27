@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的店铺 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/product.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        .my-shop-page { padding: 20px 0 40px; min-height: 500px; }
+        .my-shop-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+        .my-shop-actions { display: flex; gap: 10px; align-items: center; }
+        .my-shop-actions .btn-outline { border: 1px solid var(--primary-color); color: var(--primary-color); padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 14px; }
+        .my-shop-actions .btn-outline:hover { background: var(--primary-color); color: #fff; }
+        .my-shop-title { font-size: 24px; font-weight: 600; color: var(--primary-color); margin: 0; }
+        .loading { text-align: center; padding: 40px; color: #999; }
+        .no-results { padding: 60px 20px; text-align: center; color: #999; font-size: 15px; }
+        .no-results a { color: var(--primary-color); margin-top: 12px; display: inline-block; }
+        .product-card .product-actions-merchant { margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; }
+        .product-card .product-actions-merchant .btn { font-size: 12px; padding: 6px 12px; }
+        .product-card .product-status-off { opacity: 0.85; border: 1px dashed #ccc; }
+        .product-card .product-footer .product-status-tag { margin-right: 8px; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+        .product-card .product-status-off .product-status-tag { background: #999; color: #fff; }
+        .product-card .product-status-on .product-status-tag { background: #4caf50; color: #fff; }
+        #productFormModal .form-group { margin-bottom: 14px; }
+        #productFormModal label { display: block; margin-bottom: 4px; font-weight: 500; color: #333; }
+        #productFormModal input, #productFormModal select, #productFormModal textarea { width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+        #productFormModal .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+        #productFormModal { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+        #productFormModal .modal-content { position: relative; padding: 24px; max-height: 90vh; display: flex; flex-direction: column; box-sizing: border-box; }
+        #productFormModal .modal-close { position: absolute; top: 12px; right: 16px; font-size: 24px; cursor: pointer; color: #666; background: none; border: none; }
+        #productFormModal .modal-close:hover { color: #333; }
+        #productFormModal h2 { margin: 0 0 16px 0; font-size: 18px; color: #333; flex-shrink: 0; }
+        #productFormModal .product-form-modal { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+        #productFormModal .modal-form-body { flex: 1; overflow-y: auto; min-height: 0; margin-right: -8px; padding-right: 8px; }
+        #productFormModal .modal-actions { flex-shrink: 0; margin-top: 16px; padding-top: 16px; border-top: 1px solid #eee; }
+        .form-hint { font-size: 12px; color: #888; margin: 6px 0 0 0; line-height: 1.4; }
+        .product-image-preview { margin-top: 10px; min-height: 0; }
+        .product-image-preview img { max-width: 100%; max-height: 200px; border-radius: 8px; border: 1px solid #eee; object-fit: contain; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb container">
+        <a href="../index.html">首页</a> &gt; 我的店铺
+    </div>
+
+    <main class="container my-shop-page">
+        <!-- 企业待审核横幅 -->
+        <div id="myShopEntBanner" style="display:none; margin: 0 0 16px 0; padding: 14px 20px; border-radius: 8px; font-size: 14px; line-height: 1.6; background: #fffbeb; border: 1px solid #fde68a;">
+            <strong style="color:#92400e;">&#x26A0; 提示：</strong>
+            <span id="myShopEntMsg" style="color:#92400e;"></span>
+        </div>
+        <div class="my-shop-header">
+            <h1 class="my-shop-title">我的店铺</h1>
+            <div class="my-shop-actions">
+                <a href="sales-orders.html" class="btn btn-outline" id="btnSalesOrders"><i class="bi bi-receipt"></i> 销售订单</a>
+                <a href="refund-manage.html" class="btn btn-outline" id="btnRefundManage"><i class="bi bi-arrow-return-left"></i> 退款管理</a>
+                <button type="button" class="btn btn-primary" id="btnAddProduct"><i class="bi bi-plus-lg"></i> 添加商品</button>
+            </div>
+        </div>
+        <div id="myShopContent">
+            <div class="loading">
+                <i class="bi bi-arrow-repeat"></i>
+                <p>加载中...</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 织里镇童装产业协同管理平台 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 添加/编辑商品弹窗 -->
+    <div id="productFormModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 520px;">
+            <span class="modal-close" id="productFormModalClose">&times;</span>
+            <h2 id="productFormTitle">添加商品</h2>
+            <form id="productForm" class="product-form-modal">
+                <input type="hidden" id="productId" name="id">
+                <div class="modal-form-body">
+                <div class="form-group">
+                    <label for="productName">商品名称 *</label>
+                    <input type="text" id="productName" name="name" required placeholder="如：2023夏季男童短袖T恤">
+                </div>
+                <div class="form-group">
+                    <label for="productDesc">商品描述</label>
+                    <textarea id="productDesc" name="description" rows="2" placeholder="材质、适用年龄等"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="productCategory">分类</label>
+                    <select id="productCategory" name="category">
+                        <option value="">请选择</option>
+                        <option value="女童服装">女童服装</option>
+                        <option value="男童服装">男童服装</option>
+                        <option value="婴幼儿服装">婴幼儿服装</option>
+                        <option value="季节性服装">季节性服装</option>
+                        <option value="校园制服">校园制服</option>
+                        <option value="特色产品">特色产品</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="productAgeRange">年龄段</label>
+                    <select id="productAgeRange" name="ageRange">
+                        <option value="">请选择</option>
+                        <option value="0-1岁">0-1岁</option>
+                        <option value="1-3岁">1-3岁</option>
+                        <option value="3-6岁">3-6岁</option>
+                        <option value="6-9岁">6-9岁</option>
+                        <option value="9-12岁">9-12岁</option>
+                        <option value="12-16岁">12-16岁</option>
+                        <option value="全部">全部</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="productSeason">季节</label>
+                    <select id="productSeason" name="season">
+                        <option value="">请选择</option>
+                        <option value="春季">春季</option>
+                        <option value="夏季">夏季</option>
+                        <option value="秋季">秋季</option>
+                        <option value="冬季">冬季</option>
+                        <option value="全部">全部</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="productMaterial">材质</label>
+                    <input type="text" id="productMaterial" name="material" placeholder="如：棉质、牛仔">
+                </div>
+                <div class="form-group">
+                    <label for="productCertification">认证</label>
+                    <select id="productCertification" name="certification">
+                        <option value="">无</option>
+                        <option value="Oeko-Tex">Oeko-Tex</option>
+                        <option value="GOTS有机">GOTS有机</option>
+                        <option value="ISO9001">ISO9001</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="productPrice">现价（元）*</label>
+                    <input type="number" id="productPrice" name="price" step="0.01" min="0" required placeholder="99.00">
+                </div>
+                <div class="form-group">
+                    <label for="productOriginalPrice">原价（元）</label>
+                    <input type="number" id="productOriginalPrice" name="originalPrice" step="0.01" min="0" placeholder="129.00">
+                </div>
+                <div class="form-group">
+                    <label for="productStock">库存数量 *</label>
+                    <input type="number" id="productStock" name="stock" min="0" required placeholder="如：100">
+                </div>
+                <div class="form-group">
+                    <label for="productBadge">标签</label>
+                    <select id="productBadge" name="badge">
+                        <option value="">无</option>
+                        <option value="new">新品</option>
+                        <option value="hot">热销</option>
+                        <option value="organic">有机</option>
+                        <option value="discount">特惠</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="productImageFile">商品主图（上传至阿里云 OSS）*</label>
+                    <input type="file" id="productImageFile" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp">
+                    <p class="form-hint" id="productImageHint">选择图片后仅做本地预览；点击「保存」时由服务器上传到 bucket「zhili-kids-industry-system」的 <code>products/</code> 目录并写入数据库。</p>
+                    <p class="form-hint" id="productImageStatus"></p>
+                    <div id="productImagePreview" class="product-image-preview"></div>
+                    <input type="hidden" id="productImageUrl" name="imageUrl" value="">
+                </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" id="productFormCancel">取消</button>
+                    <button type="submit" class="btn btn-primary" id="productFormSubmit">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/auth-header.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/my-shop.js"></script>
+</body>
+</html>

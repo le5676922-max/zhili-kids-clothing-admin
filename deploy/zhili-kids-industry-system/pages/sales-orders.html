@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>销售订单 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        .sales-orders-page { padding: 20px 0 40px; min-height: 500px; }
+        .sales-orders-title { font-size: 24px; font-weight: 600; color: var(--primary-color); margin: 0 0 20px 0; }
+        .orders-card { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 24px; }
+        .empty-orders { text-align: center; padding: 60px 20px; color: #999; }
+        .empty-orders i { font-size: 48px; margin-bottom: 16px; color: #ddd; }
+        .empty-orders p { margin: 0 0 20px 0; font-size: 15px; }
+        .btn-back { display: inline-block; padding: 10px 24px; background: var(--primary-color); color: #fff; border-radius: 6px; text-decoration: none; font-size: 14px; }
+        .btn-back:hover { background: var(--secondary-color); color: #fff; }
+
+        .order-list { margin-top: 20px; }
+        .order-item { border: 1px solid #eee; border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
+        .order-header { background: #f9f9f9; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .order-id { font-size: 14px; color: #666; }
+        .order-id span { color: #333; font-weight: 500; }
+        .order-status { font-size: 14px; font-weight: 500; }
+        .order-status.pending { color: #ff9800; }
+        .order-status.paid { color: #ff9800; }
+        .order-status.shipped { color: #2196f3; }
+        .order-status.completed { color: #4caf50; }
+        .order-status.cancelled { color: #f44336; }
+
+        .order-body { padding: 20px; }
+        .buyer-info { background: #f5f9ff; padding: 12px 16px; border-radius: 6px; margin-bottom: 12px; font-size: 14px; color: #333; }
+        .buyer-info p { margin: 4px 0; }
+        .order-item-product { display: flex; gap: 15px; padding: 15px 0; border-bottom: 1px solid #f5f5f5; }
+        .order-item-product:last-child { border-bottom: none; }
+        .product-img { width: 80px; height: 80px; object-fit: cover; border-radius: 6px; background: #f5f5f5; }
+        .product-info { flex: 1; }
+        .product-name { font-size: 15px; font-weight: 500; color: #333; margin-bottom: 5px; }
+        .product-price { font-size: 14px; color: var(--primary-color); font-weight: 500; }
+
+        .order-footer { background: #f9f9f9; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .order-total { font-size: 15px; }
+        .order-total strong { color: #f44336; font-size: 18px; }
+        .ship-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .ship-row input { padding: 6px 10px; border: 1px solid #ddd; border-radius: 4px; width: 200px; font-size: 14px; }
+        .btn-order { padding: 6px 16px; font-size: 13px; border-radius: 4px; cursor: pointer; border: 1px solid #ddd; background: #fff; color: #666; }
+        .btn-order:hover { border-color: var(--primary-color); color: var(--primary-color); }
+        .btn-order.primary { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+        .btn-order.primary:hover { background: var(--secondary-color); border-color: var(--secondary-color); }
+        .tracking-no { font-size: 13px; color: #666; }
+        .loading { text-align: center; padding: 40px; color: #999; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb container">
+        <a href="../index.html">首页</a> &gt; <a href="my-shop.html">我的店铺</a> &gt; 销售订单
+    </div>
+
+    <main class="container sales-orders-page">
+        <h1 class="sales-orders-title">销售订单</h1>
+        <div class="orders-card">
+            <div class="loading" id="salesOrdersContent">
+                <i class="bi bi-arrow-repeat"></i>
+                <p>加载中...</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 织里镇童装产业协同管理平台 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/auth-header.js"></script>
+    <script src="../js/common.js"></script>
+    <script>
+        (function() {
+            var API_BASE = window.ZhiliApi.apiAuth();
+
+            function getToken() {
+                return localStorage.getItem('token');
+            }
+
+            function checkLogin() {
+                var token = getToken();
+                if (!token) {
+                    window.location.href = 'login.html?redirect=sales-orders.html';
+                    return false;
+                }
+                return true;
+            }
+
+            function checkApprovedEnterprise() {
+                var raw = localStorage.getItem('userInfo');
+                var userInfo = null;
+                try { if (raw) userInfo = JSON.parse(raw); } catch (e) {}
+                if (!userInfo || userInfo.userType !== 2) {
+                    window.location.href = 'my-shop.html';
+                    return false;
+                }
+                if (userInfo.enterpriseStatus !== 1) {
+                    var msg = userInfo.enterpriseStatus === 0
+                        ? '您的企业账号正在等待管理员审核，审核通过前无法使用销售订单功能。'
+                        : '您的企业账号审核未通过，暂无法使用销售订单功能。如有疑问请联系管理员。';
+                    localStorage.setItem('pendingEntMsg', msg);
+                    window.location.href = 'my-shop.html';
+                    return false;
+                }
+                return true;
+            }
+
+            function loadSalesOrders() {
+                if (!checkLogin() || !checkApprovedEnterprise()) return;
+                var token = getToken();
+                fetch(API_BASE + '/orders/sales', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                })
+                .then(function(res) { return res.json(); })
+                .then(function(data) {
+                    var container = document.getElementById('salesOrdersContent');
+                    if (data.code === 200 && data.data && data.data.length > 0) {
+                        container.innerHTML = '<div class="order-list"></div>';
+                        renderSalesOrders(data.data, container.querySelector('.order-list'));
+                    } else {
+                        container.innerHTML = '<div class="empty-orders"><i class="bi bi-receipt"></i><p>暂无销售订单</p><a href="my-shop.html" class="btn-back">返回我的店铺</a></div>';
+                    }
+                })
+                .catch(function(err) {
+                    console.error(err);
+                    document.getElementById('salesOrdersContent').innerHTML = '<div class="empty-orders"><i class="bi bi-exclamation-triangle"></i><p>加载失败，请稍后重试</p><a href="my-shop.html" class="btn-back">返回我的店铺</a></div>';
+                });
+            }
+
+            function renderSalesOrders(orders, orderList) {
+                orders.forEach(function(order) {
+                    var orderEl = document.createElement('div');
+                    orderEl.className = 'order-item';
+
+                    var buyerHtml = '<div class="buyer-info"><p><strong>收货人：</strong>' + (order.receiverName || '-') + '</p><p><strong>电话：</strong>' + (order.receiverPhone || '-') + '</p><p><strong>地址：</strong>' + (order.receiverAddress || '-') + '</p></div>';
+
+                    var itemsHtml = '';
+                    (order.items || []).forEach(function(item) {
+                        itemsHtml += '<div class="order-item-product">' +
+                            '<img class="product-img" src="' + (item.productImage || '../images/logo.png') + '" alt="">' +
+                            '<div class="product-info"><div class="product-name">' + (item.productName || '') + '</div><div class="product-price">￥' + (item.price ? Number(item.price).toFixed(2) : '0.00') + ' × ' + (item.quantity || 1) + '</div></div></div>';
+                    });
+
+                    var footerHtml = '';
+                    if (order.status === 'paid') {
+                        footerHtml = '<div class="order-total">合计: <strong>￥' + (order.totalAmount ? Number(order.totalAmount).toFixed(2) : '0.00') + '</strong></div>' +
+                            '<div class="ship-row"><input type="text" class="tracking-input" placeholder="请输入快递单号" data-order-id="' + order.id + '"><button type="button" class="btn-order primary btn-ship">发货</button></div>';
+                    } else {
+                        var trackStr = order.trackingNo ? ('快递单号：' + order.trackingNo) : '';
+                        footerHtml = '<div class="order-total">合计: <strong>￥' + (order.totalAmount ? Number(order.totalAmount).toFixed(2) : '0.00') + '</strong>' + (trackStr ? ' &nbsp; <span class="tracking-no">' + trackStr + '</span>' : '') + '</div>';
+                    }
+
+                    orderEl.innerHTML = '<div class="order-header"><div class="order-id">订单号: <span>' + (order.id || '') + '</span></div><div class="order-status ' + (order.status || '') + '">' + (order.statusText || order.status) + '</div></div>' +
+                        '<div class="order-body">' + buyerHtml + itemsHtml + '</div>' +
+                        '<div class="order-footer">' + footerHtml + '</div>';
+
+                    orderList.appendChild(orderEl);
+                });
+
+                document.querySelectorAll('.btn-ship').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        var row = this.closest('.ship-row');
+                        var input = row ? row.querySelector('.tracking-input') : null;
+                        var orderId = input ? input.getAttribute('data-order-id') : null;
+                        var trackingNo = input ? input.value.trim() : '';
+                        if (!trackingNo) {
+                            alert('请填写快递单号');
+                            return;
+                        }
+                        var token = getToken();
+                        fetch(API_BASE + '/orders/' + orderId + '/ship', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                            body: JSON.stringify({ trackingNo: trackingNo })
+                        })
+                        .then(function(res) { return res.json(); })
+                        .then(function(data) {
+                            if (data.code === 200) {
+                                alert('发货成功');
+                                loadSalesOrders();
+                            } else {
+                                alert(data.message || '发货失败');
+                            }
+                        })
+                        .catch(function(err) {
+                            console.error(err);
+                            alert('发货失败，请稍后重试');
+                        });
+                    });
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', loadSalesOrders);
+            } else {
+                loadSalesOrders();
+            }
+        })();
+    </script>
+</body>
+</html>

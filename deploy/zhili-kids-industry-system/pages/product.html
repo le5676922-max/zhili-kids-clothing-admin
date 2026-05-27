@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品展示 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css?v=20260411">
+    <link rel="stylesheet" href="../css/product.css?v=20260411">
+    <link rel="stylesheet" href="../css/product-extensions.css?v=20260411">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/ai-assistant.css">
+</head>
+
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html" class="active">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 面包屑导航 -->
+    <div class="breadcrumb container">
+        <a href="../index.html">首页</a> &gt; 产品展示
+    </div>
+
+    <!-- 主要内容区 -->
+    <main class="container">
+        <!-- 产品分类导航 -->
+        <div class="product-categories">
+            <div class="category active">
+                <i class="bi bi-grid-3x3-gap"></i>
+                <span>全部产品</span>
+            </div>
+            <div class="category">
+                <i class="bi bi-gender-female"></i>
+                <span>女童服装</span>
+            </div>
+            <div class="category">
+                <i class="bi bi-gender-male"></i>
+                <span>男童服装</span>
+            </div>
+            <div class="category">
+                <i class="bi bi-stars"></i>
+                <span>婴幼儿服装</span>
+            </div>
+            <div class="category">
+                <i class="bi bi-snow"></i>
+                <span>季节性服装</span>
+            </div>
+            <div class="category">
+                <i class="bi bi-award"></i>
+                <span>校园制服</span>
+            </div>
+            <div class="category">
+                <i class="bi bi-gem"></i>
+                <span>特色产品</span>
+            </div>
+            <div class="category my-shop-category" style="margin-left: auto;">
+                <i class="bi bi-shop"></i>
+                <span>我的店铺</span>
+            </div>
+        </div>
+
+        <!-- 产品筛选器 -->
+        <div class="product-filter">
+            <div class="filter-wrapper">
+                <div class="filter-group">
+                    <div class="filter-label">年龄段：</div>
+                    <div class="filter-options">
+                        <span class="filter-option active">全部</span>
+                        <span class="filter-option">0-1岁</span>
+                        <span class="filter-option">1-3岁</span>
+                        <span class="filter-option">3-6岁</span>
+                        <span class="filter-option">6-9岁</span>
+                        <span class="filter-option">9-12岁</span>
+                        <span class="filter-option">12-16岁</span>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <div class="filter-label">季节：</div>
+                    <div class="filter-options">
+                        <span class="filter-option active">全部</span>
+                        <span class="filter-option">春季</span>
+                        <span class="filter-option">夏季</span>
+                        <span class="filter-option">秋季</span>
+                        <span class="filter-option">冬季</span>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <div class="filter-label">价格：</div>
+                    <div class="filter-options">
+                        <span class="filter-option active">全部</span>
+                        <span class="filter-option">50元以下</span>
+                        <span class="filter-option">50-100元</span>
+                        <span class="filter-option">100-200元</span>
+                        <span class="filter-option">200-500元</span>
+                        <span class="filter-option">500元以上</span>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <div class="filter-label">材质：</div>
+                    <div class="filter-options">
+                        <span class="filter-option active">全部</span>
+                        <span class="filter-option">棉质</span>
+                        <span class="filter-option">棉麻</span>
+                        <span class="filter-option">针织</span>
+                        <span class="filter-option">牛仔</span>
+                        <span class="filter-option">羊毛</span>
+                        <span class="filter-option">涤纶</span>
+                        <span class="filter-option">混纺</span>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <div class="filter-label">认证：</div>
+                    <div class="filter-options">
+                        <span class="filter-option active">全部</span>
+                        <span class="filter-option">Oeko-Tex</span>
+                        <span class="filter-option">GOTS有机</span>
+                        <span class="filter-option">ISO9001</span>
+                    </div>
+                </div>
+                
+                <div class="filter-actions-bottom">
+                    <button class="btn-reset-filter" onclick="resetProductFilters()">
+                        <i class="bi bi-arrow-counterclockwise"></i> 重置筛选条件
+                    </button>
+                </div>
+            </div>
+
+            <div class="filter-actions">
+                <div class="search-box">
+                    <input type="text" placeholder="搜索产品">
+                    <button><i class="bi bi-search"></i></button>
+                </div>
+                <div class="sort-options">
+                    <span>排序：</span>
+                    <select id="product-sort">
+                        <option value="recommend">推荐排序</option>
+                        <option value="new">最新上架</option>
+                        <option value="price-asc">价格从低到高</option>
+                        <option value="price-desc">价格从高到低</option>
+                        <option value="sales">销量优先</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- 产品列表 -->
+        <div class="product-list">
+            <!-- 男童产品 -->
+            <div class="product-card">
+                <div class="product-badge new">新品</div>
+                <div class="product-image">
+                    <img src="../images/products/boys/boys-tshirt-01.jpg" alt="男童短袖T恤">
+                </div>
+                <div class="product-info">
+                    <h3>2023夏季男童短袖T恤</h3>
+                    <p class="product-desc">纯棉材质，透气舒适，适合3-6岁儿童</p>
+                    <div class="product-meta">
+                        <div class="product-price">
+                            <span class="price-current">¥99.00</span>
+                            <span class="price-original">¥129.00</span>
+                        </div>
+                        <div class="product-sales">月销 352件</div>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-company">浙江童趣服饰有限公司</div>
+                        <div class="product-actions">
+                            <button class="btn-outline btn-sm"><i class="bi bi-cart-plus"></i> 加入购物车</button>
+                            <button class="btn-icon btn-sm"><i class="bi bi-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 男童产品 -->
+            <div class="product-card">
+                <div class="product-badge hot">热销</div>
+                <div class="product-image">
+                    <img src="../images/products/boys/boys-pants-01.jpg" alt="男童弹力牛仔裤">
+                </div>
+                <div class="product-info">
+                    <h3>男童弹力牛仔裤</h3>
+                    <p class="product-desc">优质牛仔面料，柔软舒适，弹力设计，活动自如</p>
+                    <div class="product-meta">
+                        <div class="product-price">
+                            <span class="price-current">¥78.00</span>
+                            <span class="price-original">¥98.00</span>
+                        </div>
+                        <div class="product-sales">月销 475件</div>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-company">织里优质童装有限公司</div>
+                        <div class="product-actions">
+                            <button class="btn-outline btn-sm"><i class="bi bi-cart-plus"></i> 加入购物车</button>
+                            <button class="btn-icon btn-sm"><i class="bi bi-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 婴幼儿产品 -->
+            <div class="product-card">
+                <div class="product-badge organic">有机</div>
+                <div class="product-image">
+                    <img src="../images/products/babies/babies-romper-01.jpg" alt="婴幼儿有机棉连体衣">
+                </div>
+                <div class="product-info">
+                    <h3>婴幼儿有机棉连体衣</h3>
+                    <p class="product-desc">GOTS认证有机棉，无荧光剂，安全健康，适合0-1岁宝宝</p>
+                    <div class="product-meta">
+                        <div class="product-price">
+                            <span class="price-current">¥135.00</span>
+                            <span class="price-original">¥168.00</span>
+                        </div>
+                        <div class="product-sales">月销 286件</div>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-company">快乐童年服饰有限公司</div>
+                        <div class="product-actions">
+                            <button class="btn-outline btn-sm"><i class="bi bi-cart-plus"></i> 加入购物车</button>
+                            <button class="btn-icon btn-sm"><i class="bi bi-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 女童产品 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="../images/products/girls/girls-dress-01.jpg" alt="女童公主连衣裙">
+                </div>
+                <div class="product-info">
+                    <h3>女童公主连衣裙</h3>
+                    <p class="product-desc">精致蕾丝花边，甜美可爱，适合3-8岁女童，多色可选</p>
+                    <div class="product-meta">
+                        <div class="product-price">
+                            <span class="price-current">¥128.00</span>
+                            <span class="price-original">¥158.00</span>
+                        </div>
+                        <div class="product-sales">月销 312件</div>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-company">湖州小森林童装设计工作室</div>
+                        <div class="product-actions">
+                            <button class="btn-outline btn-sm"><i class="bi bi-cart-plus"></i> 加入购物车</button>
+                            <button class="btn-icon btn-sm"><i class="bi bi-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 季节性产品 -->
+            <div class="product-card">
+                <div class="product-badge discount">特惠</div>
+                <div class="product-image">
+                    <img src="../images/products/seasonal/seasonal-down-01.jpg" alt="冬季儿童羽绒服">
+                </div>
+                <div class="product-info">
+                    <h3>冬季儿童羽绒服</h3>
+                    <p class="product-desc">90%白鸭绒填充，保暖舒适，防风防水，适合3-10岁儿童</p>
+                    <div class="product-meta">
+                        <div class="product-price">
+                            <span class="price-current">¥289.00</span>
+                            <span class="price-original">¥389.00</span>
+                        </div>
+                        <div class="product-sales">月销 265件</div>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-company">浙江童趣服饰有限公司</div>
+                        <div class="product-actions">
+                            <button class="btn-outline btn-sm"><i class="bi bi-cart-plus"></i> 加入购物车</button>
+                            <button class="btn-icon btn-sm"><i class="bi bi-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 校园制服 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="../images/products/uniforms/uniforms-primary-01.jpg" alt="小学生校服">
+                </div>
+                <div class="product-info">
+                    <h3>小学生校服</h3>
+                    <p class="product-desc">耐磨面料，舒适透气，符合学校规范要求，多尺码可选</p>
+                    <div class="product-meta">
+                        <div class="product-price">
+                            <span class="price-current">¥169.00</span>
+                            <span class="price-original">¥199.00</span>
+                        </div>
+                        <div class="product-sales">月销 198件</div>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-company">织里校服定制中心</div>
+                        <div class="product-actions">
+                            <button class="btn-outline btn-sm"><i class="bi bi-cart-plus"></i> 加入购物车</button>
+                            <button class="btn-icon btn-sm"><i class="bi bi-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 特色产品 -->
+            <div class="product-card">
+                <div class="product-badge new">新品</div>
+                <div class="product-image">
+                    <img src="../images/products/special/special-hanfu-01.jpg" alt="儿童汉服套装">
+                </div>
+                <div class="product-info">
+                    <h3>儿童汉服套装</h3>
+                    <p class="product-desc">传统文化设计，精致绣花，适合节日及表演活动，多种款式</p>
+                    <div class="product-meta">
+                        <div class="product-price">
+                            <span class="price-current">¥189.00</span>
+                            <span class="price-original">¥238.00</span>
+                        </div>
+                        <div class="product-sales">月销 178件</div>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-company">织里镇创意童装设计工作室</div>
+                        <div class="product-actions">
+                            <button class="btn-outline btn-sm"><i class="bi bi-cart-plus"></i> 加入购物车</button>
+                            <button class="btn-icon btn-sm"><i class="bi bi-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 男童产品 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="../images/products/boys/boys-shirt-01.jpg" alt="男童休闲衬衫">
+                </div>
+                <div class="product-info">
+                    <h3>男童休闲衬衫</h3>
+                    <p class="product-desc">100%纯棉面料，休闲百搭，适合4-10岁男童</p>
+                    <div class="product-meta">
+                        <div class="product-price">
+                            <span class="price-current">¥69.00</span>
+                            <span class="price-original">¥89.00</span>
+                        </div>
+                        <div class="product-sales">月销 198件</div>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-company">织里优质童装有限公司</div>
+                        <div class="product-actions">
+                            <button class="btn-outline btn-sm"><i class="bi bi-cart-plus"></i> 加入购物车</button>
+                            <button class="btn-icon btn-sm"><i class="bi bi-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 分页 -->
+        <div class="pagination">
+            <a href="#" class="prev disabled" data-page="prev"><i class="bi bi-chevron-left"></i></a>
+            <a href="#" class="active" data-page="1">1</a>
+            <a href="#" data-page="2">2</a>
+            <a href="#" data-page="3">3</a>
+            <a href="#" class="next" data-page="next"><i class="bi bi-chevron-right"></i></a>
+        </div>
+
+        <!-- 交易指南 -->
+        <section class="trade-guide">
+            <h2>交易指南</h2>
+            <div class="guide-steps">
+                <div class="guide-step">
+                    <div class="step-icon">
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+                    <h3>注册认证</h3>
+                    <p>企业/个人注册账号并完成身份认证</p>
+                </div>
+                <div class="guide-step">
+                    <div class="step-icon">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <h3>浏览选购</h3>
+                    <p>浏览产品目录，筛选合适的童装产品</p>
+                </div>
+                <div class="guide-step">
+                    <div class="step-icon">
+                        <i class="bi bi-cart-check"></i>
+                    </div>
+                    <h3>下单付款</h3>
+                    <p>确认订单信息并完成在线支付</p>
+                </div>
+                <div class="guide-step">
+                    <div class="step-icon">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <h3>物流配送</h3>
+                    <p>商家发货，物流配送至指定地址</p>
+                </div>
+                <div class="guide-step">
+                    <div class="step-icon">
+                        <i class="bi bi-hand-thumbs-up"></i>
+                    </div>
+                    <h3>确认收货</h3>
+                    <p>验收商品并确认收货，完成交易</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="../images/logo-footer.png" alt="织里镇童装产业协同管理平台">
+                    <p>织里镇童装产业协同管理平台</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h3>关于我们</h3>
+                        <ul>
+                            <li><a href="#">平台介绍</a></li>
+                            <li><a href="#">联系我们</a></li>
+                            <li><a href="#">服务条款</a></li>
+                            <li><a href="#">隐私政策</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>企业服务</h3>
+                        <ul>
+                            <li><a href="#">企业入驻</a></li>
+                            <li><a href="#">供应链对接</a></li>
+                            <li><a href="#">产品展示</a></li>
+                            <li><a href="#">人才招聘</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>个人服务</h3>
+                        <ul>
+                            <li><a href="#">求职信息</a></li>
+                            <li><a href="#">技能培训</a></li>
+                            <li><a href="#">设计比赛</a></li>
+                            <li><a href="#">资源下载</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-contact">
+                    <h3>联系方式</h3>
+                    <p><i class="icon-address"></i>浙江省湖州市织里镇XXX路XX号</p>
+                    <p><i class="icon-phone"></i>0572-XXXXXXXX</p>
+                    <p><i class="icon-email"></i>contact@zhili-industry.com</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="icon-weixin"></i></a>
+                        <a href="#" class="social-link"><i class="icon-weibo"></i></a>
+                        <a href="#" class="social-link"><i class="icon-douyin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 织里镇童装产业协同管理平台 版权所有 浙ICP备XXXXXXXX号</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 产品预览模态框 - 居中弹窗左右布局 -->
+    <div class="product-preview-modal" id="productPreviewModal">
+        <div class="modal-content">
+            <span class="close-modal"><i class="bi bi-x-lg"></i></span>
+            <div class="preview-gallery">
+                <div class="gallery-main">
+                    <img src="../images/products/boys/boys-tshirt-01.jpg" alt="产品图片" id="previewMainImage">
+                </div>
+            </div>
+            <div class="preview-details">
+                <h2 id="previewTitle">2023夏季男童短袖T恤</h2>
+                <div class="preview-price">
+                    <span class="price-current" id="previewPrice">¥99.00</span>
+                    <span class="price-original" id="previewOriginalPrice">¥129.00</span>
+                    <span class="discount-tag" id="previewDiscount">7.7折</span>
+                </div>
+                <div class="preview-info" id="previewInfo">
+                    <div class="info-item">
+                        <span class="info-label">商品编号：</span>
+                        <span class="info-value" id="previewProductId">BT20230501</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">适用年龄：</span>
+                        <span class="info-value" id="previewAge">3-6岁</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">材质：</span>
+                        <span class="info-value" id="previewMaterial">100%纯棉</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">季节：</span>
+                        <span class="info-value" id="previewSeason">夏季</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">认证：</span>
+                        <span class="info-value" id="previewCert">Oeko-Tex Standard 100</span>
+                    </div>
+                </div>
+                <div class="preview-select">
+                    <div class="select-item">
+                        <span class="select-label">颜色：</span>
+                        <div class="select-options" id="colorOptions">
+                            <span class="option active" data-value="蓝色">蓝色</span>
+                            <span class="option" data-value="白色">白色</span>
+                            <span class="option" data-value="红色">红色</span>
+                        </div>
+                    </div>
+                    <div class="select-item">
+                        <span class="select-label">尺码：</span>
+                        <div class="select-options" id="sizeOptions">
+                            <span class="option" data-value="100cm">100cm</span>
+                            <span class="option active" data-value="110cm">110cm</span>
+                            <span class="option" data-value="120cm">120cm</span>
+                            <span class="option" data-value="130cm">130cm</span>
+                        </div>
+                    </div>
+                    <div class="select-item">
+                        <span class="select-label">数量：</span>
+                        <div class="quantity-control">
+                            <button class="quantity-decrease" id="qtyDecrease"><i class="bi bi-dash"></i></button>
+                            <input type="number" id="qtyInput" value="1" min="1" max="99">
+                            <button class="quantity-increase" id="qtyIncrease"><i class="bi bi-plus"></i></button>
+                            <span class="stock" id="previewStock">库存 756 件</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-actions">
+                    <button class="btn-cart" id="btnAddToCart"><i class="bi bi-cart-plus"></i> 加入购物车</button>
+                    <button class="btn-buy" id="btnBuyNow"><i class="bi bi-lightning"></i> 立即购买</button>
+                </div>
+                <div class="preview-company" id="previewCompany">
+                    <div class="company-logo">
+                        <img src="../images/company/company-logo1.jpg" alt="店铺Logo" id="companyLogoImg">
+                    </div>
+                    <div class="company-info">
+                        <h4 id="companyName">浙江童趣服饰有限公司</h4>
+                        <div class="company-meta">
+                            <span><i class="bi bi-star-fill"></i> <span id="companyRating">4.9</span></span>
+                            <span><i class="bi bi-shop"></i> <span id="companyYears">5年老店</span></span>
+                        </div>
+                    </div>
+                    <button class="btn-enter-shop">进入店铺</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/auth-header.js?v=20260510"></script>
+    <script src="../js/common.js?v=20260510"></script>
+    <script src="../js/product.js?v=20260510"></script>
+    <script src="../js/ai-assistant.js?v=20260510"></script>
+</body>
+
+</html>

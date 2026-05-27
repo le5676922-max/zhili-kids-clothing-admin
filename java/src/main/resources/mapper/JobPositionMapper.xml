@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.JobPositionMapper">
+
+    <resultMap id="JobPositionResultMap" type="com.example.java.entity.JobPosition">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="job_name" property="jobName"/>
+        <result column="salary_min" property="salaryMin"/>
+        <result column="salary_max" property="salaryMax"/>
+        <result column="work_location" property="workLocation"/>
+        <result column="experience" property="experience"/>
+        <result column="education" property="education"/>
+        <result column="recruit_count" property="recruitCount"/>
+        <result column="job_description" property="jobDescription"/>
+        <result column="skills" property="skills"/>
+        <result column="job_category" property="jobCategory"/>
+        <result column="status" property="status"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="published_at" property="publishedAt"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="company_name" property="companyName"/>
+        <result column="company_logo" property="companyLogo"/>
+    </resultMap>
+
+    <!-- 查询所有招聘中的职位（含企业信息） -->
+    <select id="findAll" resultMap="JobPositionResultMap">
+        SELECT j.id, j.user_id, j.job_name, j.salary_min, j.salary_max,
+               j.work_location, j.experience, j.education, j.recruit_count,
+               j.job_description, j.skills, j.job_category, j.status,
+               j.view_count, j.published_at, j.created_at, j.updated_at,
+               u.nickname as company_name, u.avatar as company_logo
+        FROM job_positions j
+        LEFT JOIN users u ON j.user_id = u.id
+        WHERE j.status = 1
+        ORDER BY j.published_at DESC
+    </select>
+
+    <!-- 搜索/筛选职位列表 -->
+    <select id="search" resultMap="JobPositionResultMap">
+        SELECT j.id, j.user_id, j.job_name, j.salary_min, j.salary_max,
+               j.work_location, j.experience, j.education, j.recruit_count,
+               j.job_description, j.skills, j.job_category, j.status,
+               j.view_count, j.published_at, j.created_at, j.updated_at,
+               u.nickname as company_name, u.avatar as company_logo
+        FROM job_positions j
+        LEFT JOIN users u ON j.user_id = u.id
+        WHERE j.status = 1
+        <if test="keyword != null and keyword != ''">
+            AND (j.job_name LIKE CONCAT('%', #{keyword}, '%')
+            OR j.job_description LIKE CONCAT('%', #{keyword}, '%')
+            OR u.nickname LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <if test="category != null and category != ''">
+            AND j.job_category = #{category}
+        </if>
+        <if test="experience != null and experience != ''">
+            AND j.experience = #{experience}
+        </if>
+        <if test="education != null and education != ''">
+            AND j.education = #{education}
+        </if>
+        <if test="salary != null and salary != ''">
+            <if test="salary == '0-5k'">
+                AND j.salary_max &lt; 5
+            </if>
+            <if test="salary == '5-10k'">
+                AND j.salary_min &gt;= 5 AND j.salary_max &lt;= 10
+            </if>
+            <if test="salary == '10-15k'">
+                AND j.salary_min &gt;= 10 AND j.salary_max &lt;= 15
+            </if>
+            <if test="salary == '15-20k'">
+                AND j.salary_min &gt;= 15 AND j.salary_max &lt;= 20
+            </if>
+            <if test="salary == '20k+'">
+                AND j.salary_min &gt;= 20
+            </if>
+        </if>
+        ORDER BY j.published_at DESC
+    </select>
+
+    <!-- 根据ID查询职位详情 -->
+    <select id="selectById" resultMap="JobPositionResultMap">
+        SELECT j.id, j.user_id, j.job_name, j.salary_min, j.salary_max,
+               j.work_location, j.experience, j.education, j.recruit_count,
+               j.job_description, j.skills, j.job_category, j.status,
+               j.view_count, j.published_at, j.created_at, j.updated_at,
+               u.nickname as company_name, u.avatar as company_logo
+        FROM job_positions j
+        LEFT JOIN users u ON j.user_id = u.id
+        WHERE j.id = #{id}
+    </select>
+
+    <!-- 根据用户ID查询职位列表 -->
+    <select id="findByUserId" resultMap="JobPositionResultMap">
+        SELECT j.id, j.user_id, j.job_name, j.salary_min, j.salary_max,
+               j.work_location, j.experience, j.education, j.recruit_count,
+               j.job_description, j.skills, j.job_category, j.status,
+               j.view_count, j.published_at, j.created_at, j.updated_at,
+               u.nickname as company_name, u.avatar as company_logo
+        FROM job_positions j
+        LEFT JOIN users u ON j.user_id = u.id
+        WHERE j.user_id = #{userId}
+        ORDER BY j.published_at DESC
+    </select>
+
+    <!-- 新增职位 -->
+    <insert id="insert" parameterType="com.example.java.entity.JobPosition" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO job_positions (
+            user_id, job_name, salary_min, salary_max, work_location,
+            experience, education, recruit_count, job_description,
+            skills, job_category, status, view_count, published_at,
+            created_at, updated_at
+        ) VALUES (
+            #{userId}, #{jobName}, #{salaryMin}, #{salaryMax}, #{workLocation},
+            #{experience}, #{education}, #{recruitCount}, #{jobDescription},
+            #{skills}, #{jobCategory}, #{status}, #{viewCount}, #{publishedAt},
+            #{createdAt}, #{updatedAt}
+        )
+    </insert>
+
+    <!-- 更新职位（状态只能通过上架/下架专用接口变更） -->
+    <update id="update" parameterType="com.example.java.entity.JobPosition">
+        UPDATE job_positions
+        SET job_name = #{jobName},
+            salary_min = #{salaryMin},
+            salary_max = #{salaryMax},
+            work_location = #{workLocation},
+            experience = #{experience},
+            education = #{education},
+            recruit_count = #{recruitCount},
+            job_description = #{jobDescription},
+            skills = #{skills},
+            job_category = #{jobCategory},
+            updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除职位 -->
+    <delete id="deleteById">
+        DELETE FROM job_positions WHERE id = #{id}
+    </delete>
+
+    <!-- 增加浏览次数 -->
+    <update id="incrementViewCount">
+        UPDATE job_positions SET view_count = view_count + 1 WHERE id = #{id}
+    </update>
+
+</mapper>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>企业详情 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/enterprise.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        /* 企业详情页面样式 */
+        .enterprise-detail {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .enterprise-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 30px;
+        }
+        
+        .enterprise-logo-large {
+            width: 200px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .enterprise-logo-large img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .enterprise-title {
+            flex: 1;
+        }
+        
+        .enterprise-title h1 {
+            margin: 0 0 15px 0;
+            font-size: 28px;
+            color: #333;
+        }
+        
+        .enterprise-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .enterprise-contact-info {
+            margin-bottom: 20px;
+        }
+        
+        .enterprise-contact-info p {
+            margin: 8px 0;
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .enterprise-contact-info i {
+            margin-right: 10px;
+            color: #4a6bdf;
+        }
+        
+        .enterprise-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .enterprise-actions .btn {
+            padding: 10px 25px;
+            font-size: 16px;
+        }
+        
+        .enterprise-section {
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .enterprise-section h2 {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .enterprise-description {
+            line-height: 1.8;
+            color: #444;
+            font-size: 16px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .enterprise-description p {
+            margin-bottom: 15px;
+        }
+        
+        .enterprise-description strong {
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .enterprise-description ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .enterprise-description li {
+            margin-bottom: 8px;
+        }
+        
+        .enterprise-description .highlight {
+            background-color: #f0f7ff;
+            padding: 15px;
+            border-left: 4px solid #4a6bdf;
+            margin: 20px 0;
+        }
+        
+        .enterprise-certificates {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .certificate-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+        
+        .certificate-item i {
+            color: #4caf50;
+            font-size: 20px;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: #4a6bdf;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+        
+        .back-link i {
+            margin-right: 5px;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html" class="active">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 面包屑导航 -->
+    <div class="breadcrumb container">
+        <a href="../index.html">首页</a> &gt; <a href="enterprise.html">企业信息</a> &gt; <span id="enterprise-name-breadcrumb">企业详情</span>
+    </div>
+
+    <!-- 主要内容区 -->
+    <main class="container">
+        <!-- 返回链接 -->
+        <a href="enterprise.html" class="back-link">
+            <i class="bi bi-arrow-left"></i> 返回企业列表
+        </a>
+
+        <!-- 企业详情 -->
+        <div class="enterprise-detail">
+            <div class="enterprise-header">
+                <div class="enterprise-logo-large">
+                    <img id="detail-logo" src="../images/company/company-logo1.jpg" alt="企业Logo">
+                </div>
+                <div class="enterprise-title">
+                    <h1 id="detail-name">企业名称</h1>
+                    <div class="enterprise-tags" id="detail-tags">
+                        <span class="tag type">企业类型</span>
+                        <span class="tag scale">企业规模</span>
+                        <span class="tag cert">认证信息</span>
+                    </div>
+                    <div class="enterprise-contact-info">
+                        <p><i class="bi bi-geo-alt"></i> <span id="detail-address">企业地址</span></p>
+                        <p><i class="bi bi-telephone"></i> <span id="detail-phone">联系电话</span></p>
+                        <p><i class="bi bi-envelope"></i> <span id="detail-email">企业邮箱</span></p>
+                        <p><i class="bi bi-globe"></i> <span id="detail-website">企业网站</span></p>
+                    </div>
+                    <div class="enterprise-actions">
+                        <a href="#" class="btn btn-primary">联系企业</a>
+                        <a href="#" class="btn btn-outline">关注企业</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 企业介绍 -->
+            <div class="enterprise-section">
+                <h2>企业介绍</h2>
+                <div class="enterprise-description" id="detail-description">
+                    <p>这里是企业的详细介绍，包括企业的历史、发展历程、经营理念、企业文化等内容。</p>
+                </div>
+            </div>
+
+            <!-- 企业认证 -->
+            <div class="enterprise-section">
+                <h2>企业认证</h2>
+                <div class="enterprise-certificates" id="detail-certificates">
+                    <!-- 认证信息将通过JS动态生成 -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="../images/logo-footer.png" alt="织里镇童装产业协同管理平台">
+                    <p>织里镇童装产业协同管理平台</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h3>关于我们</h3>
+                        <ul>
+                            <li><a href="#">平台介绍</a></li>
+                            <li><a href="#">联系我们</a></li>
+                            <li><a href="#">服务条款</a></li>
+                            <li><a href="#">隐私政策</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>企业服务</h3>
+                        <ul>
+                            <li><a href="#">企业入驻</a></li>
+                            <li><a href="#">供应链对接</a></li>
+                            <li><a href="#">产品展示</a></li>
+                            <li><a href="#">人才招聘</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>个人服务</h3>
+                        <ul>
+                            <li><a href="#">求职信息</a></li>
+                            <li><a href="#">技能培训</a></li>
+                            <li><a href="#">设计比赛</a></li>
+                            <li><a href="#">资源下载</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-contact">
+                    <h3>联系方式</h3>
+                    <p><i class="icon-address"></i>浙江省湖州市织里镇XXX路XX号</p>
+                    <p><i class="icon-phone"></i>0572-XXXXXXXX</p>
+                    <p><i class="icon-email"></i>contact@zhili-industry.com</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="icon-weixin"></i></a>
+                        <a href="#" class="social-link"><i class="icon-weibo"></i></a>
+                        <a href="#" class="social-link"><i class="icon-douyin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 织里镇童装产业协同管理平台 版权所有 浙ICP备XXXXXXXX号</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/auth-header.js"></script>
+    <script src="../js/common.js"></script>
+    <script>
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            const results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        const fallbackEnterpriseData = {
+            "company1": {
+                name: "浙江童趣服饰有限公司",
+                logo: "../images/company/company-logo1.jpg",
+                type: "生产企业",
+                scale: "大型企业",
+                cert: "ISO9001",
+                address: "浙江省湖州市织里镇开发区创业大道88号",
+                phone: "0572-12345678",
+                email: "contact@tongqu.com",
+                website: "www.tongqu.com",
+                description: "浙江童趣服饰有限公司成立于2005年，是一家专注于3-12岁儿童服装的设计和生产企业。公司拥有现代化的生产基地，年产能超过200万件。产品以时尚、舒适、环保为设计理念，远销欧美和东南亚市场。公司注重产品质量和环保标准，通过了ISO9001质量管理体系认证。",
+                certificates: ["ISO9001质量管理体系", "Oeko-Tex Standard 100", "浙江省著名商标"]
+            },
+            "company2": {
+                name: "湖州小森林童装设计工作室",
+                logo: "../images/company/company-logo2.jpg",
+                type: "设计企业",
+                scale: "中型企业",
+                cert: "GOTS认证",
+                address: "浙江省湖州市织里镇时尚产业园C区12号",
+                phone: "0572-87654321",
+                email: "design@xiaosenlin.com",
+                website: "www.xiaosenlinkids.com",
+                description: "湖州小森林童装设计工作室成立于2012年，是一家专注于环保、可持续童装设计的创意工作室。工作室秉承自然、环保、舒适的设计理念，每年推出春夏、秋冬四个系列的童装设计。",
+                certificates: ["GOTS有机纺织品认证", "浙江省绿色设计示范企业"]
+            },
+            "company3": {
+                name: "织里优质面料有限公司",
+                logo: "../images/company/company-logo3.jpg",
+                type: "原材料供应",
+                scale: "大型企业",
+                cert: "Oeko-Tex",
+                address: "浙江省湖州市织里镇工业园区纺织路56号",
+                phone: "0572-56781234",
+                email: "info@zhilimaterial.com",
+                website: "www.zhilimaterial.com",
+                description: "织里优质面料有限公司成立于2000年，是织里镇最大的童装面料供应商之一。公司专注于各类高品质童装面料的研发与生产，所有产品均通过Oeko-Tex Standard 100认证。",
+                certificates: ["Oeko-Tex Standard 100", "ISO9001质量管理体系", "浙江省高新技术企业"]
+            }
+        };
+
+        async function loadEnterpriseDetail() {
+            const id = getUrlParameter('id');
+            if (!id) {
+                alert('未找到企业信息');
+                window.location.href = 'enterprise.html';
+                return;
+            }
+
+            let enterprise = null;
+            try {
+                const origin = backendOrigin();
+                const token = getToken();
+                const response = await fetch(origin + '/api/enterprises/' + id, {
+                    headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+                });
+                const result = await response.json();
+                if (result.code === 200 && result.data) {
+                    enterprise = result.data;
+                }
+            } catch (e) {
+                console.log('后端API暂不可用，使用本地数据');
+            }
+
+            if (!enterprise) {
+                enterprise = fallbackEnterpriseData[id];
+            }
+
+            if (!enterprise) {
+                alert('未找到企业信息');
+                window.location.href = 'enterprise.html';
+                return;
+            }
+
+            document.title = enterprise.name + ' - 企业详情';
+            document.getElementById('enterprise-name-breadcrumb').textContent = enterprise.name;
+            document.getElementById('detail-logo').src = enterprise.logo || '../images/company/company-logo1.jpg';
+            document.getElementById('detail-logo').alt = enterprise.name;
+            if (document.getElementById('detail-logo').naturalWidth === 0) {
+                document.getElementById('detail-logo').src = '../images/company/company-logo1.jpg';
+            }
+            document.getElementById('detail-name').textContent = enterprise.name;
+
+            var tagsHtml = '<span class="tag type">' + (enterprise.type || '企业') + '</span>';
+            tagsHtml += '<span class="tag scale">' + (enterprise.scale || '—') + '</span>';
+            if (enterprise.cert) {
+                tagsHtml += '<span class="tag cert">' + enterprise.cert + '</span>';
+            }
+            document.getElementById('detail-tags').innerHTML = tagsHtml;
+
+            document.getElementById('detail-address').textContent = enterprise.address || '暂未提供';
+            document.getElementById('detail-phone').textContent = enterprise.phone || '暂未提供';
+            document.getElementById('detail-email').textContent = enterprise.email || '暂未提供';
+            document.getElementById('detail-website').textContent = enterprise.website || '暂未提供';
+
+            var desc = enterprise.description || '';
+            if (enterprise.type === '生产企业') {
+                desc += '<div class="highlight"><strong>企业特色：</strong><ul><li>专业的设计研发团队，紧跟时尚潮流</li><li>现代化生产设备，确保产品质量</li><li>严格的质量控制体系，产品安全可靠</li></ul></div>';
+            } else if (enterprise.type === '设计企业') {
+                desc += '<div class="highlight"><strong>设计特色：</strong><ul><li>创新的设计理念，引领童装时尚潮流</li><li>专业的设计团队，拥有丰富的行业经验</li><li>注重环保与舒适，关爱儿童健康成长</li></ul></div>';
+            } else if (enterprise.type === '原材料供应') {
+                desc += '<div class="highlight"><strong>材料特色：</strong><ul><li>优质的面料选材，确保产品品质</li><li>环保认证材料，安全健康无害</li><li>稳定的供应链，保证交货及时</li></ul></div>';
+            } else if (enterprise.type === '销售渠道') {
+                desc += '<div class="highlight"><strong>渠道优势：</strong><ul><li>广泛的销售网络，覆盖全国主要市场</li><li>线上线下结合，多渠道销售模式</li><li>完善的物流配送系统，确保配送及时</li></ul></div>';
+            } else if (enterprise.type === '配套服务') {
+                desc += '<div class="highlight"><strong>服务特色：</strong><ul><li>专业的服务团队，提供一站式解决方案</li><li>快速响应机制，及时解决客户问题</li><li>持续的服务创新，提升客户体验</li></ul></div>';
+            }
+            document.getElementById('detail-description').innerHTML = desc;
+
+            var certs = enterprise.certificates;
+            if (certs && certs.length > 0) {
+                var certHtml = '';
+                for (var i = 0; i < certs.length; i++) {
+                    certHtml += '<div class="certificate-item"><i class="bi bi-check-circle-fill"></i><span>' + certs[i] + '</span></div>';
+                }
+                document.getElementById('detail-certificates').innerHTML = certHtml;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadEnterpriseDetail);
+    </script>
+</body>
+</html> 

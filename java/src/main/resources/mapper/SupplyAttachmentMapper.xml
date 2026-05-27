@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.SupplyAttachmentMapper">
+
+    <resultMap id="SupplyAttachmentVOResultMap" type="com.example.java.dto.SupplyAttachmentVO">
+        <id column="id" property="id"/>
+        <result column="file_name" property="fileName"/>
+        <result column="file_size" property="fileSize"/>
+        <result column="file_url" property="fileUrl"/>
+        <result column="file_type" property="fileType"/>
+    </resultMap>
+
+    <!-- 根据主键查询附件实体 -->
+    <select id="selectById" resultType="com.example.java.entity.SupplyAttachment">
+        SELECT id, demand_id, supply_id, file_name, file_size, file_url, file_type, created_at
+        FROM supply_attachments
+        WHERE id = #{id}
+    </select>
+
+    <!-- 根据需求ID查询附件列表 -->
+    <select id="findByDemandId" resultMap="SupplyAttachmentVOResultMap">
+        SELECT id, file_name, file_size, file_url, file_type
+        FROM supply_attachments
+        WHERE demand_id = #{demandId}
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 根据供应ID查询附件列表 -->
+    <select id="findBySupplyId" resultMap="SupplyAttachmentVOResultMap">
+        SELECT id, file_name, file_size, file_url, file_type
+        FROM supply_attachments
+        WHERE supply_id = #{supplyId}
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 新增附件 -->
+    <insert id="insert" parameterType="com.example.java.entity.SupplyAttachment" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO supply_attachments (
+            demand_id, supply_id, file_name, file_size, file_url, file_type, created_at
+        ) VALUES (
+            #{demandId}, #{supplyId}, #{fileName}, #{fileSize}, #{fileUrl}, #{fileType}, #{createdAt}
+        )
+    </insert>
+
+    <!-- 删除附件 -->
+    <delete id="deleteById">
+        DELETE FROM supply_attachments WHERE id = #{id}
+    </delete>
+
+    <!-- 根据需求ID删除所有附件 -->
+    <delete id="deleteByDemandId">
+        DELETE FROM supply_attachments WHERE demand_id = #{demandId}
+    </delete>
+
+    <!-- 根据供应ID删除所有附件 -->
+    <delete id="deleteBySupplyId">
+        DELETE FROM supply_attachments WHERE supply_id = #{supplyId}
+    </delete>
+
+</mapper>

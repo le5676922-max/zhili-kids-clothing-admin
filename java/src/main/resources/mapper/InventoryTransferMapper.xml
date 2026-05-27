@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.InventoryTransferMapper">
+    <resultMap id="VOResultMap" type="com.example.java.dto.InventoryTransferVO">
+        <id column="id" property="id"/>
+        <result column="record_no" property="recordNo"/>
+        <result column="transfer_date" property="transferDate"/>
+        <result column="from_warehouse_id" property="fromWarehouseId"/>
+        <result column="from_warehouse_name" property="fromWarehouseName"/>
+        <result column="to_warehouse_id" property="toWarehouseId"/>
+        <result column="to_warehouse_name" property="toWarehouseName"/>
+        <result column="reason" property="reason"/>
+        <result column="status" property="status"/>
+        <result column="operator" property="operator"/>
+        <result column="remark" property="remark"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="VOResultMap">
+        SELECT r.*,
+               fw.name as from_warehouse_name,
+               tw.name as to_warehouse_name
+        FROM inventory_transfer_records r
+        LEFT JOIN inventory_warehouses fw ON r.from_warehouse_id = fw.id
+        LEFT JOIN inventory_warehouses tw ON r.to_warehouse_id = tw.id
+        <where>
+            <if test="status != null and status != ''">
+                AND r.status = #{status}
+            </if>
+        </where>
+        ORDER BY r.created_at DESC
+    </select>
+
+    <select id="selectEntityById" resultType="com.example.java.entity.InventoryTransferRecord">
+        SELECT * FROM inventory_transfer_records WHERE id = #{id}
+    </select>
+
+    <select id="selectById" resultMap="VOResultMap">
+        SELECT r.*,
+               fw.name as from_warehouse_name,
+               tw.name as to_warehouse_name
+        FROM inventory_transfer_records r
+        LEFT JOIN inventory_warehouses fw ON r.from_warehouse_id = fw.id
+        LEFT JOIN inventory_warehouses tw ON r.to_warehouse_id = tw.id
+        WHERE r.id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO inventory_transfer_records (record_no, transfer_date, from_warehouse_id, to_warehouse_id, products, reason, status, operator, remark)
+        VALUES (#{recordNo}, #{transferDate}, #{fromWarehouseId}, #{toWarehouseId}, #{products}, #{reason}, #{status}, #{operator}, #{remark})
+    </insert>
+
+    <update id="updateStatus">
+        UPDATE inventory_transfer_records SET status = #{status} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM inventory_transfer_records WHERE id = #{id}
+    </delete>
+</mapper>

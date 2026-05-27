@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.CartMapper">
+
+    <resultMap id="CartResultMap" type="com.example.java.entity.Cart">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="product_id" property="productId"/>
+        <result column="selected_color" property="selectedColor"/>
+        <result column="selected_size" property="selectedSize"/>
+        <result column="quantity" property="quantity"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <resultMap id="CartItemVOResultMap" type="com.example.java.dto.CartItemVO">
+        <id column="id" property="id"/>
+        <result column="product_id" property="productId"/>
+        <result column="name" property="productName"/>
+        <result column="image_url" property="imageUrl"/>
+        <result column="price" property="price"/>
+        <result column="original_price" property="originalPrice"/>
+        <result column="selected_color" property="selectedColor"/>
+        <result column="selected_size" property="selectedSize"/>
+        <result column="quantity" property="quantity"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO cart (user_id, product_id, selected_color, selected_size, quantity, created_at, updated_at)
+        VALUES (#{userId}, #{productId}, #{selectedColor}, #{selectedSize}, #{quantity}, NOW(), NOW())
+    </insert>
+
+    <select id="findByUserAndProductAndSku" resultMap="CartResultMap">
+        SELECT id, user_id, product_id, selected_color, selected_size, quantity, created_at, updated_at
+        FROM cart
+        WHERE user_id = #{userId}
+          AND product_id = #{productId}
+          AND COALESCE(selected_color, '') = COALESCE(#{selectedColor}, '')
+          AND COALESCE(selected_size, '') = COALESCE(#{selectedSize}, '')
+        LIMIT 1
+    </select>
+
+    <update id="updateQuantity">
+        UPDATE cart SET quantity = #{quantity}, updated_at = NOW() WHERE id = #{id} AND user_id = #{userId}
+    </update>
+
+    <update id="addQuantity">
+        UPDATE cart SET quantity = quantity + #{add}, updated_at = NOW() WHERE id = #{id} AND user_id = #{userId}
+    </update>
+
+    <select id="findByIdAndUserId" resultMap="CartResultMap">
+        SELECT id, user_id, product_id, selected_color, selected_size, quantity, created_at, updated_at
+        FROM cart WHERE id = #{id} AND user_id = #{userId} LIMIT 1
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM cart WHERE id = #{id} AND user_id = #{userId}
+    </delete>
+
+    <delete id="deleteByUserId">
+        DELETE FROM cart WHERE user_id = #{userId}
+    </delete>
+
+    <select id="findListByUserId" resultMap="CartItemVOResultMap">
+        SELECT c.id, c.product_id, p.name, p.image_url, p.price, p.original_price,
+               c.selected_color, c.selected_size, c.quantity
+        FROM cart c
+        LEFT JOIN products p ON c.product_id = p.id
+        WHERE c.user_id = #{userId}
+        ORDER BY c.created_at DESC
+    </select>
+
+    <select id="countByUserId" resultType="int">
+        SELECT COALESCE(SUM(quantity), 0) FROM cart WHERE user_id = #{userId}
+    </select>
+
+    <select id="findCartIdsByUserIdAndProductId" resultType="java.lang.Integer">
+        SELECT id FROM cart WHERE user_id = #{userId} AND product_id = #{productId}
+    </select>
+</mapper>

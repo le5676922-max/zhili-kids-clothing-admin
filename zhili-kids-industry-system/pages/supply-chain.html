@@ -1,0 +1,1873 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>供应链协同 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/supply-chain.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html">企业信息</a></li>
+                    <li><a href="supply-chain.html" class="active">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 面包屑导航 -->
+    <div class="breadcrumb container">
+        <a href="../index.html">首页</a> &gt; 供应链协同
+    </div>
+
+    <!-- 主要内容区 -->
+    <main class="container">
+        <!-- 供应链服务导航 -->
+        <div class="supply-chain-nav">
+            <ul>
+                <li class="active" data-tab="demand-supply">
+                    <i class="bi bi-arrow-left-right"></i>
+                    <span>供需对接</span>
+                </li>
+                <li data-tab="logistics">
+                    <i class="bi bi-truck"></i>
+                    <span>物流信息</span>
+                </li>
+                <li data-tab="inventory">
+                    <i class="bi bi-box-seam"></i>
+                    <span>库存管理</span>
+                </li>
+                <li data-tab="order">
+                    <i class="bi bi-clipboard-check"></i>
+                    <span>订单协同</span>
+                </li>
+                <li data-tab="quality">
+                    <i class="bi bi-shield-check"></i>
+                    <span>质量追溯</span>
+                </li>
+                <li data-tab="optimization">
+                    <i class="bi bi-graph-up-arrow"></i>
+                    <span>优化方案</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 供需对接区域 -->
+        <section class="tab-content active" id="demand-supply">
+            <h2>供需对接平台</h2>
+            
+            <!-- 筛选器 -->
+            <div class="filter-section">
+                <form class="filter-form">
+                    <div class="filter-row">
+                        <div class="filter-item">
+                            <label for="demand-type">需求类型</label>
+                            <select id="demand-type">
+                                <option value="">全部</option>
+                                <option value="material">原材料</option>
+                                <option value="fabric">面料</option>
+                                <option value="accessory">辅料配件</option>
+                                <option value="processing">加工服务</option>
+                                <option value="design">设计服务</option>
+                                <option value="logistics">物流服务</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label for="demand-status">状态</label>
+                            <select id="demand-status">
+                                <option value="">全部</option>
+                                <option value="open">未对接</option>
+                                <option value="inprocess">对接中</option>
+                                <option value="completed">已完成</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label for="demand-urgency">紧急程度</label>
+                            <select id="demand-urgency">
+                                <option value="">全部</option>
+                                <option value="high">高</option>
+                                <option value="medium">中</option>
+                                <option value="low">低</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-row">
+                        <div class="filter-item search-box">
+                            <input type="text" placeholder="关键词搜索">
+                            <button type="submit"><i class="bi bi-search"></i></button>
+                        </div>
+                        <div class="filter-actions">
+                            <button type="submit" class="btn-primary">筛选</button>
+                            <button type="reset" class="btn-secondary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- 需求/供应列表 -->
+            <div class="demand-supply-list">
+                <div class="list-header">
+                    <div class="header-tabs">
+                        <div class="header-tab active" onclick="toggleDemandSupplyList('需求信息')">需求信息</div>
+                        <div class="header-tab" onclick="toggleDemandSupplyList('供应信息')">供应信息</div>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn-msg" onclick="SupplyDemandManager.showMyPublishedItems()">
+                            <i class="bi bi-chat-dots-fill"></i> 消息列表
+                        </button>
+                        <button class="btn-primary" onclick="SupplyDemandManager.publishDemand()">
+                            <i class="bi bi-plus-circle"></i> 发布需求
+                        </button>
+                        <button class="btn-outline" onclick="SupplyDemandManager.publishSupply()">
+                            <i class="bi bi-plus-circle"></i> 发布供应
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 筛选和搜索区域 -->
+                <div class="filter-section">
+                    <div class="filter-form">
+                        <div class="filter-row">
+                            <div class="filter-group">
+                                <label>类型筛选</label>
+                                <select id="demand-type" onchange="SupplyDemandManager.filterSupplyDemand()">
+                                    <option value="">全部类型</option>
+                                    <option value="material">原材料</option>
+                                    <option value="processing">加工服务</option>
+                                    <option value="design">设计服务</option>
+                                    <option value="accessory">辅料配件</option>
+                                    <option value="logistics">物流服务</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>状态筛选</label>
+                                <select id="demand-status" onchange="SupplyDemandManager.filterSupplyDemand()">
+                                    <option value="">全部状态</option>
+                                    <option value="open">未对接</option>
+                                    <option value="inprocess">对接中</option>
+                                    <option value="completed">已完成</option>
+                                    <option value="available">可供应</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>紧急程度</label>
+                                <select id="demand-urgency" onchange="SupplyDemandManager.filterSupplyDemand()">
+                                    <option value="">全部</option>
+                                    <option value="high">紧急</option>
+                                    <option value="medium">一般</option>
+                                    <option value="low">不急</option>
+                                </select>
+                            </div>
+                            <div class="filter-group search-group">
+                                <label>关键词搜索</label>
+                                <div class="search-input">
+                                    <input type="text" id="demand-keyword" placeholder="搜索标题、描述、企业名称..." onkeyup="if(event.key==='Enter') SupplyDemandManager.filterSupplyDemand()">
+                                    <button class="search-btn" onclick="SupplyDemandManager.filterSupplyDemand()">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="filter-group">
+                                <button class="btn-reset" onclick="SupplyDemandManager.resetFilter()">
+                                    <i class="bi bi-arrow-clockwise"></i> 重置
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 需求卡片列表（数据将从API动态加载） -->
+                <div class="card-list">
+                    <div class="empty-state">正在加载数据...</div>
+                </div>
+                
+                <!-- 分页 -->
+                <div class="pagination">
+                    <div class="pagination-controls">
+                        <button class="btn-page btn-prev" disabled>
+                            <i class="bi bi-chevron-left"></i> 上一页
+                        </button>
+                        <div class="page-numbers">
+                            <button class="btn-page active">1</button>
+                        </div>
+                        <button class="btn-page btn-next" disabled>
+                            下一页 <i class="bi bi-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="page-info">第 1 页，共 1 页 (总计 0 条记录)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 物流信息区域 -->
+        <section class="tab-content" id="logistics">
+            <h2>物流信息平台</h2>
+            
+            <div class="logistics-dashboard">
+                <!-- 物流概览 -->
+                <div class="logistics-overview">
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="bi bi-truck"></i>
+                        </div>
+                        <div class="overview-data">
+                            <h3>56</h3>
+                            <p>当日发货</p>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="bi bi-box"></i>
+                        </div>
+                        <div class="overview-data">
+                            <h3>124</h3>
+                            <p>运输中</p>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+                        <div class="overview-data">
+                            <h3>89</h3>
+                            <p>今日送达</p>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+                        <div class="overview-data">
+                            <h3>3</h3>
+                            <p>异常件</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 物流查询 -->
+                <div class="logistics-search">
+                    <h3>物流查询</h3>
+                    <div class="search-form">
+                        <input type="text" placeholder="请输入运单号">
+                        <button class="btn-primary"><i class="bi bi-search"></i> 查询</button>
+                    </div>
+                </div>
+                
+                <!-- 合作物流公司 -->
+                <h3 style="margin-top:32px;">织里镇物流地图</h3>
+                <div style="width:100%;max-width:900px;margin:24px auto 0 auto;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);overflow:hidden;">
+                    <img src="../images/zhili-map.jpg" alt="织里镇地图" style="width:100%;display:block;">
+                </div>
+            </div>
+        </section>
+
+        <!-- 库存管理区域 -->
+        <section class="tab-content" id="inventory" style="padding-top: 32px;">
+            <h2 style="text-align:center;font-size:2rem;font-weight:700;margin-bottom:24px;">库存管理系统</h2>
+            <div class="image-section" style="display:flex;justify-content:center;align-items:center;margin-bottom:32px;">
+                <img src="../images/supply-chain-inventory.jpg" alt="库存管理示意图" style="width:80%;max-width:600px;border-radius:18px;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+            </div>
+            <!-- 库存预警横向卡片 -->
+            <div class="inventory-alerts" style="display:flex;gap:20px;justify-content:center;margin-bottom:32px;flex-wrap:wrap;">
+                <div class="alert-card" style="background:#fff8e1;border-left:6px solid #ffc107;box-shadow:0 2px 8px rgba(0,0,0,0.04);border-radius:12px;padding:20px 32px;min-width:260px;display:flex;align-items:center;gap:16px;">
+                    <i class="bi bi-exclamation-circle" style="font-size:2rem;color:#ffc107;"></i>
+                    <div>
+                        <div style="font-weight:600;font-size:1.1rem;">原材料库存不足</div>
+                        <div style="color:#b48a00;font-size:0.95rem;">棉布类原材料库存低于警戒线，请及时补充</div>
+                        <div style="color:#b48a00;font-size:0.85rem;margin-top:4px;">3小时前</div>
+                    </div>
+                </div>
+                <div class="alert-card" style="background:#ffebee;border-left:6px solid #e57373;box-shadow:0 2px 8px rgba(0,0,0,0.04);border-radius:12px;padding:20px 32px;min-width:260px;display:flex;align-items:center;gap:16px;">
+                    <i class="bi bi-x-circle" style="font-size:2rem;color:#e57373;"></i>
+                    <div>
+                        <div style="font-weight:600;font-size:1.1rem;">部分产品库存积压</div>
+                        <div style="color:#b71c1c;font-size:0.95rem;">2023春季款童装库存积压，建议促销清理</div>
+                        <div style="color:#b71c1c;font-size:0.85rem;margin-top:4px;">1天前</div>
+                    </div>
+                </div>
+                <div class="alert-card" style="background:#e8f5e9;border-left:6px solid #43a047;box-shadow:0 2px 8px rgba(0,0,0,0.04);border-radius:12px;padding:20px 32px;min-width:260px;display:flex;align-items:center;gap:16px;">
+                    <i class="bi bi-check-circle" style="font-size:2rem;color:#43a047;"></i>
+                    <div>
+                        <div style="font-weight:600;font-size:1.1rem;">辅料库存正常</div>
+                        <div style="color:#388e3c;font-size:0.95rem;">所有辅料库存处于合理水平</div>
+                        <div style="color:#388e3c;font-size:0.85rem;margin-top:4px;">今天</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 功能入口卡片 -->
+            <div class="inventory-functions" style="display:flex;gap:32px;justify-content:center;flex-wrap:wrap;">
+                <div class="function-card" data-function="inbound" style="background:#fff;box-shadow:0 4px 16px rgba(0,0,0,0.06);border-radius:16px;padding:32px 36px;min-width:200px;display:flex;flex-direction:column;align-items:center;transition:box-shadow .2s;cursor:pointer;">
+                    <div class="function-icon" style="background:#e3f2fd;border-radius:50%;padding:18px 20px;margin-bottom:16px;">
+                        <i class="bi bi-plus-circle" style="font-size:2.2rem;color:#1976d2;"></i>
+                    </div>
+                    <h3 style="font-size:1.15rem;font-weight:600;margin-bottom:8px;">入库管理</h3>
+                    <p style="color:#888;font-size:0.98rem;">原材料、成品入库登记与管理</p>
+                </div>
+                <div class="function-card" data-function="outbound" style="background:#fff;box-shadow:0 4px 16px rgba(0,0,0,0.06);border-radius:16px;padding:32px 36px;min-width:200px;display:flex;flex-direction:column;align-items:center;transition:box-shadow .2s;cursor:pointer;">
+                    <div class="function-icon" style="background:#fce4ec;border-radius:50%;padding:18px 20px;margin-bottom:16px;">
+                        <i class="bi bi-dash-circle" style="font-size:2.2rem;color:#d81b60;"></i>
+                    </div>
+                    <h3 style="font-size:1.15rem;font-weight:600;margin-bottom:8px;">出库管理</h3>
+                    <p style="color:#888;font-size:0.98rem;">原材料领用、成品出库管理</p>
+                </div>
+                <div class="function-card" data-function="transfer" style="background:#fff;box-shadow:0 4px 16px rgba(0,0,0,0.06);border-radius:16px;padding:32px 36px;min-width:200px;display:flex;flex-direction:column;align-items:center;transition:box-shadow .2s;cursor:pointer;">
+                    <div class="function-icon" style="background:#ede7f6;border-radius:50%;padding:18px 20px;margin-bottom:16px;">
+                        <i class="bi bi-shuffle" style="font-size:2.2rem;color:#7c4dff;"></i>
+                    </div>
+                    <h3 style="font-size:1.15rem;font-weight:600;margin-bottom:8px;">库存调拨</h3>
+                    <p style="color:#888;font-size:0.98rem;">不同仓库间的库存调配管理</p>
+                </div>
+                <div class="function-card" data-function="analysis" style="background:#fff;box-shadow:0 4px 16px rgba(0,0,0,0.06);border-radius:16px;padding:32px 36px;min-width:200px;display:flex;flex-direction:column;align-items:center;transition:box-shadow .2s;cursor:pointer;">
+                    <div class="function-icon" style="background:#e0f2f1;border-radius:50%;padding:18px 20px;margin-bottom:16px;">
+                        <i class="bi bi-graph-up" style="font-size:2.2rem;color:#00897b;"></i>
+                    </div>
+                    <h3 style="font-size:1.15rem;font-weight:600;margin-bottom:8px;">库存分析</h3>
+                    <p style="color:#888;font-size:0.98rem;">库存周转率、呆滞库存分析</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 订单协同区域 -->
+        <section class="tab-content" id="order">
+            <h2>订单协同平台</h2>
+            
+            <!-- 订单状态概览 -->
+            <div class="order-status-overview">
+                <div class="status-card">
+                    <div class="status-number">58</div>
+                    <div class="status-label">新订单</div>
+                </div>
+                <div class="status-card">
+                    <div class="status-number">127</div>
+                    <div class="status-label">生产中</div>
+                </div>
+                <div class="status-card">
+                    <div class="status-number">45</div>
+                    <div class="status-label">待发货</div>
+                </div>
+                <div class="status-card">
+                    <div class="status-number">214</div>
+                    <div class="status-label">已完成</div>
+                </div>
+                <div class="status-card">
+                    <div class="status-number">12</div>
+                    <div class="status-label">异常订单</div>
+                </div>
+            </div>
+            
+            <!-- 订单协同流程 -->
+            <div class="order-process">
+                <h3>订单协同流程</h3>
+                <div class="process-flow">
+                    <div class="process-step">
+                        <div class="step-icon">1</div>
+                        <div class="step-info">
+                            <h4>订单接收</h4>
+                            <p>接收客户订单，确认订单信息</p>
+                        </div>
+                    </div>
+                    <div class="step-arrow"><i class="bi bi-chevron-right"></i></div>
+                    <div class="process-step">
+                        <div class="step-icon">2</div>
+                        <div class="step-info">
+                            <h4>材料采购</h4>
+                            <p>采购或调配所需原材料</p>
+                        </div>
+                    </div>
+                    <div class="step-arrow"><i class="bi bi-chevron-right"></i></div>
+                    <div class="process-step">
+                        <div class="step-icon">3</div>
+                        <div class="step-info">
+                            <h4>生产排程</h4>
+                            <p>安排生产计划，优化产能</p>
+                        </div>
+                    </div>
+                    <div class="step-arrow"><i class="bi bi-chevron-right"></i></div>
+                    <div class="process-step">
+                        <div class="step-icon">4</div>
+                        <div class="step-info">
+                            <h4>生产执行</h4>
+                            <p>按计划执行生产，质量控制</p>
+                        </div>
+                    </div>
+                    <div class="step-arrow"><i class="bi bi-chevron-right"></i></div>
+                    <div class="process-step">
+                        <div class="step-icon">5</div>
+                        <div class="step-info">
+                            <h4>发货配送</h4>
+                            <p>产品包装、物流发货</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 最近订单 -->
+            <div class="recent-orders">
+                <h3>最近订单</h3>
+                <div class="order-table-container">
+                    <table class="order-table">
+                        <thead>
+                            <tr>
+                                <th>订单编号</th>
+                                <th>客户名称</th>
+                                <th>产品类型</th>
+                                <th>订单金额</th>
+                                <th>下单时间</th>
+                                <th>交货期</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ORD-20230701-001</td>
+                                <td>杭州童趣服装店</td>
+                                <td>儿童T恤</td>
+                                <td>¥12,500</td>
+                                <td>2023-07-01</td>
+                                <td>2023-07-20</td>
+                                <td><span class="status-badge new">新订单</span></td>
+                                <td><button class="btn-sm view-order" data-order="ORD-20230701-001">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>ORD-20230630-089</td>
+                                <td>湖州小天使童装</td>
+                                <td>婴儿连体衣</td>
+                                <td>¥8,200</td>
+                                <td>2023-06-30</td>
+                                <td>2023-07-15</td>
+                                <td><span class="status-badge inprocess">生产中</span></td>
+                                <td><button class="btn-sm view-order" data-order="ORD-20230630-089">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>ORD-20230629-045</td>
+                                <td>上海童心服饰</td>
+                                <td>儿童外套</td>
+                                <td>¥23,800</td>
+                                <td>2023-06-29</td>
+                                <td>2023-07-25</td>
+                                <td><span class="status-badge inprocess">生产中</span></td>
+                                <td><button class="btn-sm view-order" data-order="ORD-20230629-045">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>ORD-20230628-102</td>
+                                <td>南京萌宝坊</td>
+                                <td>儿童裤装</td>
+                                <td>¥9,600</td>
+                                <td>2023-06-28</td>
+                                <td>2023-07-10</td>
+                                <td><span class="status-badge shipping">待发货</span></td>
+                                <td><button class="btn-sm view-order" data-order="ORD-20230628-102">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>ORD-20230627-056</td>
+                                <td>苏州童乐汇</td>
+                                <td>儿童套装</td>
+                                <td>¥18,400</td>
+                                <td>2023-06-27</td>
+                                <td>2023-07-12</td>
+                                <td><span class="status-badge exception">异常</span></td>
+                                <td><button class="btn-sm view-order" data-order="ORD-20230627-056">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>ORD-20230625-021</td>
+                                <td>嘉兴贝贝童装</td>
+                                <td>儿童连衣裙</td>
+                                <td>¥15,600</td>
+                                <td>2023-06-25</td>
+                                <td>2023-07-18</td>
+                                <td><span class="status-badge new">新订单</span></td>
+                                <td><button class="btn-sm view-order" data-order="ORD-20230625-021">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>ORD-20230624-078</td>
+                                <td>无锡童趣园</td>
+                                <td>儿童牛仔裤</td>
+                                <td>¥10,900</td>
+                                <td>2023-06-24</td>
+                                <td>2023-07-16</td>
+                                <td><span class="status-badge shipping">待发货</span></td>
+                                <td><button class="btn-sm view-order" data-order="ORD-20230624-078">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>ORD-20230623-034</td>
+                                <td>常州小精灵</td>
+                                <td>儿童卫衣</td>
+                                <td>¥13,200</td>
+                                <td>2023-06-23</td>
+                                <td>2023-07-14</td>
+                                <td><span class="status-badge completed">已完成</span></td>
+                                <td><button class="btn-sm view-order" data-order="ORD-20230623-034">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>ORD-20230622-055</td>
+                                <td>南通童梦坊</td>
+                                <td>儿童马甲</td>
+                                <td>¥7,800</td>
+                                <td>2023-06-22</td>
+                                <td>2023-07-13</td>
+                                <td><span class="status-badge completed">已完成</span></td>
+                                <td><button class="btn-sm view-order" data-order="ORD-20230622-055">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>ORD-20230621-099</td>
+                                <td>镇江童乐园</td>
+                                <td>儿童衬衫</td>
+                                <td>¥11,300</td>
+                                <td>2023-06-21</td>
+                                <td>2023-07-11</td>
+                                <td><span class="status-badge new">新订单</span></td>
+                                <td><button class="btn-sm view-order" data-order="ORD-20230621-099">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>ORD-20230620-066</td>
+                                <td>扬州童趣服饰</td>
+                                <td>儿童短裤</td>
+                                <td>¥9,700</td>
+                                <td>2023-06-20</td>
+                                <td>2023-07-09</td>
+                                <td><span class="status-badge inprocess">生产中</span></td>
+                                <td><button class="btn-sm view-order" data-order="ORD-20230620-066">查看</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-actions" style="text-align:center;margin-top:16px;">
+                    <button class="btn-outline" id="load-more-orders">查看更多订单</button>
+                </div>
+                <!-- 订单详情弹窗容器 -->
+                <div id="order-detail-modal" style="display:none;"></div>
+            </div>
+        </section>
+
+        <!-- 质量追溯区域 -->
+        <section class="tab-content" id="quality">
+            <h2>质量追溯系统</h2>
+            
+            <!-- 质量追溯查询 -->
+            <div class="quality-search">
+                <h3>产品质量追溯</h3>
+                <p class="subtitle">输入产品批次号或扫描产品二维码，追溯产品全生命周期</p>
+                <div class="search-form">
+                    <input type="text" placeholder="请输入产品批次号">
+                    <button class="btn-primary"><i class="bi bi-search"></i> 查询</button>
+                    <button class="btn-outline"><i class="bi bi-qr-code-scan"></i> 扫码</button>
+                </div>
+            </div>
+            
+            <!-- 质量追溯流程 -->
+            <div class="trace-process">
+                <h3>产品质量追溯流程</h3>
+                <div class="process-flow-vertical">
+                    <div class="flow-step">
+                        <div class="step-number">01</div>
+                        <div class="step-content">
+                            <h4>原料采购</h4>
+                            <p>记录原材料供应商、原料批次、原料检测报告等信息</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">02</div>
+                        <div class="step-content">
+                            <h4>生产加工</h4>
+                            <p>记录生产日期、生产线、操作人员、质检记录等信息</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">03</div>
+                        <div class="step-content">
+                            <h4>成品检验</h4>
+                            <p>记录成品检验批次、检验项目、检验结果等信息</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">04</div>
+                        <div class="step-content">
+                            <h4>仓储物流</h4>
+                            <p>记录入库时间、仓库环境、出库时间、物流信息等</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">05</div>
+                        <div class="step-content">
+                            <h4>销售终端</h4>
+                            <p>记录销售渠道、销售日期、销售地区等信息</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 优化方案区域 -->
+        <section class="tab-content" id="optimization">
+            <h2>供应链优化方案</h2>
+            <p class="section-subtitle">通过数字化技术和智能化管理，全面优化仓储、运输、配送环节，实现降本增效</p>
+            
+            <!-- 优化方案导航 -->
+            <div class="optimization-nav">
+                <div class="opt-nav-item active" data-opt-tab="warehouse">
+                    <i class="bi bi-building"></i>
+                    <span>仓储优化</span>
+                </div>
+                <div class="opt-nav-item" data-opt-tab="transport">
+                    <i class="bi bi-truck"></i>
+                    <span>运输优化</span>
+                </div>
+                <div class="opt-nav-item" data-opt-tab="delivery">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>配送优化</span>
+                </div>
+            </div>
+
+            <!-- 仓储优化 -->
+            <div class="opt-content active" id="warehouse">
+                <div class="optimization-overview">
+                    <h3>仓储优化方案</h3>
+                    <div class="overview-stats">
+                        <div class="stat-card cost-reduction">
+                            <div class="stat-icon">
+                                <i class="bi bi-arrow-down-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h4>仓储成本降低</h4>
+                                <div class="stat-value">23.5%</div>
+                                <div class="stat-desc">年节约成本约156万元</div>
+                            </div>
+                        </div>
+                        <div class="stat-card efficiency-up">
+                            <div class="stat-icon">
+                                <i class="bi bi-speedometer2"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h4>作业效率提升</h4>
+                                <div class="stat-value">45.2%</div>
+                                <div class="stat-desc">出入库时间缩短60%</div>
+                            </div>
+                        </div>
+                        <div class="stat-card accuracy-up">
+                            <div class="stat-icon">
+                                <i class="bi bi-check-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h4>库存准确率</h4>
+                                <div class="stat-value">99.8%</div>
+                                <div class="stat-desc">较优化前提升12.3%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 优化前后对比 -->
+                <div class="before-after-comparison">
+                    <h4>仓储优化前后对比</h4>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <div class="comparison-header">
+                                <h5>优化前</h5>
+                                <span class="status-badge before">传统模式</span>
+                            </div>
+                            <div class="comparison-content">
+                                <div class="metric">
+                                    <span class="metric-label">仓储面积利用率</span>
+                                    <span class="metric-value">65%</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">库存周转率</span>
+                                    <span class="metric-value">8.2次/年</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">拣货效率</span>
+                                    <span class="metric-value">120件/小时</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">人工成本</span>
+                                    <span class="metric-value">285万元/年</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comparison-arrow">
+                            <i class="bi bi-arrow-right"></i>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-header">
+                                <h5>优化后</h5>
+                                <span class="status-badge after">智能化</span>
+                            </div>
+                            <div class="comparison-content">
+                                <div class="metric">
+                                    <span class="metric-label">仓储面积利用率</span>
+                                    <span class="metric-value improved">85%</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">库存周转率</span>
+                                    <span class="metric-value improved">12.8次/年</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">拣货效率</span>
+                                    <span class="metric-value improved">280件/小时</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">人工成本</span>
+                                    <span class="metric-value improved">218万元/年</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 优化措施 -->
+                <div class="optimization-measures">
+                    <h4>主要优化措施</h4>
+                    <div class="measures-grid">
+                        <div class="measure-card">
+                            <div class="measure-icon">
+                                <i class="bi bi-robot"></i>
+                            </div>
+                            <h5>自动化设备</h5>
+                            <p>引入AGV小车、自动分拣系统，提升仓储作业自动化水平</p>
+                            <div class="measure-benefit">效率提升: +65%</div>
+                        </div>
+                        <div class="measure-card">
+                            <div class="measure-icon">
+                                <i class="bi bi-grid-3x3-gap"></i>
+                            </div>
+                            <h5>智能布局</h5>
+                            <p>基于ABC分析法优化货位布局，热销商品就近存放</p>
+                            <div class="measure-benefit">拣货距离: -40%</div>
+                        </div>
+                        <div class="measure-card">
+                            <div class="measure-icon">
+                                <i class="bi bi-qr-code"></i>
+                            </div>
+                            <h5>数字化管理</h5>
+                            <p>RFID标签+WMS系统，实现库存实时监控和精准管理</p>
+                            <div class="measure-benefit">准确率: +12.3%</div>
+                        </div>
+                        <div class="measure-card">
+                            <div class="measure-icon">
+                                <i class="bi bi-graph-up"></i>
+                            </div>
+                            <h5>预测分析</h5>
+                            <p>基于历史数据和市场趋势，智能预测库存需求</p>
+                            <div class="measure-benefit">库存成本: -25%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 运输优化 -->
+            <div class="opt-content" id="transport">
+                <div class="optimization-overview">
+                    <h3>运输优化方案</h3>
+                    <div class="overview-stats">
+                        <div class="stat-card cost-reduction">
+                            <div class="stat-icon">
+                                <i class="bi bi-fuel-pump"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h4>运输成本降低</h4>
+                                <div class="stat-value">18.7%</div>
+                                <div class="stat-desc">年节约成本约89万元</div>
+                            </div>
+                        </div>
+                        <div class="stat-card efficiency-up">
+                            <div class="stat-icon">
+                                <i class="bi bi-clock"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h4>运输时效提升</h4>
+                                <div class="stat-value">32.1%</div>
+                                <div class="stat-desc">平均运输时间缩短8小时</div>
+                            </div>
+                        </div>
+                        <div class="stat-card accuracy-up">
+                            <div class="stat-icon">
+                                <i class="bi bi-box-fill"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h4>车辆满载率</h4>
+                                <div class="stat-value">92.5%</div>
+                                <div class="stat-desc">较优化前提升28.3%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 路线优化对比 -->
+                <div class="route-optimization">
+                    <h4>智能路线规划</h4>
+                    <div class="route-comparison">
+                        <div class="route-item">
+                            <h5>传统路线规划</h5>
+                            <div class="route-stats">
+                                <div class="route-stat">
+                                    <span class="label">总里程</span>
+                                    <span class="value">285公里</span>
+                                </div>
+                                <div class="route-stat">
+                                    <span class="label">配送时间</span>
+                                    <span class="value">8.5小时</span>
+                                </div>
+                                <div class="route-stat">
+                                    <span class="label">燃油成本</span>
+                                    <span class="value">168元</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="route-arrow">
+                            <i class="bi bi-arrow-right"></i>
+                            <span>AI优化</span>
+                        </div>
+                        <div class="route-item optimized">
+                            <h5>智能优化路线</h5>
+                            <div class="route-stats">
+                                <div class="route-stat">
+                                    <span class="label">总里程</span>
+                                    <span class="value improved">198公里</span>
+                                </div>
+                                <div class="route-stat">
+                                    <span class="label">配送时间</span>
+                                    <span class="value improved">5.8小时</span>
+                                </div>
+                                <div class="route-stat">
+                                    <span class="label">燃油成本</span>
+                                    <span class="value improved">117元</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 运输优化措施 -->
+                <div class="optimization-measures">
+                    <h4>主要优化措施</h4>
+                    <div class="measures-grid">
+                        <div class="measure-card">
+                            <div class="measure-icon">
+                                <i class="bi bi-map"></i>
+                            </div>
+                            <h5>智能路线规划</h5>
+                            <p>基于实时路况、货物特性、时间窗口等因素，动态优化配送路线</p>
+                            <div class="measure-benefit">里程节约: -30.5%</div>
+                        </div>
+                        <div class="measure-card">
+                            <div class="measure-icon">
+                                <i class="bi bi-boxes"></i>
+                            </div>
+                            <h5>智能配载</h5>
+                            <p>根据货物体积、重量、目的地等信息，优化车辆装载方案</p>
+                            <div class="measure-benefit">满载率: +28.3%</div>
+                        </div>
+                        <div class="measure-card">
+                            <div class="measure-icon">
+                                <i class="bi bi-geo-alt-fill"></i>
+                            </div>
+                            <h5>实时监控</h5>
+                            <p>GPS定位+物联网技术，实时监控车辆位置和货物状态</p>
+                            <div class="measure-benefit">准时率: +15.2%</div>
+                        </div>
+                        <div class="measure-card">
+                            <div class="measure-icon">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+                            <h5>协同调度</h5>
+                            <p>多企业协同配送，共享运力资源，降低空载率</p>
+                            <div class="measure-benefit">成本降低: -18.7%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 配送优化 -->
+            <div class="opt-content" id="delivery">
+                <div class="optimization-overview">
+                    <h3>配送优化方案</h3>
+                    <div class="overview-stats">
+                        <div class="stat-card cost-reduction">
+                            <div class="stat-icon">
+                                <i class="bi bi-currency-dollar"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h4>配送成本降低</h4>
+                                <div class="stat-value">26.3%</div>
+                                <div class="stat-desc">年节约成本约72万元</div>
+                            </div>
+                        </div>
+                        <div class="stat-card efficiency-up">
+                            <div class="stat-icon">
+                                <i class="bi bi-lightning"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h4>配送时效提升</h4>
+                                <div class="stat-value">41.8%</div>
+                                <div class="stat-desc">次日达比例提升至85%</div>
+                            </div>
+                        </div>
+                        <div class="stat-card accuracy-up">
+                            <div class="stat-icon">
+                                <i class="bi bi-emoji-smile"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h4>客户满意度</h4>
+                                <div class="stat-value">96.2%</div>
+                                <div class="stat-desc">较优化前提升18.5%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 配送网络优化 -->
+                <div class="delivery-network">
+                    <h4>配送网络布局优化</h4>
+                    <div class="network-comparison">
+                        <div class="network-before">
+                            <h5>优化前配送网络</h5>
+                            <div class="network-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">配送中心</span>
+                                    <span class="stat-value">2个</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">配送半径</span>
+                                    <span class="stat-value">50公里</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">平均配送时间</span>
+                                    <span class="stat-value">2.5天</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">覆盖区域</span>
+                                    <span class="stat-value">65%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="network-after">
+                            <h5>优化后配送网络</h5>
+                            <div class="network-stats">
+                                <div class="stat-item improved">
+                                    <span class="stat-label">配送中心</span>
+                                    <span class="stat-value">5个</span>
+                                </div>
+                                <div class="stat-item improved">
+                                    <span class="stat-label">配送半径</span>
+                                    <span class="stat-value">25公里</span>
+                                </div>
+                                <div class="stat-item improved">
+                                    <span class="stat-label">平均配送时间</span>
+                                    <span class="stat-value">1.2天</span>
+                                </div>
+                                <div class="stat-item improved">
+                                    <span class="stat-label">覆盖区域</span>
+                                    <span class="stat-value">95%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 配送优化措施 -->
+                <div class="optimization-measures">
+                    <h4>主要优化措施</h4>
+                    <div class="measures-grid">
+                        <div class="measure-card">
+                            <div class="measure-icon">
+                                <i class="bi bi-building-add"></i>
+                            </div>
+                            <h5>前置仓布局</h5>
+                            <p>在重点区域设立前置仓，缩短配送距离，提升配送时效</p>
+                            <div class="measure-benefit">配送时间: -52%</div>
+                        </div>
+                        <div class="measure-card">
+                            <div class="measure-icon">
+                                <i class="bi bi-bicycle"></i>
+                            </div>
+                            <h5>多元化配送</h5>
+                            <p>电动车、无人机、智能柜等多种配送方式，适应不同场景</p>
+                            <div class="measure-benefit">覆盖率: +30%</div>
+                        </div>
+                        <div class="measure-card">
+                            <div class="measure-icon">
+                                <i class="bi bi-clock-history"></i>
+                            </div>
+                            <h5>时间窗口优化</h5>
+                            <p>根据客户需求和区域特点，优化配送时间窗口安排</p>
+                            <div class="measure-benefit">满意度: +18.5%</div>
+                        </div>
+                        <div class="measure-card">
+                            <div class="measure-icon">
+                                <i class="bi bi-share"></i>
+                            </div>
+                            <h5>共同配送</h5>
+                            <p>多企业共享配送资源，降低配送成本，提高配送效率</p>
+                            <div class="measure-benefit">成本降低: -26.3%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 综合效益展示 -->
+            <div class="comprehensive-benefits">
+                <h3>综合优化效益</h3>
+                <div class="benefits-summary">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="bi bi-piggy-bank"></i>
+                        </div>
+                        <div class="benefit-content">
+                            <h4>总成本节约</h4>
+                            <div class="benefit-value">317万元/年</div>
+                            <div class="benefit-desc">仓储+运输+配送综合节约</div>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="bi bi-speedometer"></i>
+                        </div>
+                        <div class="benefit-content">
+                            <h4>整体效率提升</h4>
+                            <div class="benefit-value">39.7%</div>
+                            <div class="benefit-desc">从订单到交付全流程提速</div>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="bi bi-graph-up-arrow"></i>
+                        </div>
+                        <div class="benefit-content">
+                            <h4>服务质量提升</h4>
+                            <div class="benefit-value">96.2%</div>
+                            <div class="benefit-desc">客户满意度大幅提升</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 库存管理模态框系统 -->
+    <!-- 入库管理模态框 -->
+    <div id="inboundModal" class="inventory-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="bi bi-plus-circle"></i> 入库管理</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="modal-nav">
+                    <div class="modal-nav-item active" data-tab="inbound-form">新建入库单</div>
+                    <div class="modal-nav-item" data-tab="inbound-list">入库记录</div>
+                </div>
+                
+                <!-- 新建入库单 -->
+                <div class="modal-tab-content active" id="inbound-form">
+                    <form class="inventory-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>入库单号</label>
+                                <input type="text" id="inboundNo" readonly placeholder="系统自动生成">
+                            </div>
+                            <div class="form-group">
+                                <label>入库日期</label>
+                                <input type="date" id="inboundDate" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>供应商</label>
+                                <select id="supplier" required>
+                                    <option value="">请选择供应商</option>
+                                    <option value="supplier1">织里优质面料有限公司</option>
+                                    <option value="supplier2">湖州印艺数码科技有限公司</option>
+                                    <option value="supplier3">浙江童装辅料供应商</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        
+                        <div class="form-section">
+                            <h4>商品明细</h4>
+                            <div class="product-list">
+                                <div class="product-item">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>商品名称</label>
+                                            <input type="text" placeholder="请输入商品名称" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>规格型号</label>
+                                            <input type="text" placeholder="请输入规格型号">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>数量</label>
+                                            <input type="number" placeholder="请输入数量" min="1" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>单位</label>
+                                            <select required>
+                                                <option value="">请选择</option>
+                                                <option value="件">件</option>
+                                                <option value="米">米</option>
+                                                <option value="公斤">公斤</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>单价</label>
+                                            <input type="number" step="0.01" placeholder="请输入单价">
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="button" class="btn-remove" onclick="removeProductItem(this)">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-add-product" onclick="addProductItem()">
+                                <i class="bi bi-plus"></i> 添加商品
+                            </button>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label>备注</label>
+                                <textarea placeholder="请输入备注信息"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="closeModal()">取消</button>
+                            <button type="submit" class="btn-primary">保存入库单</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- 入库记录 -->
+                <div class="modal-tab-content" id="inbound-list">
+                    <div class="list-header">
+                        <div class="search-bar">
+                            <input type="text" placeholder="搜索入库单号、供应商...">
+                            <button class="btn-search"><i class="bi bi-search"></i></button>
+                        </div>
+                        <div class="filter-bar">
+                            <select>
+                                <option value="">全部状态</option>
+                                <option value="pending">待审核</option>
+                                <option value="approved">已审核</option>
+                                <option value="completed">已完成</option>
+                            </select>
+                            <input type="date" placeholder="开始日期">
+                            <input type="date" placeholder="结束日期">
+                        </div>
+                    </div>
+                    <div class="data-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>入库单号</th>
+                                    <th>入库日期</th>
+                                    <th>供应商</th>
+                                    <th>仓库</th>
+                                    <th>商品数量</th>
+                                    <th>总金额</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inboundTableBody">
+                                <!-- 数据将通过JavaScript动态加载 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination" id="inboundPagination">
+                        <div class="pagination-controls">
+                            <div class="page-size-selector">
+                                <label>每页显示：</label>
+                                <select onchange="PaginationManager.changePageSize('inbound', this.value)">
+                                    <option value="5">5条</option>
+                                    <option value="10" selected>10条</option>
+                                    <option value="20">20条</option>
+                                    <option value="50">50条</option>
+                                </select>
+                            </div>
+                            <div class="pagination-nav">
+                                <button class="btn-page btn-prev" onclick="PaginationManager.previousPage('inbound')">
+                                    <i class="bi bi-chevron-left"></i> 上一页
+                                </button>
+                                <div class="page-numbers"></div>
+                                <button class="btn-page btn-next" onclick="PaginationManager.nextPage('inbound')">
+                                    下一页 <i class="bi bi-chevron-right"></i>
+                                </button>
+                            </div>
+                            <div class="page-info">第 1 页，共 1 页 (总计 0 条记录)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 出库管理模态框 -->
+    <div id="outboundModal" class="inventory-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="bi bi-dash-circle"></i> 出库管理</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="modal-nav">
+                    <div class="modal-nav-item active" data-tab="outbound-form">新建出库单</div>
+                    <div class="modal-nav-item" data-tab="outbound-list">出库记录</div>
+                </div>
+                
+                <!-- 新建出库单 -->
+                <div class="modal-tab-content active" id="outbound-form">
+                    <form class="inventory-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>出库单号</label>
+                                <input type="text" id="outboundNo" readonly placeholder="系统自动生成">
+                            </div>
+                            <div class="form-group">
+                                <label>出库日期</label>
+                                <input type="date" id="outboundDate" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>出库类型</label>
+                                <select id="outboundType" required>
+                                    <option value="">请选择出库类型</option>
+                                    <option value="sale">销售出库</option>
+                                    <option value="production">生产领料</option>
+                                    <option value="transfer">调拨出库</option>
+                                    <option value="return">退货出库</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>领用部门/客户</label>
+                                <input type="text" placeholder="请输入部门或客户名称" required>
+                            </div>
+                            <div class="form-group">
+                                <label>经办人</label>
+                                <input type="text" placeholder="请输入经办人姓名" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h4>出库商品明细</h4>
+                            <div class="stock-search">
+                                <input type="text" placeholder="搜索库存商品..." id="stockSearch">
+                                <button type="button" class="btn-search" onclick="searchStock()">
+                                    <i class="bi bi-search"></i> 搜索库存
+                                </button>
+                            </div>
+                            <div class="product-list" id="outboundProductList">
+                                <!-- 出库商品列表 -->
+                            </div>
+                            <div class="total-amount">总金额: ¥0.00</div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label>备注</label>
+                                <textarea placeholder="请输入备注信息"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="closeModal()">取消</button>
+                            <button type="submit" class="btn-primary">确认出库</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- 出库记录 -->
+                <div class="modal-tab-content" id="outbound-list">
+                    <div class="list-header">
+                        <div class="search-bar">
+                            <input type="text" placeholder="搜索出库单号、部门...">
+                            <button class="btn-search"><i class="bi bi-search"></i></button>
+                        </div>
+                        <div class="filter-bar">
+                            <select>
+                                <option value="">全部类型</option>
+                                <option value="sale">销售出库</option>
+                                <option value="production">生产领料</option>
+                                <option value="transfer">调拨出库</option>
+                            </select>
+                            <input type="date" placeholder="开始日期">
+                            <input type="date" placeholder="结束日期">
+                        </div>
+                    </div>
+                    <div class="data-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>出库单号</th>
+                                    <th>出库日期</th>
+                                    <th>出库类型</th>
+                                    <th>仓库</th>
+                                    <th>领用部门</th>
+                                    <th>商品数量</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="outboundTableBody">
+                                <!-- 数据将通过JavaScript动态加载 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination" id="outboundPagination">
+                        <div class="pagination-controls">
+                            <div class="page-size-selector">
+                                <label>每页显示：</label>
+                                <select onchange="PaginationManager.changePageSize('outbound', this.value)">
+                                    <option value="5">5条</option>
+                                    <option value="10" selected>10条</option>
+                                    <option value="20">20条</option>
+                                    <option value="50">50条</option>
+                                </select>
+                            </div>
+                            <div class="pagination-nav">
+                                <button class="btn-page btn-prev" onclick="PaginationManager.previousPage('outbound')">
+                                    <i class="bi bi-chevron-left"></i> 上一页
+                                </button>
+                                <div class="page-numbers"></div>
+                                <button class="btn-page btn-next" onclick="PaginationManager.nextPage('outbound')">
+                                    下一页 <i class="bi bi-chevron-right"></i>
+                                </button>
+                            </div>
+                            <div class="page-info">第 1 页，共 1 页 (总计 0 条记录)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 库存调拨模态框 -->
+    <div id="transferModal" class="inventory-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="bi bi-shuffle"></i> 库存调拨</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="modal-nav">
+                    <div class="modal-nav-item active" data-tab="transfer-form">新建调拨单</div>
+                    <div class="modal-nav-item" data-tab="transfer-list">调拨记录</div>
+                </div>
+                
+                <!-- 新建调拨单 -->
+                <div class="modal-tab-content active" id="transfer-form">
+                    <form class="inventory-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>调拨单号</label>
+                                <input type="text" id="transferNo" readonly placeholder="系统自动生成">
+                            </div>
+                            <div class="form-group">
+                                <label>调拨日期</label>
+                                <input type="date" id="transferDate" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>调出仓库</label>
+                                <select id="fromWarehouse" required>
+                                    <option value="">请选择调出仓库</option>
+                                    <option value="warehouse1">主仓库</option>
+                                    <option value="warehouse2">原料仓库</option>
+                                    <option value="warehouse3">成品仓库</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>调入仓库</label>
+                                <select id="toWarehouse" required>
+                                    <option value="">请选择调入仓库</option>
+                                    <option value="warehouse1">主仓库</option>
+                                    <option value="warehouse2">原料仓库</option>
+                                    <option value="warehouse3">成品仓库</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>调拨原因</label>
+                                <select required>
+                                    <option value="">请选择调拨原因</option>
+                                    <option value="shortage">库存不足</option>
+                                    <option value="balance">库存平衡</option>
+                                    <option value="maintenance">仓库维护</option>
+                                    <option value="other">其他原因</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>经办人</label>
+                                <input type="text" placeholder="请输入经办人姓名" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h4>调拨商品明细</h4>
+                            <div class="warehouse-stock-info">
+                                <div class="stock-info-card">
+                                    <h5>调出仓库库存</h5>
+                                    <div id="fromWarehouseStock" class="stock-list">
+                                        <p class="no-data">请先选择调出仓库</p>
+                                    </div>
+                                </div>
+                                <div class="stock-info-card">
+                                    <h5>调入仓库库存</h5>
+                                    <div id="toWarehouseStock" class="stock-list">
+                                        <p class="no-data">请先选择调入仓库</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-list" id="transferProductList">
+                                <!-- 调拨商品列表 -->
+                            </div>
+                            <button type="button" class="btn-add-product" onclick="addTransferItem()">
+                                <i class="bi bi-plus"></i> 添加调拨商品
+                            </button>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label>备注</label>
+                                <textarea placeholder="请输入备注信息"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="closeModal()">取消</button>
+                            <button type="submit" class="btn-primary">确认调拨</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- 调拨记录 -->
+                <div class="modal-tab-content" id="transfer-list">
+                    <div class="list-header">
+                        <div class="search-bar">
+                            <input type="text" placeholder="搜索调拨单号...">
+                            <button class="btn-search"><i class="bi bi-search"></i></button>
+                        </div>
+                        <div class="filter-bar">
+                            <select>
+                                <option value="">全部状态</option>
+                                <option value="pending">待确认</option>
+                                <option value="approved">已确认</option>
+                                <option value="completed">已完成</option>
+                            </select>
+                            <input type="date" placeholder="开始日期">
+                            <input type="date" placeholder="结束日期">
+                        </div>
+                    </div>
+                    <div class="data-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>调拨单号</th>
+                                    <th>调拨日期</th>
+                                    <th>调出仓库</th>
+                                    <th>调入仓库</th>
+                                    <th>商品数量</th>
+                                    <th>调拨原因</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transferTableBody">
+                                <!-- 数据将通过JavaScript动态加载 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination" id="transferPagination">
+                        <div class="pagination-controls">
+                            <div class="page-size-selector">
+                                <label>每页显示：</label>
+                                <select onchange="PaginationManager.changePageSize('transfer', this.value)">
+                                    <option value="5">5条</option>
+                                    <option value="10" selected>10条</option>
+                                    <option value="20">20条</option>
+                                    <option value="50">50条</option>
+                                </select>
+                            </div>
+                            <div class="pagination-nav">
+                                <button class="btn-page btn-prev" onclick="PaginationManager.previousPage('transfer')">
+                                    <i class="bi bi-chevron-left"></i> 上一页
+                                </button>
+                                <div class="page-numbers"></div>
+                                <button class="btn-page btn-next" onclick="PaginationManager.nextPage('transfer')">
+                                    下一页 <i class="bi bi-chevron-right"></i>
+                                </button>
+                            </div>
+                            <div class="page-info">第 1 页，共 1 页 (总计 0 条记录)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 库存分析模态框 -->
+    <div id="analysisModal" class="inventory-modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3><i class="bi bi-graph-up"></i> 库存分析</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="modal-nav">
+                    <div class="modal-nav-item active" data-tab="analysis-overview">库存概览</div>
+                    <div class="modal-nav-item" data-tab="analysis-turnover">周转分析</div>
+                    <div class="modal-nav-item" data-tab="analysis-warning">预警管理</div>
+                    <div class="modal-nav-item" data-tab="analysis-report">库存报表</div>
+                </div>
+                
+                <!-- 库存概览 -->
+                <div class="modal-tab-content active" id="analysis-overview">
+                    <div class="analysis-summary">
+                        <div class="summary-card">
+                            <div class="summary-icon">
+                                <i class="bi bi-box"></i>
+                            </div>
+                            <div class="summary-info">
+                                <h4>总库存商品</h4>
+                                <div class="summary-value">1,256</div>
+                                <div class="summary-desc">种商品</div>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-icon">
+                                <i class="bi bi-currency-dollar"></i>
+                            </div>
+                            <div class="summary-info">
+                                <h4>库存总价值</h4>
+                                <div class="summary-value">¥2,456,789</div>
+                                <div class="summary-desc">总价值</div>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-icon">
+                                <i class="bi bi-exclamation-triangle"></i>
+                            </div>
+                            <div class="summary-info">
+                                <h4>预警商品</h4>
+                                <div class="summary-value warning">23</div>
+                                <div class="summary-desc">需要关注</div>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-icon">
+                                <i class="bi bi-arrow-repeat"></i>
+                            </div>
+                            <div class="summary-info">
+                                <h4>平均周转率</h4>
+                                <div class="summary-value">8.5</div>
+                                <div class="summary-desc">次/年</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-charts">
+                        <div class="chart-container">
+                            <h4>库存分布</h4>
+                            <div class="chart-placeholder">
+                                <canvas id="inventoryDistributionChart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <h4>库存趋势</h4>
+                            <div class="chart-placeholder">
+                                <canvas id="inventoryTrendChart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 周转分析 -->
+                <div class="modal-tab-content" id="analysis-turnover">
+                    <div class="turnover-analysis">
+                        <div class="analysis-filters">
+                            <select>
+                                <option value="">全部分类</option>
+                                <option value="material">原材料</option>
+                                <option value="product">成品</option>
+                                <option value="accessory">辅料</option>
+                            </select>
+                            <select>
+                                <option value="month">本月</option>
+                                <option value="quarter">本季度</option>
+                                <option value="year">本年度</option>
+                            </select>
+                            <button class="btn-primary">分析</button>
+                        </div>
+                        
+                        <div class="analysis-charts">
+                            <div class="chart-container">
+                                <h4>商品周转率分析</h4>
+                                <div class="chart-placeholder">
+                                    <canvas id="turnoverChart" width="400" height="200"></canvas>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <h4>供应商分析</h4>
+                                <div class="chart-placeholder">
+                                    <canvas id="supplierChart" width="400" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="turnover-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>商品名称</th>
+                                        <th>分类</th>
+                                        <th>期初库存</th>
+                                        <th>期末库存</th>
+                                        <th>平均库存</th>
+                                        <th>销售成本</th>
+                                        <th>周转率</th>
+                                        <th>周转天数</th>
+                                        <th>评级</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="turnoverTableBody">
+                                    <!-- 数据将通过JavaScript动态加载 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 预警管理 -->
+                <div class="modal-tab-content" id="analysis-warning">
+                    <div class="warning-settings">
+                        <h4>预警设置</h4>
+                        <div class="warning-config">
+                            <div class="config-item">
+                                <label>库存下限预警</label>
+                                <input type="number" value="10" min="0">
+                                <span>件</span>
+                            </div>
+                            <div class="config-item">
+                                <label>库存上限预警</label>
+                                <input type="number" value="1000" min="0">
+                                <span>件</span>
+                            </div>
+                            <div class="config-item">
+                                <label>呆滞天数预警</label>
+                                <input type="number" value="90" min="0">
+                                <span>天</span>
+                            </div>
+                            <button class="btn-primary">保存设置</button>
+                        </div>
+                    </div>
+                    
+                    <div class="warning-list">
+                        <h4>当前预警</h4>
+                        <div class="warning-items">
+                            <div class="warning-item low-stock">
+                                <div class="warning-icon">
+                                    <i class="bi bi-exclamation-triangle"></i>
+                                </div>
+                                <div class="warning-content">
+                                    <h5>库存不足预警</h5>
+                                    <p>有机棉针织面料 - 当前库存：5件，低于预警线10件</p>
+                                    <div class="warning-time">2小时前</div>
+                                </div>
+                                <div class="warning-actions">
+                                    <button class="btn-small">处理</button>
+                                </div>
+                            </div>
+                            <div class="warning-item overstocked">
+                                <div class="warning-icon">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                </div>
+                                <div class="warning-content">
+                                    <h5>库存积压预警</h5>
+                                    <p>2023春季童装 - 当前库存：1200件，超过预警线1000件</p>
+                                    <div class="warning-time">1天前</div>
+                                </div>
+                                <div class="warning-actions">
+                                    <button class="btn-small">处理</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 库存报表 -->
+                <div class="modal-tab-content" id="analysis-report">
+                    <div class="report-generator">
+                        <h4>报表生成</h4>
+                        <div class="report-config">
+                            <div class="config-row">
+                                <div class="config-item">
+                                    <label>报表类型</label>
+                                    <select>
+                                        <option value="inventory">库存明细表</option>
+                                        <option value="movement">库存流水表</option>
+                                        <option value="turnover">周转率报表</option>
+                                        <option value="warning">预警报表</option>
+                                    </select>
+                                </div>
+                                <div class="config-item">
+                                    <label>时间范围</label>
+                                    <input type="date">
+                                    <span>至</span>
+                                    <input type="date">
+                                </div>
+                            </div>
+                            <div class="config-row">
+                                <div class="config-item">
+                                    <label>仓库</label>
+                                    <select>
+                                        <option value="">全部仓库</option>
+                                        <option value="warehouse1">主仓库</option>
+                                        <option value="warehouse2">原料仓库</option>
+                                        <option value="warehouse3">成品仓库</option>
+                                    </select>
+                                </div>
+                                <div class="config-item">
+                                    <label>商品分类</label>
+                                    <select>
+                                        <option value="">全部分类</option>
+                                        <option value="material">原材料</option>
+                                        <option value="product">成品</option>
+                                        <option value="accessory">辅料</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="report-actions">
+                                <button class="btn-primary">生成报表</button>
+                                <button class="btn-secondary">导出Excel</button>
+                                <button class="btn-secondary">打印报表</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="report-preview">
+                        <h4>报表预览</h4>
+                        <div class="report-content">
+                            <div class="report-header">
+                                <h5>库存明细报表</h5>
+                                <p>统计时间：2023年7月1日 - 2023年7月31日</p>
+                            </div>
+                            <div class="report-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>商品编码</th>
+                                            <th>商品名称</th>
+                                            <th>规格型号</th>
+                                            <th>仓库</th>
+                                            <th>期初库存</th>
+                                            <th>入库数量</th>
+                                            <th>出库数量</th>
+                                            <th>期末库存</th>
+                                            <th>库存金额</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="reportTableBody">
+                                        <!-- 报表数据将通过JavaScript动态加载 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="../images/logo-footer.png" alt="织里镇童装产业协同管理平台">
+                    <p>织里镇童装产业协同管理平台</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h3>关于我们</h3>
+                        <ul>
+                            <li><a href="#">平台介绍</a></li>
+                            <li><a href="#">联系我们</a></li>
+                            <li><a href="#">服务条款</a></li>
+                            <li><a href="#">隐私政策</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>企业服务</h3>
+                        <ul>
+                            <li><a href="#">企业入驻</a></li>
+                            <li><a href="#">供应链对接</a></li>
+                            <li><a href="#">产品展示</a></li>
+                            <li><a href="#">人才招聘</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>个人服务</h3>
+                        <ul>
+                            <li><a href="#">求职信息</a></li>
+                            <li><a href="#">技能培训</a></li>
+                            <li><a href="#">设计比赛</a></li>
+                            <li><a href="#">资源下载</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-contact">
+                    <h3>联系方式</h3>
+                    <p><i class="icon-address"></i>浙江省湖州市织里镇XXX路XX号</p>
+                    <p><i class="icon-phone"></i>0572-XXXXXXXX</p>
+                    <p><i class="icon-email"></i>contact@zhili-industry.com</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="icon-weixin"></i></a>
+                        <a href="#" class="social-link"><i class="icon-weibo"></i></a>
+                        <a href="#" class="social-link"><i class="icon-douyin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 织里镇童装产业协同管理平台 版权所有 浙ICP备XXXXXXXX号</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/auth-header.js?v=20260510"></script>
+    <script src="../js/common.js?v=20260510"></script>
+    <script src="../js/supply-chain.js?v=20260511"></script>
+</body>
+</html> 

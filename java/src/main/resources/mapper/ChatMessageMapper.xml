@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.ChatMessageMapper">
+
+    <resultMap id="ChatMessageResultMap" type="com.example.java.entity.ChatMessage">
+        <id column="id" property="id"/>
+        <result column="sender_id" property="senderId"/>
+        <result column="receiver_id" property="receiverId"/>
+        <result column="job_id" property="jobId"/>
+        <result column="connection_id" property="connectionId"/>
+        <result column="content" property="content"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="read_at" property="readAt"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO chat_messages (sender_id, receiver_id, job_id, connection_id, content)
+        VALUES (#{senderId}, #{receiverId}, #{jobId}, #{connectionId}, #{content})
+    </insert>
+
+    <select id="selectById" resultMap="ChatMessageResultMap">
+        SELECT id, sender_id, receiver_id, job_id, connection_id, content, created_at, read_at
+        FROM chat_messages WHERE id = #{id}
+    </select>
+
+    <select id="countUnreadByReceiver" resultType="int">
+        SELECT COUNT(*) FROM chat_messages
+        WHERE receiver_id = #{receiverId} AND read_at IS NULL
+    </select>
+
+    <update id="updateReadAtByReceiver">
+        UPDATE chat_messages
+        SET read_at = NOW()
+        WHERE receiver_id = #{receiverId} AND sender_id = #{otherUserId}
+        <if test="jobId != null">
+            AND (job_id IS NULL OR job_id = #{jobId})
+        </if>
+        <if test="connectionId != null">
+            AND (connection_id IS NULL OR connection_id = #{connectionId})
+        </if>
+        AND read_at IS NULL
+    </update>
+
+    <select id="selectConversation" resultMap="ChatMessageResultMap">
+        SELECT id, sender_id, receiver_id, job_id, connection_id, content, created_at, read_at
+        FROM chat_messages
+        WHERE (
+            (sender_id = #{user1} AND receiver_id = #{user2})
+            OR (sender_id = #{user2} AND receiver_id = #{user1})
+        )
+        <if test="jobId != null">
+            AND (job_id IS NULL OR job_id = #{jobId})
+        </if>
+        ORDER BY created_at ASC
+        <if test="limit != null and limit > 0">
+            LIMIT #{limit}
+        </if>
+    </select>
+
+    <!-- MySQL ONLY_FULL_GROUP_BY：必须按 CASE 表达式分组，不能用 SELECT 别名 other_id -->
+    <select id="selectContactUserIds" resultType="java.lang.String">
+        SELECT t.other_id FROM (
+            SELECT
+                CASE WHEN sender_id = #{userId} THEN receiver_id ELSE sender_id END AS other_id,
+                MAX(created_at) AS last_at
+            FROM chat_messages
+            WHERE sender_id = #{userId} OR receiver_id = #{userId}
+            GROUP BY CASE WHEN sender_id = #{userId} THEN receiver_id ELSE sender_id END
+        ) t
+        ORDER BY t.last_at DESC
+    </select>
+
+    <select id="selectLatestBetween" resultMap="ChatMessageResultMap">
+        SELECT id, sender_id, receiver_id, job_id, connection_id, content, created_at, read_at
+        FROM chat_messages
+        WHERE (
+            (sender_id = #{user1} AND receiver_id = #{user2})
+            OR (sender_id = #{user2} AND receiver_id = #{user1})
+        )
+        <if test="jobId != null">
+            AND job_id = #{jobId}
+        </if>
+        ORDER BY created_at DESC
+        LIMIT 1
+    </select>
+
+    <!-- 企业间供需对接聊天：按 connectionId 查询会话 -->
+    <select id="selectByConnectionId" resultMap="ChatMessageResultMap">
+        SELECT id, sender_id, receiver_id, job_id, connection_id, content, created_at, read_at
+        FROM chat_messages
+        WHERE connection_id = #{connectionId}
+        ORDER BY created_at ASC
+        <if test="limit != null and limit > 0">
+            LIMIT #{limit}
+        </if>
+    </select>
+
+    <!-- 统计某对接的未读消息数 -->
+    <select id="countUnreadByConnection" resultType="int">
+        SELECT COUNT(*) FROM chat_messages
+        WHERE connection_id = #{connectionId}
+          AND receiver_id = #{receiverId}
+          AND read_at IS NULL
+    </select>
+
+    <!-- 与某联系人之间的未读消息数 -->
+    <select id="countUnreadBetween" resultType="int">
+        SELECT COUNT(*) FROM chat_messages
+        WHERE receiver_id = #{userId}
+          AND sender_id = #{otherUserId}
+          AND read_at IS NULL
+        <if test="jobId != null">
+            AND job_id = #{jobId}
+        </if>
+    </select>
+</mapper>

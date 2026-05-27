@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.InventoryWarehouseMapper">
+    <resultMap id="VOResultMap" type="com.example.java.dto.InventoryWarehouseVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="address" property="address"/>
+        <result column="manager" property="manager"/>
+        <result column="contact_phone" property="contactPhone"/>
+        <result column="capacity" property="capacity"/>
+        <result column="status" property="status"/>
+        <result column="product_count" property="productCount"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="VOResultMap">
+        SELECT w.*, (SELECT COUNT(*) FROM inventory_products p WHERE p.warehouse_id = w.id) as product_count
+        FROM inventory_warehouses w
+        ORDER BY w.id ASC
+    </select>
+
+    <select id="selectById" resultMap="VOResultMap">
+        SELECT w.*, (SELECT COUNT(*) FROM inventory_products p WHERE p.warehouse_id = w.id) as product_count
+        FROM inventory_warehouses w
+        WHERE w.id = #{id}
+    </select>
+
+    <select id="selectEntityById" resultType="com.example.java.entity.InventoryWarehouse">
+        SELECT * FROM inventory_warehouses WHERE id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO inventory_warehouses (name, address, manager, contact_phone, capacity, status)
+        VALUES (#{name}, #{address}, #{manager}, #{contactPhone}, #{capacity}, #{status})
+    </insert>
+
+    <update id="update">
+        UPDATE inventory_warehouses
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="manager != null">manager = #{manager},</if>
+            <if test="contactPhone != null">contact_phone = #{contactPhone},</if>
+            <if test="capacity != null">capacity = #{capacity},</if>
+            <if test="status != null">status = #{status},</if>
+            updated_at = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM inventory_warehouses WHERE id = #{id}
+    </delete>
+
+    <select id="countTotal" resultType="int">
+        SELECT COUNT(*) FROM inventory_warehouses
+    </select>
+</mapper>

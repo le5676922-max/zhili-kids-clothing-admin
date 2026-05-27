@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.ProductMapper">
+
+    <resultMap id="ProductVOResultMap" type="com.example.java.dto.ProductVO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="category" property="category"/>
+        <result column="age_range" property="ageRange"/>
+        <result column="season" property="season"/>
+        <result column="material" property="material"/>
+        <result column="certification" property="certification"/>
+        <result column="price" property="price"/>
+        <result column="original_price" property="originalPrice"/>
+        <result column="sales" property="sales"/>
+        <result column="stock" property="stock"/>
+        <result column="badge" property="badge"/>
+        <result column="image_url" property="imageUrl"/>
+        <result column="enterprise_name" property="enterpriseName"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <resultMap id="ProductResultMap" type="com.example.java.entity.Product">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="category" property="category"/>
+        <result column="age_range" property="ageRange"/>
+        <result column="season" property="season"/>
+        <result column="material" property="material"/>
+        <result column="certification" property="certification"/>
+        <result column="price" property="price"/>
+        <result column="original_price" property="originalPrice"/>
+        <result column="sales" property="sales"/>
+        <result column="badge" property="badge"/>
+        <result column="image_url" property="imageUrl"/>
+        <result column="status" property="status"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findListForDisplay" resultMap="ProductVOResultMap">
+        SELECT p.id, p.user_id, p.name, p.description, p.category, p.age_range, p.season, p.material,
+               p.certification, p.price, p.original_price, p.sales, p.badge, p.image_url, p.status, p.stock,
+               u.enterprise_name
+        FROM products p
+        LEFT JOIN users u ON p.user_id = u.id
+        WHERE p.status = 1
+        ORDER BY p.sales DESC, p.created_at DESC
+    </select>
+
+    <select id="selectById" resultMap="ProductVOResultMap">
+        SELECT p.id, p.user_id, p.name, p.description, p.category, p.age_range, p.season, p.material,
+               p.certification, p.price, p.original_price, p.sales, p.badge, p.image_url, p.status, p.stock,
+               u.enterprise_name
+        FROM products p
+        LEFT JOIN users u ON p.user_id = u.id
+        WHERE p.id = #{id}
+    </select>
+
+    <select id="findByUserId" resultMap="ProductVOResultMap">
+        SELECT p.id, p.user_id, p.name, p.description, p.category, p.age_range, p.season, p.material,
+               p.certification, p.price, p.original_price, p.sales, p.badge, p.image_url, p.status, p.stock,
+               u.enterprise_name
+        FROM products p
+        LEFT JOIN users u ON p.user_id = u.id
+        WHERE p.user_id = #{userId}
+        ORDER BY p.created_at DESC
+    </select>
+
+    <!-- 管理端：全部商品分页（含上架/下架） -->
+    <select id="findListForAdmin" resultMap="ProductVOResultMap">
+        SELECT p.id, p.user_id, p.name, p.description, p.category, p.age_range, p.season, p.material,
+               p.certification, p.price, p.original_price, p.sales, p.badge, p.image_url, p.status, p.stock,
+               u.enterprise_name
+        FROM products p
+        LEFT JOIN users u ON p.user_id = u.id
+        ORDER BY p.created_at DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="countForAdmin" resultType="int">
+        SELECT COUNT(*) FROM products
+    </select>
+
+    <insert id="insert" parameterType="com.example.java.entity.Product">
+        INSERT INTO products (id, user_id, name, description, category, age_range, season, material,
+                             certification, price, original_price, sales, badge, image_url, status, stock, created_at, updated_at)
+        VALUES (#{id}, #{userId}, #{name}, #{description}, #{category}, #{ageRange}, #{season}, #{material},
+                #{certification}, #{price}, #{originalPrice}, #{sales}, #{badge}, #{imageUrl}, #{status},
+                COALESCE(#{stock}, 0), NOW(), NOW())
+    </insert>
+
+    <update id="update" parameterType="com.example.java.entity.Product">
+        UPDATE products
+        SET name = #{name}, description = #{description}, category = #{category}, age_range = #{ageRange},
+            season = #{season}, material = #{material}, certification = #{certification},
+            price = #{price}, original_price = #{originalPrice}, badge = #{badge}, image_url = #{imageUrl},
+            updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE products SET status = #{status}, updated_at = NOW() WHERE id = #{id}
+    </update>
+
+    <!-- 扣减库存（订单支付成功后调用），stock >= 0 由调用方保证 -->
+    <update id="decrementStock">
+        UPDATE products
+        SET stock = stock - #{quantity}, sales = sales + #{quantity}, updated_at = NOW()
+        WHERE id = #{productId} AND stock >= #{quantity}
+    </update>
+
+    <!-- 恢复库存（订单取消时调用），确保销量不会为负 -->
+    <update id="restoreStock">
+        UPDATE products
+        SET stock = stock + #{quantity},
+            sales = GREATEST(0, sales - #{quantity}),
+            updated_at = NOW()
+        WHERE id = #{productId}
+    </update>
+</mapper>

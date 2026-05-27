@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="profile-container">
+        <div class="profile-box">
+            <div class="profile-header">
+                <h2>个人中心</h2>
+                <p>修改您的昵称、头像等个人信息</p>
+            </div>
+
+            <!-- 企业待审核横幅 -->
+            <div id="profileEntBanner" style="display:none; margin: 0 0 16px 0; padding: 14px 20px; border-radius: 8px; font-size: 14px; line-height: 1.6; background: #fffbeb; border: 1px solid #fde68a;">
+                <strong style="color:#92400e;">&#x26A0; 提示：</strong>
+                <span id="profileEntMsg" style="color:#92400e;"></span>
+            </div>
+
+            <form class="profile-form" id="profileForm">
+                <div class="profile-avatar-wrap">
+                    <img id="avatarPreview" class="avatar-preview" src="" alt="头像">
+                </div>
+                <div class="form-group">
+                    <label for="nickname">昵称</label>
+                    <div class="input-with-icon">
+                        <i class="bi bi-person"></i>
+                        <input type="text" id="nickname" name="nickname" placeholder="请输入昵称" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">当前邮箱</label>
+                    <div class="input-with-icon">
+                        <i class="bi bi-envelope"></i>
+                        <input type="email" id="email" name="email" readonly placeholder="邮箱">
+                    </div>
+                </div>
+                <div class="form-group email-change-group">
+                    <label>修改绑定邮箱</label>
+                    <p class="form-hint">输入新邮箱并完成验证后，将使用新邮箱作为登录账号</p>
+                    <div class="input-with-icon form-group-inline">
+                        <i class="bi bi-envelope-plus"></i>
+                        <input type="email" id="newEmail" placeholder="请输入新邮箱" autocomplete="off">
+                        <button type="button" class="btn-get-code" id="btnEmailCode">获取验证码</button>
+                    </div>
+                    <div class="input-with-icon form-group-inline">
+                        <i class="bi bi-shield-lock"></i>
+                        <input type="text" id="emailCode" placeholder="请输入验证码" maxlength="6" autocomplete="off">
+                    </div>
+                    <button type="button" class="btn-secondary btn-confirm-email" id="btnConfirmEmail">确认修改邮箱</button>
+                </div>
+                <div class="form-group">
+                    <label>头像</label>
+                    <div class="avatar-upload-zone" id="avatarUploadZone">
+                        <input type="file" id="avatarFile" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" hidden>
+                        <div class="avatar-upload-inner" id="avatarUploadInner">
+                            <i class="bi bi-cloud-arrow-up"></i>
+                            <p>点击或拖拽照片到此处上传</p>
+                            <span class="avatar-upload-hint">支持 JPG、PNG、GIF、WebP，不超过 2MB</span>
+                        </div>
+                    </div>
+                    <input type="hidden" id="avatar" name="avatar" value="">
+                </div>
+                <div id="error-message" class="error-message" style="display:none;"></div>
+                <div id="success-message" class="success-message" style="display:none;"></div>
+                <button type="submit" class="btn-primary btn-full" id="btnSubmit">保存修改</button>
+
+                <!-- 企业用户专属：审核通过后填写企业资料（个人用户不显示） -->
+                <div id="enterpriseProfileSection" class="enterprise-profile-section" style="display:none;">
+                    <hr class="profile-divider">
+                    <h3 class="enterprise-profile-title"><i class="bi bi-building"></i> 企业资料</h3>
+                    <p class="form-hint">请完善企业信息，带 <span class="required-star">*</span> 为必填</p>
+                    <div class="form-group">
+                        <label>企业名称</label>
+                        <input type="text" id="enterpriseName" readonly class="input-readonly" placeholder="企业名称">
+                    </div>
+                    <div class="form-group">
+                        <label for="enterpriseAddress">企业地址 <span class="required-star">*</span></label>
+                        <div class="input-with-icon">
+                            <i class="bi bi-geo-alt"></i>
+                            <input type="text" id="enterpriseAddress" placeholder="请输入企业地址">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="enterprisePhone">企业电话 <span class="required-star">*</span></label>
+                        <div class="input-with-icon">
+                            <i class="bi bi-telephone"></i>
+                            <input type="tel" id="enterprisePhone" placeholder="请输入企业电话">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="enterpriseContactEmail">企业联系邮箱 <span class="required-star">*</span></label>
+                        <div class="input-with-icon">
+                            <i class="bi bi-envelope"></i>
+                            <input type="email" id="enterpriseContactEmail" placeholder="请输入联系邮箱">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="enterpriseWebsite">企业网站（选填）</label>
+                        <div class="input-with-icon">
+                            <i class="bi bi-globe"></i>
+                            <input type="url" id="enterpriseWebsite" placeholder="如 https://www.example.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="enterpriseIntroduction">企业介绍</label>
+                        <textarea id="enterpriseIntroduction" rows="4" placeholder="请输入企业介绍"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>自定义标签</label>
+                        <div class="tags-input-wrap">
+                            <div id="enterpriseTagsList" class="tags-list"></div>
+                            <div class="tags-add-row">
+                                <input type="text" id="enterpriseTagInput" placeholder="输入标签后回车添加" maxlength="20">
+                                <button type="button" class="btn-secondary btn-sm" id="btnAddTag">添加</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>企业认证</label>
+                        <div class="tags-input-wrap">
+                            <div id="enterpriseCertificationsList" class="tags-list"></div>
+                            <div class="tags-add-row">
+                                <input type="text" id="enterpriseCertificationInput" placeholder="输入认证后回车添加" maxlength="50">
+                                <button type="button" class="btn-secondary btn-sm" id="btnAddCertification">添加</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-primary btn-full" id="btnSaveEnterprise">保存企业资料</button>
+                </div>
+            </form>
+
+            <div class="profile-back-link">
+                <a href="../index.html"><i class="bi bi-arrow-left"></i> 返回首页</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- 保存成功弹窗 -->
+    <div class="save-success-overlay" id="saveSuccessOverlay">
+        <div class="save-success-modal">
+            <div class="save-success-icon"><i class="bi bi-check-circle-fill"></i></div>
+            <p class="save-success-text">已保存成功</p>
+            <button type="button" class="btn-primary" id="btnCloseSaveSuccess">确定</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2026 织里镇童装产业协同管理平台 版权所有 浙ICP备XXXXXXXX号</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/oss-upload.js"></script>
+    <script src="../js/auth-header.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/profile.js"></script>
+</body>
+</html>

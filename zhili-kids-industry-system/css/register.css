@@ -1,0 +1,336 @@
+/* 注册页面样式 */
+
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: var(--light-bg);
+}
+
+.register-box {
+    width: 100%;
+    max-width: 600px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 40px;
+}
+
+.register-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.register-header h2 {
+    font-size: 24px;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.register-header p {
+    color: var(--light-text);
+    font-size: 14px;
+}
+
+/* 注册步骤指示器 */
+.register-steps {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.step-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #e2e8f0;
+    color: var(--light-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.step.active .step-number {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.step-label {
+    font-size: 12px;
+    color: var(--light-text);
+    transition: all 0.3s ease;
+}
+
+.step.active .step-label {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.step-line {
+    flex: 1;
+    height: 2px;
+    background-color: #e2e8f0;
+    position: relative;
+    z-index: 0;
+}
+
+/* 表单样式 */
+.register-form {
+    margin-top: 20px;
+}
+
+.form-step {
+    display: none;
+}
+
+.form-step.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon input {
+    width: 100%;
+    padding: 12px 15px 12px 40px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.input-with-icon input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2);
+}
+
+.input-with-icon i:first-child {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--light-text);
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--light-text);
+    cursor: pointer;
+}
+
+/* 单选按钮组 */
+.radio-group {
+    display: flex;
+    gap: 20px;
+}
+
+.radio-item {
+    display: flex;
+    align-items: center;
+}
+
+.radio-item input[type="radio"] {
+    margin-right: 8px;
+}
+
+/* 验证码输入框 */
+.verification-code-group {
+    display: flex;
+    gap: 10px;
+}
+
+.verification-code-group input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 14px;
+}
+
+.btn-get-code {
+    padding: 12px 15px;
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: background-color 0.3s;
+}
+
+.btn-get-code:hover {
+    background-color: var(--primary-color);
+}
+
+.btn-get-code:disabled {
+    background-color: #cbd5e0;
+    cursor: not-allowed;
+}
+
+/* 文件上传 */
+.file-upload {
+    position: relative;
+    margin-top: 5px;
+}
+
+.file-upload input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.upload-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 15px;
+    border: 1px dashed var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--light-text);
+    transition: all 0.3s;
+}
+
+.file-upload:hover .upload-button {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.file-name {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--light-text);
+}
+
+/* 复选框 */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+.terms-link {
+    color: var(--primary-color);
+}
+
+/* 按钮样式 */
+.btn-next, .btn-submit {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.step-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn-prev, .btn-submit {
+    flex: 1;
+    padding: 12px;
+}
+
+/* 成功消息 */
+.success-message {
+    text-align: center;
+    padding: 30px 0;
+}
+
+.success-icon {
+    font-size: 60px;
+    color: var(--success-color);
+    margin-bottom: 20px;
+}
+
+.success-message h3 {
+    font-size: 22px;
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+
+.success-message p {
+    color: var(--light-text);
+    margin-bottom: 30px;
+}
+
+.success-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.success-actions a {
+    padding: 10px 20px;
+}
+
+/* 登录链接 */
+.login-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--light-text);
+}
+
+.login-link a {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+/* 响应式样式 */
+@media (max-width: 576px) {
+    .register-box {
+        padding: 30px 20px;
+    }
+    
+    .step-buttons {
+        flex-direction: column;
+    }
+    
+    .success-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .success-actions a {
+        width: 100%;
+    }
+} 

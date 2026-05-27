@@ -1,0 +1,3954 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统管理后台 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../css/ai-assistant.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 与用户端 common.css 保持一致的主题色 */
+        :root {
+            --primary-color: #2c5282;
+            --secondary-color: #4299e1;
+            --accent-color: #f56565;
+            --text-color: #333333;
+            --light-text: #666666;
+            --bg-color: #ffffff;
+            --light-bg: #f7f9fc;
+            --border-color: #e2e8f0;
+            --success-color: #48bb78;
+            --warning-color: #ecc94b;
+            --error-color: #e53e3e;
+            --danger-color: #e53e3e;
+            --info-color: #4299e1;
+            --dark-color: #1a202c;
+            --gray-color: #718096;
+            --light-gray: #edf2f7;
+            --gradient-color-1: #f0f9ff;
+            --gradient-color-2: #e1f5fe;
+            --gradient-color-3: #e3f2fd;
+            --gradient-color-4: #ebf8ff;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 25px -5px rgba(44, 82, 130, 0.12);
+            --sidebar-width: 260px;
+            --header-height: 64px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 50% 25%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 75%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--text-color);
+            background: linear-gradient(-45deg, var(--gradient-color-1), var(--gradient-color-2), var(--gradient-color-3), var(--gradient-color-4));
+            background-size: 300% 300%;
+            animation: gradientBackground 12s ease infinite;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* 登录页面（与用户端首页同系淡蓝白渐变） */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(-45deg, var(--gradient-color-1), var(--gradient-color-2), var(--gradient-color-3), var(--gradient-color-4));
+            background-size: 300% 300%;
+            animation: gradientBackground 12s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(44, 82, 130, 0.06) 0%, transparent 70%);
+            top: -300px;
+            right: -300px;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 48px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            z-index: 1;
+            border: 1px solid var(--border-color);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-logo {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 4px 14px rgba(44, 82, 130, 0.35);
+        }
+
+        .login-logo i {
+            font-size: 36px;
+            color: white;
+        }
+
+        .login-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .login-header p {
+            font-size: 14px;
+            color: var(--light-text);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: var(--light-bg);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(44, 82, 130, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .password-toggle {
+            position: relative;
+        }
+
+        .password-toggle i {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #9ca3af;
+            transition: color 0.3s;
+        }
+
+        .password-toggle i:hover {
+            color: var(--primary-color);
+        }
+
+        /* 与用户端「注册」按钮一致：主色实心，悬停为辅色 */
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(44, 82, 130, 0.35);
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            background-color: var(--secondary-color);
+            box-shadow: 0 5px 15px rgba(66, 153, 225, 0.45);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .login-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* 主后台布局 */
+        .admin-wrapper {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .admin-wrapper.active {
+            display: flex;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: #ffffff;
+            border-right: 1px solid var(--border-color);
+            /* 固定为视口高度，内部 nav 才能出现纵向滚动条 */
+            height: 100vh;
+            max-height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .sidebar-brand-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-brand-icon i {
+            font-size: 20px;
+            color: white;
+        }
+
+        .sidebar-brand-text {
+            color: var(--dark-color);
+        }
+
+        .sidebar-brand-text h2 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .sidebar-brand-text span {
+            font-size: 11px;
+            color: var(--gray-color);
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            min-height: 0; /* flex 子项可收缩，overflow 才能生效 */
+            padding: 16px 12px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-section {
+            margin-bottom: 24px;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray-color);
+            padding: 8px 12px;
+            font-weight: 600;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 10px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: var(--gradient-color-3);
+            color: var(--primary-color);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: 0 4px 14px rgba(44, 82, 130, 0.3);
+        }
+
+        .nav-item.active:hover {
+            color: white;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .nav-item span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: #ef4444;
+            color: white;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        /* Tab 导航样式 */
+        .tab-btn.active {
+            background: white;
+            color: var(--primary-color);
+            box-shadow: 0 2px 8px rgba(44, 82, 130, 0.12);
+        }
+
+        /* 主内容区：透出与用户端一致的页面背景 */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            background: transparent;
+        }
+
+        /* 顶部 Header */
+        .top-header {
+            height: var(--header-height);
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #374151;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: #6b7280;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+
+        .breadcrumb span {
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+            background: var(--gradient-color-3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .header-icon-btn:hover {
+            background: var(--gradient-color-2);
+        }
+
+        .header-icon-btn i {
+            font-size: 18px;
+            color: #6b7280;
+        }
+
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 12px 6px 6px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .header-user:hover {
+            background: #f3f4f6;
+        }
+
+        .header-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .header-user-info {
+            text-align: left;
+        }
+
+        .header-user-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .header-user-role {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            min-width: 180px;
+            display: none;
+            z-index: 100;
+        }
+
+        .user-dropdown.show {
+            display: block;
+        }
+
+        .user-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            color: #374151;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .user-dropdown-item:first-child {
+            border-radius: 12px 12px 0 0;
+        }
+
+        .user-dropdown-item:last-child {
+            border-radius: 0 0 12px 12px;
+        }
+
+        .user-dropdown-item:hover {
+            background: #f3f4f6;
+        }
+
+        .user-dropdown-item.danger {
+            color: #ef4444;
+        }
+
+        /* 页面内容 */
+        .page-content {
+            padding: 24px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 2px 5px rgba(44, 82, 130, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background-color: var(--secondary-color);
+            box-shadow: 0 5px 15px rgba(66, 153, 225, 0.45);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--text-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-sm {
+            padding: 8px 14px;
+            font-size: 13px;
+        }
+
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .stat-icon.blue {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .stat-icon.green {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            color: white;
+        }
+
+        .stat-icon.orange {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            color: white;
+        }
+
+        .stat-icon.red {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+            color: white;
+        }
+
+        .stat-info h3 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .stat-info p {
+            font-size: 14px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        /* 卡片 */
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        /* 表格 */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 14px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6b7280;
+            background: #f9fafb;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table td {
+            padding: 16px;
+            font-size: 14px;
+            color: #374151;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        .table-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .table-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .table-user-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .table-user-info p {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-badge.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-badge.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-badge.danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status-badge.info {
+            background: var(--gradient-color-3);
+            color: var(--primary-color);
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .action-btn.view {
+            background: var(--gradient-color-3);
+            color: var(--primary-color);
+        }
+
+        .action-btn.view:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .action-btn.edit {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .action-btn.edit:hover {
+            background: #059669;
+            color: white;
+        }
+
+        .action-btn.delete {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .action-btn.delete:hover {
+            background: #dc2626;
+            color: white;
+        }
+
+        /* 分页 */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination-info {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .pagination-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .page-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #374151;
+            transition: all 0.2s;
+        }
+
+        .page-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .page-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* 标签页 */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 24px;
+        }
+
+        .tab {
+            padding: 16px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: var(--primary-color);
+        }
+
+        .tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* 搜索栏 */
+        .search-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .search-input input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .search-input input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(44, 82, 130, 0.12);
+        }
+
+        .search-input i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+
+        .filter-select {
+            padding: 12px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 14px;
+            min-width: 140px;
+            cursor: pointer;
+            background: white;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        /* 模态框 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow: hidden;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: #f3f4f6;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: #e5e7eb;
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            max-height: calc(90vh - 160px);
+        }
+
+        .modal-footer {
+            padding: 20px 24px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        /* 表单 */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(44, 82, 130, 0.12);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: #d1d5db;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .search-input {
+                max-width: none;
+            }
+        }
+
+        /* 通知提示 */
+        .toast {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            background: white;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 2000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left: 4px solid #10b981;
+        }
+
+        .toast.error {
+            border-left: 4px solid #ef4444;
+        }
+
+        .toast.warning {
+            border-left: 4px solid #f59e0b;
+        }
+
+        .toast i {
+            font-size: 20px;
+        }
+
+        .toast.success i {
+            color: #10b981;
+        }
+
+        .toast.error i {
+            color: #ef4444;
+        }
+
+        .toast.warning i {
+            color: #f59e0b;
+        }
+
+        .toast-message {
+            font-size: 14px;
+            color: #374151;
+        }
+
+        /* 隐藏 */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- 登录页面 -->
+    <div class="login-container" id="loginPage">
+        <div class="login-box">
+            <div class="login-header">
+                <div class="login-logo">
+                    <i class="bi bi-shop"></i>
+                </div>
+                <h1>织里童装管理系统</h1>
+                <p>请使用管理员账号登录</p>
+            </div>
+            
+            <div class="error-message" id="loginError"></div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>管理员邮箱</label>
+                    <input type="email" class="form-input" id="loginEmail" placeholder="请输入管理员邮箱" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>登录密码</label>
+                    <div class="password-toggle">
+                        <input type="password" class="form-input" id="loginPassword" placeholder="请输入密码" required>
+                        <i class="bi bi-eye-slash" id="togglePassword"></i>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-login" id="loginBtn">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    登 录
+                </button>
+            </form>
+            
+            <div class="login-footer">
+                <a href="index.html">返回首页</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主后台界面 -->
+    <div class="admin-wrapper" id="adminPage">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="sidebar-brand">
+                    <div class="sidebar-brand-icon">
+                        <i class="bi bi-shop"></i>
+                    </div>
+                    <div class="sidebar-brand-text">
+                        <h2>织里童装</h2>
+                        <span>管理系统</span>
+                    </div>
+                </a>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">概览</div>
+                    <a class="nav-item active" data-page="dashboard">
+                        <i class="bi bi-grid-1x2"></i>
+                        <span>仪表盘</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">用户管理</div>
+                    <a class="nav-item" data-page="users">
+                        <i class="bi bi-people"></i>
+                        <span>用户列表</span>
+                    </a>
+                    <a class="nav-item" data-page="enterprises">
+                        <i class="bi bi-building"></i>
+                        <span>企业管理</span>
+                        <span class="nav-badge" id="pendingBadge">0</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">内容管理</div>
+                    <a class="nav-item" data-page="products">
+                        <i class="bi bi-box-seam"></i>
+                        <span>产品管理</span>
+                    </a>
+                    <a class="nav-item" data-page="orders">
+                        <i class="bi bi-cart3"></i>
+                        <span>订单管理</span>
+                    </a>
+                    <a class="nav-item" data-page="courses">
+                        <i class="bi bi-journal-bookmark"></i>
+                        <span>培训课程</span>
+                    </a>
+                    <a class="nav-item" data-page="supply-docking">
+                        <i class="bi bi-arrow-left-right"></i>
+                        <span>供需对接</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">工单</div>
+                    <a class="nav-item" data-page="workorders">
+                        <i class="bi bi-ticket-perforated"></i>
+                        <span>工单处理</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">系统设置</div>
+                    <a class="nav-item" data-page="settings">
+                        <i class="bi bi-gear"></i>
+                        <span>系统配置</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 顶部 Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <div class="breadcrumb">
+                        <a href="#">首页</a>
+                        <span>/</span>
+                        <span id="currentPageName">仪表盘</span>
+                    </div>
+                </div>
+                
+                <div class="header-right">
+                    <button class="header-icon-btn" title="消息">
+                        <i class="bi bi-bell"></i>
+                    </button>
+                    <button class="header-icon-btn" title="设置">
+                        <i class="bi bi-gear"></i>
+                    </button>
+                    
+                    <div class="header-user" id="userMenuBtn">
+                        <div class="header-avatar" id="userAvatar">管</div>
+                        <div class="header-user-info">
+                            <div class="header-user-name" id="userName">管理员</div>
+                            <div class="header-user-role">系统管理员</div>
+                        </div>
+                        <i class="bi bi-chevron-down"></i>
+                        
+                        <div class="user-dropdown" id="userDropdown">
+                            <a class="user-dropdown-item" onclick="showSettings()">
+                                <i class="bi bi-person-circle"></i>
+                                <span>个人设置</span>
+                            </a>
+                            <a class="user-dropdown-item" onclick="showSettings()">
+                                <i class="bi bi-gear"></i>
+                                <span>系统设置</span>
+                            </a>
+                            <a class="user-dropdown-item danger" onclick="logout()">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>退出登录</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 页面内容 -->
+            <div class="page-content">
+                <!-- 仪表盘 -->
+                <div id="page-dashboard" class="page">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">仪表盘</h1>
+                            <p class="page-subtitle">欢迎回来，<span id="welcomeName">管理员</span></p>
+                        </div>
+                        <button class="btn btn-primary" onclick="refreshData()">
+                            <i class="bi bi-arrow-clockwise"></i>
+                            刷新数据
+                        </button>
+                    </div>
+                    
+                    <!-- 统计卡片 -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon blue">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="statTotalUsers">0</h3>
+                                <p>总用户数</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon green">
+                                <i class="bi bi-person-check"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="statPersonalUsers">0</h3>
+                                <p>个人用户</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon orange">
+                                <i class="bi bi-building"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="statEnterprises">0</h3>
+                                <p>企业用户</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon red">
+                                <i class="bi bi-hourglass-split"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="statPending">0</h3>
+                                <p>待审核</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 最近用户 -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">最近注册用户</h3>
+                            <button class="btn btn-secondary btn-sm" onclick="showPage('users')">
+                                查看全部
+                            </button>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>用户</th>
+                                        <th>类型</th>
+                                        <th>状态</th>
+                                        <th>注册时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentUsersTable">
+                                    <tr>
+                                        <td colspan="5" class="loading">
+                                            <div class="spinner"></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 用户列表 -->
+                <div id="page-users" class="page hidden">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">用户管理</h1>
+                            <p class="page-subtitle">管理所有注册用户</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="search-bar" style="padding: 20px 24px; border-bottom: 1px solid var(--border-color);">
+                            <div class="search-input">
+                                <i class="bi bi-search"></i>
+                                <input type="text" placeholder="搜索用户..." id="userSearchInput">
+                            </div>
+                            <select class="filter-select" id="userTypeFilter">
+                                <option value="">全部类型</option>
+                                <option value="1">个人用户</option>
+                                <option value="2">企业用户</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="searchUsers()">
+                                <i class="bi bi-search"></i>
+                                搜索
+                            </button>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>用户</th>
+                                        <th>邮箱</th>
+                                        <th>类型</th>
+                                        <th>状态</th>
+                                        <th>注册时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTable">
+                                    <tr>
+                                        <td colspan="6" class="loading">
+                                            <div class="spinner"></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="pagination">
+                            <div class="pagination-info">
+                                共 <span id="totalUsers">0</span> 条记录，第 <span id="currentPage">1</span> / <span id="totalPages">1</span> 页
+                            </div>
+                            <div class="pagination-btns" id="paginationBtns"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 企业管理 -->
+                <div id="page-enterprises" class="page hidden">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">企业管理</h1>
+                            <p class="page-subtitle">审核和管理企业用户</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="tabs">
+                            <div class="tab active" data-status="0">
+                                待审核 <span class="nav-badge" id="tabPending">0</span>
+                            </div>
+                            <div class="tab" data-status="1">已通过</div>
+                            <div class="tab" data-status="2">已拒绝</div>
+                        </div>
+                        
+                        <div class="search-bar" style="padding: 20px 24px; border-bottom: 1px solid var(--border-color);">
+                            <div class="search-input">
+                                <i class="bi bi-search"></i>
+                                <input type="text" placeholder="搜索企业..." id="enterpriseSearchInput">
+                            </div>
+                            <button class="btn btn-primary" onclick="searchEnterprises()">
+                                <i class="bi bi-search"></i>
+                                搜索
+                            </button>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>企业</th>
+                                        <th>营业执照号</th>
+                                        <th>营业执照照片</th>
+                                        <th>负责人</th>
+                                        <th>状态</th>
+                                        <th>申请时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="enterprisesTable">
+                                    <tr>
+                                        <td colspan="7" class="loading">
+                                            <div class="spinner"></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="pagination">
+                            <div class="pagination-info">
+                                共 <span id="totalEnterprises">0</span> 条记录
+                            </div>
+                            <div class="pagination-btns" id="enterprisePagination"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产品管理 -->
+                <div id="page-products" class="page hidden">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">产品管理</h1>
+                            <p class="page-subtitle">管理产品列表</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="loadProducts()" title="刷新">
+                            <i class="bi bi-arrow-clockwise"></i>
+                            刷新
+                        </button>
+                    </div>
+                    
+                    <div class="card">
+                        <div id="productTableWrap" class="table-container" style="display:none;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>商品信息</th>
+                                        <th>分类/规格</th>
+                                        <th>价格</th>
+                                        <th>商家</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productsTable"></tbody>
+                            </table>
+                        </div>
+                        <div id="productEmptyState" class="empty-state">
+                            <i class="bi bi-box-seam"></i>
+                            <h3>暂无产品数据</h3>
+                            <p>正在加载...</p>
+                        </div>
+                        <div id="productPaginationWrap" class="pagination" style="display:none;">
+                            <div class="pagination-info">
+                                共 <span id="totalProducts">0</span> 条记录，第 <span id="productsCurrentPage">1</span> / <span id="productsTotalPages">1</span> 页
+                            </div>
+                            <div class="pagination-btns" id="productPaginationBtns"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 订单管理 -->
+                <div id="page-orders" class="page hidden">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">订单管理</h1>
+                            <p class="page-subtitle">查看和管理订单</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="loadOrders()" title="刷新">
+                            <i class="bi bi-arrow-clockwise"></i>
+                            刷新
+                        </button>
+                    </div>
+                    
+                    <div class="card">
+                        <div id="orderTableWrap" class="table-container" style="display:none;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>订单号</th>
+                                        <th>买家</th>
+                                        <th>卖家/商家</th>
+                                        <th>商品</th>
+                                        <th>数量/金额</th>
+                                        <th>订单状态</th>
+                                        <th>下单时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ordersTable"></tbody>
+                            </table>
+                        </div>
+                        <div id="orderEmptyState" class="empty-state">
+                            <i class="bi bi-cart3"></i>
+                            <h3>暂无订单数据</h3>
+                            <p>正在加载...</p>
+                        </div>
+                        <div id="orderPaginationWrap" class="pagination" style="display:none;">
+                            <div class="pagination-info">
+                                共 <span id="totalOrders">0</span> 条记录，第 <span id="ordersCurrentPage">1</span> / <span id="ordersTotalPages">1</span> 页
+                            </div>
+                            <div class="pagination-btns" id="orderPaginationBtns"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 培训课程 -->
+                <div id="page-courses" class="page hidden">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">培训课程</h1>
+                            <p class="page-subtitle">管理培训课程与课程订单</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="openAddCourseModal()">
+                            <i class="bi bi-plus-lg"></i>
+                            新增课程
+                        </button>
+                    </div>
+
+                    <div class="card" style="margin-bottom: 24px;">
+                        <div class="card-header">
+                            <h3 class="card-title">课程列表</h3>
+                            <button class="btn btn-secondary btn-sm" onclick="loadCourses()" title="刷新">
+                                <i class="bi bi-arrow-clockwise"></i> 刷新
+                            </button>
+                        </div>
+                        <div id="courseTableWrap" class="table-container" style="display:none;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>课程信息</th>
+                                        <th>类别/级别/形式</th>
+                                        <th>讲师</th>
+                                        <th>价格</th>
+                                        <th>报名人数</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="coursesTable"></tbody>
+                            </table>
+                        </div>
+                        <div id="courseEmptyState" class="empty-state">
+                            <i class="bi bi-journal-bookmark"></i>
+                            <h3>暂无课程</h3>
+                            <p>点击「新增课程」添加培训课程</p>
+                        </div>
+                        <div id="coursePaginationWrap" class="pagination" style="display:none;">
+                            <div class="pagination-info">
+                                共 <span id="totalCourses">0</span> 条，第 <span id="coursesCurrentPage">1</span> / <span id="coursesTotalPages">1</span> 页
+                            </div>
+                            <div class="pagination-btns" id="coursePaginationBtns"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">课程订单</h3>
+                            <button class="btn btn-secondary btn-sm" onclick="loadCourseOrders()" title="刷新">
+                                <i class="bi bi-arrow-clockwise"></i> 刷新
+                            </button>
+                        </div>
+                        <div id="courseOrderTableWrap" class="table-container" style="display:none;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>订单ID</th>
+                                        <th>用户</th>
+                                        <th>课程</th>
+                                        <th>金额</th>
+                                        <th>下单时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="courseOrdersTable"></tbody>
+                            </table>
+                        </div>
+                        <div id="courseOrderEmptyState" class="empty-state">
+                            <i class="bi bi-receipt"></i>
+                            <h3>暂无课程订单</h3>
+                            <p>用户在前台报名课程后会显示在此</p>
+                        </div>
+                        <div id="courseOrderPaginationWrap" class="pagination" style="display:none;">
+                            <div class="pagination-info">
+                                共 <span id="totalCourseOrders">0</span> 条，第 <span id="courseOrdersCurrentPage">1</span> / <span id="courseOrdersTotalPages">1</span> 页
+                            </div>
+                            <div class="pagination-btns" id="courseOrderPaginationBtns"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 工单处理 -->
+                <div id="page-workorders" class="page hidden">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">工单处理</h1>
+                            <p class="page-subtitle">查看和回复用户工单</p>
+                        </div>
+                        <div style="display:flex;gap:10px;">
+                            <button type="button" class="btn btn-secondary" onclick="loadWorkorders()" title="刷新">
+                                <i class="bi bi-arrow-clockwise"></i> 刷新
+                            </button>
+                            <a href="work-order.html" class="btn btn-primary" target="_blank">
+                                <i class="bi bi-box-arrow-up-right"></i> 前台工单页
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div id="workOrderEmptyState" class="empty-state" style="display:none;">
+                            <i class="bi bi-ticket-perforated"></i>
+                            <h3>暂无工单</h3>
+                            <p>用户在前台「我的工单」创建的工单会显示在此处。</p>
+                        </div>
+                        <div id="workOrderTableWrap" class="table-container" style="display:none;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>主题</th>
+                                        <th>级别</th>
+                                        <th>状态</th>
+                                        <th>创建时间</th>
+                                        <th>最后回复</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="workOrderListTbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 供需对接 -->
+                <div id="page-supply-docking" class="page hidden">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">供需对接</h1>
+                            <p class="page-subtitle">管理需求信息、供应信息及对接记录</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="loadSupplyDocking()" title="刷新">
+                            <i class="bi bi-arrow-clockwise"></i>
+                            刷新
+                        </button>
+                    </div>
+
+                    <!-- Tab 切换 -->
+                    <div class="tab-nav" style="margin-bottom: 20px; display:flex; gap: 4px; background: var(--light-gray); padding: 4px; border-radius: 10px;">
+                        <button class="tab-btn active" id="sdTabDemands" onclick="switchSupplyDockingTab('demands')" style="flex:1; border:none; background:transparent; padding:10px 16px; border-radius:8px; cursor:pointer; font-weight:600; color:var(--text-secondary); transition:all .2s;">需求信息</button>
+                        <button class="tab-btn" id="sdTabSupplies" onclick="switchSupplyDockingTab('supplies')" style="flex:1; border:none; background:transparent; padding:10px 16px; border-radius:8px; cursor:pointer; font-weight:600; color:var(--text-secondary); transition:all .2s;">供应信息</button>
+                        <button class="tab-btn" id="sdTabConnections" onclick="switchSupplyDockingTab('connections')" style="flex:1; border:none; background:transparent; padding:10px 16px; border-radius:8px; cursor:pointer; font-weight:600; color:var(--text-secondary); transition:all .2s;">对接记录</button>
+                    </div>
+
+                    <!-- 需求信息 -->
+                    <div id="sdPanelDemands">
+                        <div class="card">
+                            <div id="sdDemandsWrap" class="table-container" style="display:none;">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>编号</th>
+                                            <th>标题</th>
+                                            <th>类型</th>
+                                            <th>企业</th>
+                                            <th>紧急程度</th>
+                                            <th>状态</th>
+                                            <th>发布时间</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="sdDemandsTable"></tbody>
+                                </table>
+                            </div>
+                            <div id="sdDemandsEmpty" class="empty-state">
+                                <i class="bi bi-inbox"></i>
+                                <h3>暂无需求数据</h3>
+                                <p>正在加载...</p>
+                            </div>
+                            <div id="sdDemandsPagination" class="pagination" style="display:none;">
+                                <div class="pagination-info">共 <span id="sdDemandsTotal">0</span> 条</div>
+                                <div class="pagination-btns" id="sdDemandsPbtns"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 供应信息 -->
+                    <div id="sdPanelSupplies" style="display:none;">
+                        <div class="card">
+                            <div id="sdSuppliesWrap" class="table-container" style="display:none;">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>编号</th>
+                                            <th>标题</th>
+                                            <th>类型</th>
+                                            <th>企业</th>
+                                            <th>所在地区</th>
+                                            <th>状态</th>
+                                            <th>发布时间</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="sdSuppliesTable"></tbody>
+                                </table>
+                            </div>
+                            <div id="sdSuppliesEmpty" class="empty-state">
+                                <i class="bi bi-inbox"></i>
+                                <h3>暂无供应数据</h3>
+                                <p>正在加载...</p>
+                            </div>
+                            <div id="sdSuppliesPagination" class="pagination" style="display:none;">
+                                <div class="pagination-info">共 <span id="sdSuppliesTotal">0</span> 条</div>
+                                <div class="pagination-btns" id="sdSuppliesPbtns"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 对接记录 -->
+                    <div id="sdPanelConnections" style="display:none;">
+                        <div class="card">
+                            <div id="sdConnectionsWrap" class="table-container" style="display:none;">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>对接编号</th>
+                                            <th>类型</th>
+                                            <th>发起企业</th>
+                                            <th>联系人</th>
+                                            <th>对接状态</th>
+                                            <th>开始日期</th>
+                                            <th>最后更新</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="sdConnectionsTable"></tbody>
+                                </table>
+                            </div>
+                            <div id="sdConnectionsEmpty" class="empty-state">
+                                <i class="bi bi-inbox"></i>
+                                <h3>暂无对接记录</h3>
+                                <p>正在加载...</p>
+                            </div>
+                            <div id="sdConnectionsPagination" class="pagination" style="display:none;">
+                                <div class="pagination-info">共 <span id="sdConnectionsTotal">0</span> 条</div>
+                                <div class="pagination-btns" id="sdConnectionsPbtns"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 系统设置 -->
+                <div id="page-settings" class="page hidden">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">系统设置</h1>
+                            <p class="page-subtitle">配置系统参数</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">基本设置</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">系统名称</label>
+                                    <input type="text" class="form-control" value="织里镇童装产业协同管理平台">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">系统版本</label>
+                                    <input type="text" class="form-control" value="v1.0.0" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">管理员邮箱</label>
+                                <input type="email" class="form-control" id="adminEmailSetting" value="3171739575@qq.com">
+                                <small style="color: #6b7280; font-size: 12px;">指定 QQ 邮箱 3171739575@qq.com 为管理员账号</small>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" onclick="saveSettings()">
+                                    <i class="bi bi-check-lg"></i>
+                                    保存设置
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 操作日志 -->
+                <div id="page-logs" class="page hidden">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">操作日志</h1>
+                            <p class="page-subtitle">查看系统操作记录</p>
+                        </div>
+                        <button class="btn btn-secondary">
+                            <i class="bi bi-download"></i>
+                            导出日志
+                        </button>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="empty-state">
+                            <i class="bi bi-clock-history"></i>
+                            <h3>暂无日志数据</h3>
+                            <p>操作日志功能开发中...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 营业执照预览模态框 -->
+    <div class="modal-overlay" id="licensePreviewModal">
+        <div class="modal" style="max-width:800px;">
+            <div class="modal-header">
+                <h3 class="modal-title">营业执照预览</h3>
+                <button class="modal-close" onclick="closeLicensePreview()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align:center;">
+                <img id="licensePreviewImage" src="" alt="营业执照" style="max-width:100%;max-height:70vh;">
+            </div>
+        </div>
+    </div>
+
+    <!-- 审核详情模态框 -->
+    <div class="modal-overlay" id="enterpriseModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">企业审核详情</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="enterpriseModalBody">
+                <!-- 动态内容 -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">关闭</button>
+                <button class="btn btn-danger" id="rejectBtn" onclick="rejectEnterprise()">拒绝</button>
+                <button class="btn btn-primary" id="approveBtn" onclick="approveEnterprise()">通过审核</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 用户详情模态框 -->
+    <div class="modal-overlay" id="userDetailModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">用户详情</h3>
+                <button class="modal-close" onclick="closeUserDetailModal()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="userDetailModalBody">
+                <p class="loading"><div class="spinner"></div></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeUserDetailModal()">关闭</button>
+                <button class="btn btn-primary" id="userDetailResetPwdBtn" onclick="showPasswordForm()" style="display:none;">
+                    <i class="bi bi-key"></i> 修改密码
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新增培训课程模态框 -->
+    <div class="modal-overlay" id="addCourseModal">
+        <div class="modal" style="max-width: 560px;">
+            <div class="modal-header">
+                <h3 class="modal-title">新增培训课程</h3>
+                <button class="modal-close" onclick="closeAddCourseModal()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addCourseForm" onsubmit="submitAddCourse(event)">
+                    <div class="form-group">
+                        <label class="form-label">课程名称 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="courseName" required placeholder="请输入课程名称">
+                    </div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div class="form-group">
+                            <label class="form-label">课程类别 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="courseCategory" required placeholder="如：设计、运营">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">难度级别 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="courseLevel" required placeholder="如：初级、中级">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">课程形式 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="courseType" required placeholder="如：线上、线下">
+                    </div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div class="form-group">
+                            <label class="form-label">开课日期 <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="courseStartDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">时长(天) <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="courseDuration" required min="1" placeholder="天数">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">讲师 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="courseInstructor" required placeholder="讲师姓名">
+                    </div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div class="form-group">
+                            <label class="form-label">现价(元) <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="coursePrice" required min="0" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">原价(元)</label>
+                            <input type="number" class="form-control" id="courseOriginalPrice" min="0" step="0.01" placeholder="选填">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">课程描述 <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="courseDescription" required rows="3" placeholder="课程简介"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">课程图片URL</label>
+                        <input type="text" class="form-control" id="courseImage" placeholder="选填">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">标签</label>
+                        <input type="text" class="form-control" id="courseTags" placeholder="多个标签用逗号分隔，选填">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeAddCourseModal()">取消</button>
+                <button class="btn btn-primary" type="submit" form="addCourseForm">
+                    <i class="bi bi-check-lg"></i> 保存
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 工单聊天模态框（管理端回复） -->
+    <div class="modal-overlay" id="workOrderChatModal">
+        <div class="modal" style="max-width:560px;">
+            <div class="modal-header">
+                <h3 class="modal-title">工单聊天</h3>
+                <button class="modal-close" onclick="closeWorkOrderChatModal()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="padding:0; display:flex; flex-direction:column; max-height:70vh;">
+                <div id="workOrderChatMessages" style="flex:1; overflow-y:auto; padding:16px 20px; min-height:180px; max-height:320px;"></div>
+                <div style="padding:16px 20px; border-top:1px solid var(--border-color);">
+                    <label class="form-label">回复内容</label>
+                    <textarea id="workOrderReplyContent" class="form-control" rows="3" placeholder="输入回复内容"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeWorkOrderChatModal()">取消</button>
+                <button id="workOrderSendBtn" class="btn btn-primary" onclick="sendWorkOrderReply()">
+                    <i class="bi bi-send"></i> 发送
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提示消息 -->
+    <div class="toast" id="toast">
+        <i class="bi bi-check-circle-fill"></i>
+        <span class="toast-message" id="toastMessage">操作成功</span>
+    </div>
+
+    <script src="../js/api-config.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <script>
+        // 公网仅开放 80 时须走同域 /api、/ws（Nginx 反代），不能使用 :8080
+        const AUTH_BASE = window.ZhiliApi.apiAuth();
+        const ADMIN_BASE = window.ZhiliApi.apiAdmin();
+        const WS_BASE = window.ZhiliApi.sockJsHttpBase();
+        const TOKEN_KEY = 'adminToken';
+        const USER_INFO_KEY = 'adminUserInfo';
+        
+        // 指定管理员 QQ 邮箱
+        const ADMIN_EMAIL_QQ = '3171739575@qq.com';
+        
+        // 状态
+        let currentUser = null;
+        let usersPage = 1;
+        let enterprisesPage = 1;
+        let enterpriseStatusFilter = 0;
+        let productsPage = 1;
+        let ordersPage = 1;
+        let coursesPage = 1;
+        let courseOrdersPage = 1;
+        const COURSES_PAGE_SIZE = 10;
+        const COURSE_ORDERS_PAGE_SIZE = 10;
+        let currentEnterpriseId = null;
+        let currentViewUserId = null;
+        let currentCsConversationId = null;
+        let stompClient = null;
+        let wsSubscriptions = {};
+
+        // ==================== 初始化 ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+            initEventListeners();
+        });
+
+        function checkLoginStatus() {
+            let token = localStorage.getItem(TOKEN_KEY);
+            let userInfoStr = localStorage.getItem(USER_INFO_KEY);
+            // 兼容统一登录页：若用用户端登录后跳转过来，token 在 'token'，用户信息在 'userInfo'
+            if (!token) {
+                token = localStorage.getItem('token');
+                userInfoStr = localStorage.getItem('userInfo');
+                if (token && userInfoStr) {
+                    try {
+                        const info = JSON.parse(userInfoStr);
+                        if (info && info.isAdmin === true) {
+                            localStorage.setItem(TOKEN_KEY, token);
+                            localStorage.setItem(USER_INFO_KEY, userInfoStr);
+                        } else {
+                            token = null;
+                            userInfoStr = null;
+                        }
+                    } catch (e) {
+                        token = null;
+                        userInfoStr = null;
+                    }
+                }
+            }
+            if (token && userInfoStr) {
+                try {
+                    currentUser = JSON.parse(userInfoStr);
+                    showAdminPage();
+                } catch (e) {
+                    showLoginPage();
+                }
+            } else {
+                showLoginPage();
+            }
+        }
+
+        function initEventListeners() {
+            // 登录表单
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            
+            // 密码显示/隐藏
+            document.getElementById('togglePassword').addEventListener('click', function() {
+                const passwordInput = document.getElementById('loginPassword');
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    this.classList.remove('bi-eye-slash');
+                    this.classList.add('bi-eye');
+                } else {
+                    passwordInput.type = 'password';
+                    this.classList.remove('bi-eye');
+                    this.classList.add('bi-eye-slash');
+                }
+            });
+            
+            // 侧边栏导航
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const page = this.dataset.page;
+                    showPage(page);
+                });
+            });
+            
+            // 用户下拉菜单
+            document.getElementById('userMenuBtn').addEventListener('click', function(e) {
+                e.stopPropagation();
+                document.getElementById('userDropdown').classList.toggle('show');
+            });
+            
+            document.addEventListener('click', function() {
+                document.getElementById('userDropdown').classList.remove('show');
+            });
+            
+            // 企业审核标签页
+            document.querySelectorAll('#page-enterprises .tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('#page-enterprises .tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    enterpriseStatusFilter = parseInt(this.dataset.status);
+                    loadEnterprises();
+                });
+            });
+            
+            // 移动端菜单
+            document.getElementById('menuToggle').addEventListener('click', function() {
+                document.querySelector('.sidebar').classList.toggle('show');
+            });
+        }
+
+        // ==================== 登录 ====================
+        async function handleLogin(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const btn = document.getElementById('loginBtn');
+            
+            if (!email || !password) {
+                showLoginError('请输入邮箱和密码');
+                return;
+            }
+            
+            // 检查是否为指定的管理员 QQ 邮箱
+            const isAdminEmail = email.toLowerCase() === ADMIN_EMAIL_QQ.toLowerCase();
+            
+            btn.disabled = true;
+            btn.innerHTML = '<i class="bi bi-hourglass-split"></i> 登录中...';
+            
+            try {
+                const res = await fetch(AUTH_BASE + '/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                let data;
+                try {
+                    data = await res.json();
+                } catch (_) {
+                    showLoginError('认证服务返回异常，请确认 auth-server 已启动（端口 8081）');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="bi bi-box-arrow-in-right"></i> 登 录';
+                    return;
+                }
+                
+                if (data.code === 200 && data.data && data.data.token) {
+                    const userInfo = data.data.userInfo || data.data.user;
+                    
+                    // 如果是指定的管理员 QQ 邮箱，强制设置为管理员
+                    if (isAdminEmail) {
+                        userInfo.isAdmin = true;
+                        userInfo.userType = 3;
+                    }
+                    
+                    // 检查是否为管理员
+                    if (!userInfo.isAdmin && !isAdminEmail) {
+                        showLoginError('非管理员账号，无权访问后台');
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="bi bi-box-arrow-in-right"></i> 登 录';
+                        return;
+                    }
+                    
+                    localStorage.setItem(TOKEN_KEY, data.data.token);
+                    localStorage.setItem(USER_INFO_KEY, JSON.stringify(userInfo));
+                    currentUser = userInfo;
+                    
+                    showAdminPage();
+                    showToast('登录成功', 'success');
+                } else {
+                    showLoginError(data.message || '登录失败');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="bi bi-box-arrow-in-right"></i> 登 录';
+                }
+            } catch (err) {
+                console.error('登录失败:', err);
+                showLoginError('无法连接认证服务。请确认 Java 后端已启动（端口 8080）');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-box-arrow-in-right"></i> 登 录';
+            }
+        }
+
+        function showLoginError(message) {
+            const errorEl = document.getElementById('loginError');
+            errorEl.textContent = message;
+            errorEl.classList.add('show');
+            setTimeout(() => errorEl.classList.remove('show'), 5000);
+        }
+
+        // ==================== 页面切换 ====================
+        function showLoginPage() {
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('adminPage').classList.remove('active');
+        }
+
+        function showAdminPage() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('adminPage').classList.add('active');
+            
+            // 更新用户信息
+            if (currentUser) {
+                document.getElementById('userName').textContent = currentUser.nickname || '管理员';
+                document.getElementById('welcomeName').textContent = currentUser.nickname || '管理员';
+                document.getElementById('userAvatar').textContent = (currentUser.nickname || '管').charAt(0);
+            }
+            
+            // 加载仪表盘数据
+            loadDashboard();
+        }
+
+        function showPage(page) {
+            // 更新导航
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.page === page);
+            });
+            
+            // 更新页面
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.add('hidden');
+            });
+            document.getElementById('page-' + page).classList.remove('hidden');
+            
+            // 更新面包屑
+            const pageNames = {
+                dashboard: '仪表盘',
+                users: '用户列表',
+                enterprises: '企业管理',
+                products: '产品管理',
+                orders: '订单管理',
+                courses: '培训课程',
+                workorders: '工单处理',
+                settings: '系统设置',
+                'supply-docking': '供需对接'
+            };
+            document.getElementById('currentPageName').textContent = pageNames[page] || page;
+            
+            // 加载对应页面数据
+            if (page === 'dashboard') loadDashboard();
+            else if (page === 'users') loadUsers();
+            else if (page === 'enterprises') loadEnterprises();
+            else if (page === 'products') loadProducts();
+            else if (page === 'orders') loadOrders();
+            else if (page === 'courses') { loadCourses(); loadCourseOrders(); }
+            else if (page === 'workorders') loadWorkorders();
+            else if (page === 'customer-service') loadCustomerServiceConversations();
+            else if (page === 'supply-docking') loadSupplyDocking();
+            
+            // 移动端关闭侧边栏
+            if (window.innerWidth <= 768) {
+                document.querySelector('.sidebar').classList.remove('show');
+            }
+        }
+
+        // ==================== 数据加载 ====================
+        /** 管理端请求用 token：优先 adminToken，与前台共用登录时可能仅有 token */
+        function getAdminAuthToken() {
+            return localStorage.getItem(TOKEN_KEY) || localStorage.getItem('token') || '';
+        }
+
+        function isWorkOrderApiOk(res) {
+            return res && (res.code === 200 || res.code === 0);
+        }
+
+        async function apiFetch(url, options = {}) {
+            const token = getAdminAuthToken();
+            const headers = {
+                'Content-Type': 'application/json',
+                ...options.headers
+            };
+            if (token) {
+                headers['Authorization'] = 'Bearer ' + token;
+            }
+
+            const res = await fetch(url, { ...options, headers });
+            const data = await res.json().catch(() => ({}));
+            if (res.status === 401 && data.message && String(data.message).indexOf('管理员注销') !== -1) {
+                localStorage.removeItem(TOKEN_KEY);
+                localStorage.removeItem(USER_INFO_KEY);
+                localStorage.removeItem('token');
+                localStorage.removeItem('userInfo');
+                alert('您的账号已被管理员注销');
+                window.location.href = 'admin-login.html';
+                return data;
+            }
+            return data;
+        }
+
+        async function loadDashboard() {
+            const statTotal = document.getElementById('statTotalUsers');
+            const statPersonal = document.getElementById('statPersonalUsers');
+            const statEnterprises = document.getElementById('statEnterprises');
+            const statPending = document.getElementById('statPending');
+            const pendingBadge = document.getElementById('pendingBadge');
+            const tabPending = document.getElementById('tabPending');
+            const setStats = (v) => {
+                if (statTotal) statTotal.textContent = v;
+                if (statPersonal) statPersonal.textContent = v;
+                if (statEnterprises) statEnterprises.textContent = v;
+                if (statPending) statPending.textContent = v;
+                if (pendingBadge) pendingBadge.textContent = v;
+                if (tabPending) tabPending.textContent = v;
+            };
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/stats');
+                if (res.code === 200 && res.data) {
+                    const stats = res.data;
+                    if (statTotal) statTotal.textContent = stats.totalUsers ?? 0;
+                    if (statPersonal) statPersonal.textContent = stats.personalUsers ?? 0;
+                    if (statEnterprises) statEnterprises.textContent = stats.enterpriseUsers ?? 0;
+                    if (statPending) statPending.textContent = stats.pendingEnterprises ?? 0;
+                    if (pendingBadge) pendingBadge.textContent = stats.pendingEnterprises ?? 0;
+                    if (tabPending) tabPending.textContent = stats.pendingEnterprises ?? 0;
+                } else {
+                    setStats(0);
+                }
+                const usersRes = await apiFetch(ADMIN_BASE + '/users?page=1&pageSize=5');
+                if (usersRes.code === 200 && usersRes.data && Array.isArray(usersRes.data.list)) {
+                    renderRecentUsers(usersRes.data.list);
+                } else {
+                    renderRecentUsers([]);
+                }
+            } catch (err) {
+                console.error('加载仪表盘数据失败:', err);
+                setStats(0);
+                renderRecentUsers([]);
+            }
+        }
+
+        async function loadUsers() {
+            try {
+                const search = document.getElementById('userSearchInput').value;
+                const type = document.getElementById('userTypeFilter').value;
+                
+                let url = ADMIN_BASE + '/users?page=' + usersPage + '&pageSize=15';
+                if (search) url += '&search=' + encodeURIComponent(search);
+                if (type) url += '&userType=' + type;
+                
+                const res = await apiFetch(url);
+                if (res.code === 200) {
+                    renderUsersTable(res.data.list || [], res.data.total);
+                }
+            } catch (err) {
+                console.error('加载用户列表失败:', err);
+            }
+        }
+
+        async function loadEnterprises() {
+            try {
+                const search = document.getElementById('enterpriseSearchInput').value;
+                
+                let url = ADMIN_BASE + '/users?page=' + enterprisesPage + '&pageSize=15&userType=2&status=' + enterpriseStatusFilter;
+                if (search) url += '&search=' + encodeURIComponent(search);
+                
+                const res = await apiFetch(url);
+                if (res.code === 200) {
+                    renderEnterprisesTable(res.data.list || [], res.data.total);
+                }
+            } catch (err) {
+                console.error('加载企业列表失败:', err);
+            }
+        }
+
+        const PRODUCTS_PAGE_SIZE = 10;
+        async function loadProducts() {
+            const wrap = document.getElementById('productTableWrap');
+            const emptyEl = document.getElementById('productEmptyState');
+            const tbody = document.getElementById('productsTable');
+            if (emptyEl) emptyEl.innerHTML = '<i class="bi bi-box-seam"></i><h3>加载中...</h3><p>请稍候</p>';
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/products?page=' + productsPage + '&pageSize=' + PRODUCTS_PAGE_SIZE);
+                if (res.code === 200 && res.data) {
+                    const list = res.data.list || [];
+                    const total = res.data.total || 0;
+                    if (list.length) {
+                        if (wrap) wrap.style.display = 'block';
+                        if (emptyEl) emptyEl.style.display = 'none';
+                        renderProductsTable(list, total);
+                    } else {
+                        if (wrap) wrap.style.display = 'none';
+                        if (emptyEl) { emptyEl.style.display = 'block'; emptyEl.innerHTML = '<i class="bi bi-box-seam"></i><h3>暂无产品数据</h3><p>暂无商品记录</p>'; }
+                        if (tbody) tbody.innerHTML = '';
+                        document.getElementById('productPaginationWrap').style.display = 'none';
+                    }
+                } else {
+                    if (wrap) wrap.style.display = 'none';
+                    if (emptyEl) { emptyEl.style.display = 'block'; emptyEl.innerHTML = '<i class="bi bi-box-seam"></i><h3>加载失败</h3><p>' + (res.message || '请稍后重试') + '</p>'; }
+                }
+            } catch (err) {
+                console.error('加载产品列表失败:', err);
+                if (wrap) wrap.style.display = 'none';
+                if (emptyEl) { emptyEl.style.display = 'block'; emptyEl.innerHTML = '<i class="bi bi-box-seam"></i><h3>加载失败</h3><p>网络错误，请稍后重试</p>'; }
+            }
+        }
+
+        function renderProductsTable(products, total) {
+            const tbody = document.getElementById('productsTable');
+            const totalPages = Math.max(1, Math.ceil(total / PRODUCTS_PAGE_SIZE));
+            document.getElementById('totalProducts').textContent = total;
+            document.getElementById('productsCurrentPage').textContent = productsPage;
+            document.getElementById('productsTotalPages').textContent = totalPages;
+            document.getElementById('productPaginationWrap').style.display = 'flex';
+
+            tbody.innerHTML = products.map(p => {
+                const status = p.status === 1 ? '上架' : '下架';
+                const statusClass = p.status === 1 ? 'success' : 'danger';
+                const img = p.imageUrl ? '<img src="' + escapeHtml(p.imageUrl) + '" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">' : '<div style="width:48px;height:48px;background:var(--light-gray);border-radius:8px;display:flex;align-items:center;justify-content:center;"><i class="bi bi-image"></i></div>';
+                return '<tr>' +
+                    '<td><div class="table-user"><div style="flex-shrink:0">' + img + '</div><div class="table-user-info"><h4>' + escapeHtml(p.name || '-') + '</h4><p>' + (p.category || '-') + '</p></div></div></td>' +
+                    '<td>' + (p.ageRange || '-') + ' / ' + (p.season || '-') + '</td>' +
+                    '<td>¥' + (p.price != null ? p.price : '0') + '</td>' +
+                    '<td>' + escapeHtml(p.enterpriseName || '-') + '</td>' +
+                    '<td><span class="status-badge ' + statusClass + '">' + status + '</span></td>' +
+                    '<td><div class="action-btns">' +
+                    (p.status === 1 ? '<button class="action-btn danger" title="下架" onclick="takeOffProduct(\'' + escapeHtml(String(p.id)) + '\', \'' + escapeHtml(p.name || '') + '\')"><i class="bi bi-dash-circle"></i> 下架</button>' : '<span class="status-badge danger">已下架</span>') +
+                    '</div></td></tr>';
+            }).join('');
+
+            let paginationHtml = '<button class="page-btn" onclick="goToProductsPage(' + (productsPage - 1) + ')" ' + (productsPage === 1 ? 'disabled' : '') + '><i class="bi bi-chevron-left"></i></button>';
+            for (let i = 1; i <= totalPages && i <= 5; i++) {
+                paginationHtml += '<button class="page-btn ' + (i === productsPage ? 'active' : '') + '" onclick="goToProductsPage(' + i + ')">' + i + '</button>';
+            }
+            paginationHtml += '<button class="page-btn" onclick="goToProductsPage(' + (productsPage + 1) + ')" ' + (productsPage === totalPages ? 'disabled' : '') + '><i class="bi bi-chevron-right"></i></button>';
+            document.getElementById('productPaginationBtns').innerHTML = paginationHtml;
+        }
+
+        function goToProductsPage(page) {
+            if (page < 1) return;
+            const total = parseInt(document.getElementById('totalProducts').textContent || '0', 10);
+            const totalPages = Math.max(1, Math.ceil(total / PRODUCTS_PAGE_SIZE));
+            if (page > totalPages) return;
+            productsPage = page;
+            loadProducts();
+        }
+
+        async function takeOffProduct(productId, productName) {
+            if (!confirm('确定要下架商品「' + (productName || productId) + '」吗？')) return;
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/products/' + productId + '/status', {
+                    method: 'PUT',
+                    body: JSON.stringify({ status: 0 })
+                });
+                if (res.code === 200) {
+                    alert('已下架');
+                    loadProducts();
+                } else {
+                    alert(res.message || '操作失败');
+                }
+            } catch (err) {
+                console.error('下架失败:', err);
+                alert('操作失败，请稍后重试');
+            }
+        }
+
+        const ORDERS_PAGE_SIZE = 10;
+        async function loadOrders() {
+            const wrap = document.getElementById('orderTableWrap');
+            const emptyEl = document.getElementById('orderEmptyState');
+            const tbody = document.getElementById('ordersTable');
+            if (emptyEl) emptyEl.innerHTML = '<i class="bi bi-cart3"></i><h3>加载中...</h3><p>请稍候</p>';
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/orders?page=' + ordersPage + '&pageSize=' + ORDERS_PAGE_SIZE);
+                if (res.code === 200 && res.data) {
+                    const list = res.data.list || [];
+                    const total = res.data.total || 0;
+                    if (list.length) {
+                        if (wrap) wrap.style.display = 'block';
+                        if (emptyEl) emptyEl.style.display = 'none';
+                        renderOrdersTable(list, total);
+                    } else {
+                        if (wrap) wrap.style.display = 'none';
+                        if (emptyEl) { emptyEl.style.display = 'block'; emptyEl.innerHTML = '<i class="bi bi-cart3"></i><h3>暂无订单数据</h3><p>暂无订单记录</p>'; }
+                        if (tbody) tbody.innerHTML = '';
+                        document.getElementById('orderPaginationWrap').style.display = 'none';
+                    }
+                } else {
+                    if (wrap) wrap.style.display = 'none';
+                    if (emptyEl) { emptyEl.style.display = 'block'; emptyEl.innerHTML = '<i class="bi bi-cart3"></i><h3>加载失败</h3><p>' + (res.message || '请稍后重试') + '</p>'; }
+                }
+            } catch (err) {
+                console.error('加载订单列表失败:', err);
+                if (wrap) wrap.style.display = 'none';
+                if (emptyEl) { emptyEl.style.display = 'block'; emptyEl.innerHTML = '<i class="bi bi-cart3"></i><h3>加载失败</h3><p>网络错误，请稍后重试</p>'; }
+            }
+        }
+
+        function renderOrdersTable(rows, total) {
+            const tbody = document.getElementById('ordersTable');
+            const totalPages = Math.max(1, Math.ceil(total / ORDERS_PAGE_SIZE));
+            document.getElementById('totalOrders').textContent = total;
+            document.getElementById('ordersCurrentPage').textContent = ordersPage;
+            document.getElementById('ordersTotalPages').textContent = totalPages;
+            document.getElementById('orderPaginationWrap').style.display = 'flex';
+
+            const statusClass = (s) => { const m = { 'pending':'info','paid':'warning','shipped':'info','completed':'success','cancelled':'danger' }; return m[s] || 'info'; };
+            tbody.innerHTML = rows.map(r => {
+                const img = r.productImage ? '<img src="' + escapeHtml(r.productImage) + '" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:6px;">' : '';
+                return '<tr>' +
+                    '<td>' + escapeHtml(r.orderId || '-') + '</td>' +
+                    '<td><div class="table-user-info"><h4>' + escapeHtml(r.buyerName || '-') + '</h4><p>' + escapeHtml(r.buyerEmail || '') + '</p></div></td>' +
+                    '<td>' + escapeHtml(r.sellerName || '-') + '</td>' +
+                    '<td><div class="table-user"><div style="flex-shrink:0">' + img + '</div><div class="table-user-info"><h4>' + escapeHtml(r.productName || '-') + '</h4><p>ID: ' + escapeHtml(r.productId || '') + '</p></div></div></td>' +
+                    '<td>' + (r.quantity || 0) + ' 件 / ¥' + (r.subtotal != null ? r.subtotal : '0') + '</td>' +
+                    '<td><span class="status-badge ' + statusClass(r.orderStatus) + '">' + (r.orderStatusText || r.orderStatus || '-') + '</span></td>' +
+                    '<td>' + (r.createdAt ? formatDate(r.createdAt) : '-') + '</td></tr>';
+            }).join('');
+
+            let paginationHtml = '<button class="page-btn" onclick="goToOrdersPage(' + (ordersPage - 1) + ')" ' + (ordersPage === 1 ? 'disabled' : '') + '><i class="bi bi-chevron-left"></i></button>';
+            for (let i = 1; i <= totalPages && i <= 5; i++) {
+                paginationHtml += '<button class="page-btn ' + (i === ordersPage ? 'active' : '') + '" onclick="goToOrdersPage(' + i + ')">' + i + '</button>';
+            }
+            paginationHtml += '<button class="page-btn" onclick="goToOrdersPage(' + (ordersPage + 1) + ')" ' + (ordersPage === totalPages ? 'disabled' : '') + '><i class="bi bi-chevron-right"></i></button>';
+            document.getElementById('orderPaginationBtns').innerHTML = paginationHtml;
+        }
+
+        function goToOrdersPage(page) {
+            if (page < 1) return;
+            const total = parseInt(document.getElementById('totalOrders').textContent || '0', 10);
+            const totalPages = Math.max(1, Math.ceil(total / ORDERS_PAGE_SIZE));
+            if (page > totalPages) return;
+            ordersPage = page;
+            loadOrders();
+        }
+
+        // ==================== 培训课程 ====================
+        async function loadCourses() {
+            const wrap = document.getElementById('courseTableWrap');
+            const emptyEl = document.getElementById('courseEmptyState');
+            const tbody = document.getElementById('coursesTable');
+            if (emptyEl) emptyEl.innerHTML = '<i class="bi bi-journal-bookmark"></i><h3>加载中...</h3><p>请稍候</p>';
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/courses?page=' + coursesPage + '&pageSize=' + COURSES_PAGE_SIZE);
+                if (res.code === 200 && res.data) {
+                    const list = res.data.list || [];
+                    const total = res.data.total || 0;
+                    if (list.length) {
+                        if (wrap) wrap.style.display = 'block';
+                        if (emptyEl) emptyEl.style.display = 'none';
+                        renderCoursesTable(list, total);
+                    } else {
+                        if (wrap) wrap.style.display = 'none';
+                        if (emptyEl) { emptyEl.style.display = 'block'; emptyEl.innerHTML = '<i class="bi bi-journal-bookmark"></i><h3>暂无课程</h3><p>点击「新增课程」添加培训课程</p>'; }
+                        if (tbody) tbody.innerHTML = '';
+                        const pw = document.getElementById('coursePaginationWrap');
+                        if (pw) pw.style.display = 'none';
+                    }
+                } else {
+                    if (wrap) wrap.style.display = 'none';
+                    if (emptyEl) { emptyEl.style.display = 'block'; emptyEl.innerHTML = '<i class="bi bi-journal-bookmark"></i><h3>加载失败</h3><p>' + (res.message || '请稍后重试') + '</p>'; }
+                }
+            } catch (err) {
+                console.error('加载课程列表失败:', err);
+                if (wrap) wrap.style.display = 'none';
+                if (emptyEl) { emptyEl.style.display = 'block'; emptyEl.innerHTML = '<i class="bi bi-journal-bookmark"></i><h3>加载失败</h3><p>网络错误，请稍后重试</p>'; }
+            }
+        }
+
+        function renderCoursesTable(rows, total) {
+            const tbody = document.getElementById('coursesTable');
+            const totalPages = Math.max(1, Math.ceil(total / COURSES_PAGE_SIZE));
+            document.getElementById('totalCourses').textContent = total;
+            document.getElementById('coursesCurrentPage').textContent = coursesPage;
+            document.getElementById('coursesTotalPages').textContent = totalPages;
+            document.getElementById('coursePaginationWrap').style.display = 'flex';
+
+            tbody.innerHTML = rows.map(r => {
+                const img = r.courseImage ? '<img src="' + escapeHtml(r.courseImage) + '" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">' : '<div style="width:48px;height:48px;background:var(--border-color);border-radius:8px;"></div>';
+                const catLevel = [r.courseCategory, r.courseLevel, r.courseType].filter(Boolean).join(' / ') || '-';
+                const price = r.price != null ? '¥' + r.price : '-';
+                const enroll = (r.enrollCount != null ? r.enrollCount : 0) + ' 人';
+                const status = (r.status === 1) ? '上架' : '下架';
+                const statusCls = (r.status === 1) ? 'success' : 'secondary';
+                const btn = (r.status === 1)
+                    ? '<button class="btn btn-sm btn-outline-danger" onclick="toggleCourseStatus(' + r.id + ', 0)" title="下架"><i class="bi bi-dash-circle"></i> 下架</button>'
+                    : '<button class="btn btn-sm btn-outline-success" onclick="toggleCourseStatus(' + r.id + ', 1)" title="上架"><i class="bi bi-plus-circle"></i> 上架</button>';
+                return '<tr>' +
+                    '<td><div class="table-user"><div style="flex-shrink:0">' + img + '</div><div class="table-user-info"><h4>' + escapeHtml(r.courseName || '-') + '</h4><p>' + escapeHtml(catLevel) + '</p></div></div></td>' +
+                    '<td>' + escapeHtml(catLevel) + '</td>' +
+                    '<td>' + escapeHtml(r.instructor || '-') + '</td>' +
+                    '<td>' + price + '</td>' +
+                    '<td>' + enroll + '</td>' +
+                    '<td><span class="status-badge ' + statusCls + '">' + status + '</span></td>' +
+                    '<td>' + btn + '</td></tr>';
+            }).join('');
+
+            const btnsEl = document.getElementById('coursePaginationBtns');
+            if (!btnsEl) return;
+            let html = '<button class="btn btn-sm btn-outline-primary" onclick="goToCoursesPage(' + (coursesPage - 1) + ')" ' + (coursesPage <= 1 ? 'disabled' : '') + '>上一页</button>';
+            for (let i = 1; i <= totalPages; i++) {
+                html += '<button class="btn btn-sm ' + (i === coursesPage ? 'btn-primary' : 'btn-outline-primary') + '" onclick="goToCoursesPage(' + i + ')">' + i + '</button>';
+            }
+            html += '<button class="btn btn-sm btn-outline-primary" onclick="goToCoursesPage(' + (coursesPage + 1) + ')" ' + (coursesPage >= totalPages ? 'disabled' : '') + '>下一页</button>';
+            btnsEl.innerHTML = html;
+        }
+
+        function goToCoursesPage(page) {
+            if (page < 1) return;
+            const total = parseInt(document.getElementById('totalCourses').textContent || '0', 10);
+            const totalPages = Math.max(1, Math.ceil(total / COURSES_PAGE_SIZE));
+            if (page > totalPages) return;
+            coursesPage = page;
+            loadCourses();
+        }
+
+        async function toggleCourseStatus(courseId, status) {
+            const action = status === 1 ? '上架' : '下架';
+            if (!confirm('确定要' + action + '该课程吗？')) return;
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/courses/' + courseId + '/status', {
+                    method: 'PUT',
+                    body: JSON.stringify({ status: status })
+                });
+                if (res.code === 200) {
+                    loadCourses();
+                } else {
+                    alert(res.message || '操作失败');
+                }
+            } catch (err) {
+                console.error('操作失败:', err);
+                alert('操作失败，请稍后重试');
+            }
+        }
+
+        function openAddCourseModal() {
+            document.getElementById('addCourseForm').reset();
+            document.getElementById('addCourseModal').classList.add('show');
+        }
+
+        function closeAddCourseModal() {
+            document.getElementById('addCourseModal').classList.remove('show');
+        }
+
+        async function submitAddCourse(e) {
+            e.preventDefault();
+            const startDate = document.getElementById('courseStartDate').value;
+            if (!startDate) { alert('请选择开课日期'); return; }
+            const payload = {
+                courseName: document.getElementById('courseName').value.trim(),
+                courseCategory: document.getElementById('courseCategory').value.trim(),
+                courseLevel: document.getElementById('courseLevel').value.trim(),
+                courseType: document.getElementById('courseType').value.trim(),
+                startDate: startDate,
+                duration: parseInt(document.getElementById('courseDuration').value, 10) || 0,
+                instructor: document.getElementById('courseInstructor').value.trim(),
+                price: parseFloat(document.getElementById('coursePrice').value) || 0,
+                originalPrice: parseFloat(document.getElementById('courseOriginalPrice').value) || null,
+                courseDescription: document.getElementById('courseDescription').value.trim(),
+                courseImage: document.getElementById('courseImage').value.trim() || null,
+                tags: document.getElementById('courseTags').value.trim() || null
+            };
+            if (!payload.courseName || !payload.courseCategory || !payload.courseLevel || !payload.courseType || !payload.instructor || !payload.courseDescription) {
+                alert('请填写必填项');
+                return;
+            }
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/courses', {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                if (res.code === 200) {
+                    closeAddCourseModal();
+                    coursesPage = 1;
+                    loadCourses();
+                    loadCourseOrders();
+                } else {
+                    alert(res.message || '添加失败');
+                }
+            } catch (err) {
+                console.error('添加课程失败:', err);
+                alert('添加失败，请稍后重试');
+            }
+        }
+
+        async function loadCourseOrders() {
+            const wrap = document.getElementById('courseOrderTableWrap');
+            const emptyEl = document.getElementById('courseOrderEmptyState');
+            const tbody = document.getElementById('courseOrdersTable');
+            if (emptyEl) emptyEl.innerHTML = '<i class="bi bi-receipt"></i><h3>加载中...</h3><p>请稍候</p>';
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/course-orders?page=' + courseOrdersPage + '&pageSize=' + COURSE_ORDERS_PAGE_SIZE);
+                if (res.code === 200 && res.data) {
+                    const list = res.data.list || [];
+                    const total = res.data.total || 0;
+                    if (list.length) {
+                        if (wrap) wrap.style.display = 'block';
+                        if (emptyEl) emptyEl.style.display = 'none';
+                        renderCourseOrdersTable(list, total);
+                    } else {
+                        if (wrap) wrap.style.display = 'none';
+                        if (emptyEl) { emptyEl.style.display = 'block'; emptyEl.innerHTML = '<i class="bi bi-receipt"></i><h3>暂无课程订单</h3><p>用户在前台报名课程后会显示在此</p>'; }
+                        if (tbody) tbody.innerHTML = '';
+                        const pw = document.getElementById('courseOrderPaginationWrap');
+                        if (pw) pw.style.display = 'none';
+                    }
+                } else {
+                    if (wrap) wrap.style.display = 'none';
+                    if (emptyEl) { emptyEl.style.display = 'block'; emptyEl.innerHTML = '<i class="bi bi-receipt"></i><h3>加载失败</h3><p>' + (res.message || '请稍后重试') + '</p>'; }
+                }
+            } catch (err) {
+                console.error('加载课程订单失败:', err);
+                if (wrap) wrap.style.display = 'none';
+                if (emptyEl) { emptyEl.style.display = 'block'; emptyEl.innerHTML = '<i class="bi bi-receipt"></i><h3>加载失败</h3><p>网络错误，请稍后重试</p>'; }
+            }
+        }
+
+        function renderCourseOrdersTable(rows, total) {
+            const tbody = document.getElementById('courseOrdersTable');
+            const totalPages = Math.max(1, Math.ceil(total / COURSE_ORDERS_PAGE_SIZE));
+            document.getElementById('totalCourseOrders').textContent = total;
+            document.getElementById('courseOrdersCurrentPage').textContent = courseOrdersPage;
+            document.getElementById('courseOrdersTotalPages').textContent = totalPages;
+            document.getElementById('courseOrderPaginationWrap').style.display = 'flex';
+
+            tbody.innerHTML = rows.map(r => {
+                return '<tr>' +
+                    '<td>' + (r.id != null ? r.id : '-') + '</td>' +
+                    '<td><div class="table-user-info"><h4>' + escapeHtml(r.buyerName || '-') + '</h4><p>' + escapeHtml(r.buyerEmail || '') + '</p></div></td>' +
+                    '<td>' + escapeHtml(r.courseName || '-') + '</td>' +
+                    '<td>¥' + (r.price != null ? r.price : '0') + '</td>' +
+                    '<td>' + (r.createdAt ? formatDate(r.createdAt) : '-') + '</td></tr>';
+            }).join('');
+
+            const btnsEl = document.getElementById('courseOrderPaginationBtns');
+            if (!btnsEl) return;
+            let html = '<button class="btn btn-sm btn-outline-primary" onclick="goToCourseOrdersPage(' + (courseOrdersPage - 1) + ')" ' + (courseOrdersPage <= 1 ? 'disabled' : '') + '>上一页</button>';
+            for (let i = 1; i <= totalPages; i++) {
+                html += '<button class="btn btn-sm ' + (i === courseOrdersPage ? 'btn-primary' : 'btn-outline-primary') + '" onclick="goToCourseOrdersPage(' + i + ')">' + i + '</button>';
+            }
+            html += '<button class="btn btn-sm btn-outline-primary" onclick="goToCourseOrdersPage(' + (courseOrdersPage + 1) + ')" ' + (courseOrdersPage >= totalPages ? 'disabled' : '') + '>下一页</button>';
+            btnsEl.innerHTML = html;
+        }
+
+        function goToCourseOrdersPage(page) {
+            if (page < 1) return;
+            const total = parseInt(document.getElementById('totalCourseOrders').textContent || '0', 10);
+            const totalPages = Math.max(1, Math.ceil(total / COURSE_ORDERS_PAGE_SIZE));
+            if (page > totalPages) return;
+            courseOrdersPage = page;
+            loadCourseOrders();
+        }
+
+        // 工单处理：从后端 API 获取/提交（数据库）
+        let currentWorkOrderChatId = null;
+        let currentWorkOrderDetail = null;
+        let workOrderChatPollTimerId = null;
+
+        async function loadWorkorders() {
+            const emptyEl = document.getElementById('workOrderEmptyState');
+            const tableWrap = document.getElementById('workOrderTableWrap');
+            const tbody = document.getElementById('workOrderListTbody');
+            try {
+                const res = await apiFetch(AUTH_BASE + '/admin/work-orders');
+                const list = (isWorkOrderApiOk(res) && res.data) ? (Array.isArray(res.data) ? res.data : []) : [];
+                if (!list.length) {
+                    if (emptyEl) emptyEl.style.display = 'block';
+                    if (tableWrap) tableWrap.style.display = 'none';
+                    if (tbody) tbody.innerHTML = '';
+                    return;
+                }
+                if (emptyEl) emptyEl.style.display = 'none';
+                if (tableWrap) tableWrap.style.display = 'block';
+                const statusClass = (s) => s === '已关闭' ? 'danger' : (s === '处理中' ? 'warning' : 'info');
+                tbody.innerHTML = list.map(o => `
+                    <tr>
+                        <td>${o.id || '-'}</td>
+                        <td>${escapeHtml(o.subject || '-')}</td>
+                        <td>${o.level || '低'}</td>
+                        <td><span class="status-badge ${statusClass(o.status || '待处理')}">${o.status || '待处理'}</span></td>
+                        <td>${o.createTime || '-'}</td>
+                        <td>${o.lastReply || o.createTime || '-'}</td>
+                        <td>
+                            <button class="action-btn view" title="查看并回复" onclick="openWorkOrderChatModal('${escapeHtml(String(o.id || ''))}')">
+                                <i class="bi bi-eye"></i> 查看
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                console.error('加载工单列表失败:', err);
+                if (emptyEl) emptyEl.style.display = 'block';
+                if (tableWrap) tableWrap.style.display = 'none';
+                if (tbody) tbody.innerHTML = '';
+            }
+        }
+
+        // ==================== 供需对接 ====================
+        let sdDemandsPage = 1, sdSuppliesPage = 1, sdConnectionsPage = 1;
+        const SD_PAGE_SIZE = 10;
+        let sdCurrentTab = 'demands';
+
+        function switchSupplyDockingTab(tab) {
+            sdCurrentTab = tab;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                if (b.id === 'sdTab' + capitalize(tab)) b.classList.add('active');
+            });
+            const panels = { demands: 'sdPanelDemands', supplies: 'sdPanelSupplies', connections: 'sdPanelConnections' };
+            Object.values(panels).forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+            const activePanel = document.getElementById(panels[tab]);
+            if (activePanel) activePanel.style.display = 'block';
+        }
+
+        function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+        async function loadSupplyDocking() {
+            if (sdCurrentTab === 'demands') await loadSupplyDemands();
+            else if (sdCurrentTab === 'supplies') await loadSupplySupplies();
+            else if (sdCurrentTab === 'connections') await loadSupplyConnections();
+        }
+
+        async function loadSupplyDemands(page) {
+            if (page) sdDemandsPage = page;
+            const wrap = document.getElementById('sdDemandsWrap');
+            const empty = document.getElementById('sdDemandsEmpty');
+            const tbody = document.getElementById('sdDemandsTable');
+            if (empty) empty.innerHTML = '<i class="bi bi-inbox"></i><h3>加载中...</h3><p>请稍候</p>';
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/supply-demands?page=' + sdDemandsPage + '&pageSize=' + SD_PAGE_SIZE);
+                const list = (res.code === 200 && res.data) ? (Array.isArray(res.data) ? res.data : (res.data.list || [])) : [];
+                const total = (res.data && res.data.total) ? res.data.total : list.length;
+                if (list.length) {
+                    if (wrap) wrap.style.display = 'block';
+                    if (empty) empty.style.display = 'none';
+                    renderSupplyDemandsTable(list, total);
+                } else {
+                    if (wrap) wrap.style.display = 'none';
+                    if (empty) { empty.style.display = 'block'; empty.innerHTML = '<i class="bi bi-inbox"></i><h3>暂无需求数据</h3><p>暂无需求信息记录</p>'; }
+                    if (tbody) tbody.innerHTML = '';
+                    document.getElementById('sdDemandsPagination').style.display = 'none';
+                }
+            } catch (err) {
+                console.error('加载需求数据失败:', err);
+                if (wrap) wrap.style.display = 'none';
+                if (empty) { empty.style.display = 'block'; empty.innerHTML = '<i class="bi bi-exclamation-triangle"></i><h3>加载失败</h3><p>网络错误，请稍后重试</p>'; }
+            }
+        }
+
+        function renderSupplyDemandsTable(list, total) {
+            const tbody = document.getElementById('sdDemandsTable');
+            const typeMap = { material: '原材料', processing: '加工服务', design: '设计服务', accessory: '辅料配件', logistics: '物流服务' };
+            const urgencyMap = { high: '紧急', medium: '一般', low: '不急' };
+            const urgencyClass = { high: 'danger', medium: 'warning', low: 'info' };
+            const statusMap = { open: '未对接', inprocess: '对接中', completed: '已完成' };
+            const statusClass = { open: 'info', inprocess: 'warning', completed: 'success' };
+            tbody.innerHTML = list.map(d => {
+                return '<tr>' +
+                    '<td>' + escapeHtml(d.demandId || d.id || '-') + '</td>' +
+                    '<td><div class="table-user-info"><h4>' + escapeHtml(d.title || '-') + '</h4><p>' + escapeHtml(d.companyName || '') + '</p></div></td>' +
+                    '<td>' + (typeMap[d.type] || d.type || '-') + '</td>' +
+                    '<td>' + escapeHtml(d.companyName || '-') + '</td>' +
+                    '<td><span class="status-badge ' + (urgencyClass[d.urgency] || 'info') + '">' + (urgencyMap[d.urgency] || d.urgency || '-') + '</span></td>' +
+                    '<td><span class="status-badge ' + (statusClass[d.status] || 'info') + '">' + (statusMap[d.status] || d.status || '-') + '</span></td>' +
+                    '<td>' + (d.publishDate ? d.publishDate : (d.createdAt ? formatDate(d.createdAt) : '-')) + '</td>' +
+                    '<td><div class="action-btns">' +
+                    '<button class="action-btn danger" title="下架" onclick="toggleDemandStatus(\'' + (d.id || '') + '\', \'' + escapeHtml(d.title || '') + '\', \'' + d.status + '\')"><i class="bi bi-dash-circle"></i> 下架</button>' +
+                    '</div></td></tr>';
+            }).join('');
+            const totalPages = Math.max(1, Math.ceil(total / SD_PAGE_SIZE));
+            document.getElementById('sdDemandsTotal').textContent = total;
+            document.getElementById('sdDemandsPagination').style.display = 'flex';
+            let html = '<button class="page-btn" onclick="goToSdDemandsPage(' + (sdDemandsPage - 1) + ')" ' + (sdDemandsPage <= 1 ? 'disabled' : '') + '><i class="bi bi-chevron-left"></i></button>';
+            for (let i = 1; i <= totalPages && i <= 5; i++) {
+                html += '<button class="page-btn ' + (i === sdDemandsPage ? 'active' : '') + '" onclick="goToSdDemandsPage(' + i + ')">' + i + '</button>';
+            }
+            html += '<button class="page-btn" onclick="goToSdDemandsPage(' + (sdDemandsPage + 1) + ')" ' + (sdDemandsPage >= totalPages ? 'disabled' : '') + '><i class="bi bi-chevron-right"></i></button>';
+            document.getElementById('sdDemandsPbtns').innerHTML = html;
+        }
+
+        function goToSdDemandsPage(page) {
+            if (page < 1) return;
+            const total = parseInt(document.getElementById('sdDemandsTotal').textContent || '0', 10);
+            const totalPages = Math.max(1, Math.ceil(total / SD_PAGE_SIZE));
+            if (page > totalPages) return;
+            sdDemandsPage = page;
+            loadSupplyDemands();
+        }
+
+        async function toggleDemandStatus(id, title, currentStatus) {
+            if (!id) return;
+            if (!confirm('确定要下架需求「' + title + '」吗？')) return;
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/supply-demands/' + id + '/status', {
+                    method: 'PUT',
+                    body: JSON.stringify({ status: 'offline' })
+                });
+                if (res.code === 200 || res.code === 0) {
+                    alert('下架成功');
+                    loadSupplyDemands();
+                } else {
+                    alert('下架失败: ' + (res.message || '未知错误'));
+                }
+            } catch (err) {
+                alert('下架失败，网络错误');
+            }
+        }
+
+        async function loadSupplySupplies(page) {
+            if (page) sdSuppliesPage = page;
+            const wrap = document.getElementById('sdSuppliesWrap');
+            const empty = document.getElementById('sdSuppliesEmpty');
+            const tbody = document.getElementById('sdSuppliesTable');
+            if (empty) empty.innerHTML = '<i class="bi bi-inbox"></i><h3>加载中...</h3><p>请稍候</p>';
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/supply-supplies?page=' + sdSuppliesPage + '&pageSize=' + SD_PAGE_SIZE);
+                const list = (res.code === 200 && res.data) ? (Array.isArray(res.data) ? res.data : (res.data.list || [])) : [];
+                const total = (res.data && res.data.total) ? res.data.total : list.length;
+                if (list.length) {
+                    if (wrap) wrap.style.display = 'block';
+                    if (empty) empty.style.display = 'none';
+                    renderSupplySuppliesTable(list, total);
+                } else {
+                    if (wrap) wrap.style.display = 'none';
+                    if (empty) { empty.style.display = 'block'; empty.innerHTML = '<i class="bi bi-inbox"></i><h3>暂无供应数据</h3><p>暂无供应信息记录</p>'; }
+                    if (tbody) tbody.innerHTML = '';
+                    document.getElementById('sdSuppliesPagination').style.display = 'none';
+                }
+            } catch (err) {
+                console.error('加载供应数据失败:', err);
+                if (wrap) wrap.style.display = 'none';
+                if (empty) { empty.style.display = 'block'; empty.innerHTML = '<i class="bi bi-exclamation-triangle"></i><h3>加载失败</h3><p>网络错误，请稍后重试</p>'; }
+            }
+        }
+
+        function renderSupplySuppliesTable(list, total) {
+            const tbody = document.getElementById('sdSuppliesTable');
+            const typeMap = { material: '原材料', processing: '加工服务', design: '设计服务', accessory: '辅料配件', logistics: '物流服务' };
+            tbody.innerHTML = list.map(s => {
+                const isAvailable = s.status === 'available';
+                return '<tr>' +
+                    '<td>' + escapeHtml(s.supplyId || s.id || '-') + '</td>' +
+                    '<td><div class="table-user-info"><h4>' + escapeHtml(s.title || '-') + '</h4><p>' + escapeHtml(s.companyName || '') + '</p></div></td>' +
+                    '<td>' + (typeMap[s.type] || s.type || '-') + '</td>' +
+                    '<td>' + escapeHtml(s.companyName || '-') + '</td>' +
+                    '<td>' + escapeHtml(s.location || '-') + '</td>' +
+                    '<td><span class="status-badge ' + (isAvailable ? 'success' : 'danger') + '">' + (isAvailable ? '上架' : '下架') + '</span></td>' +
+                    '<td>' + (s.publishDate ? s.publishDate : (s.createdAt ? formatDate(s.createdAt) : '-')) + '</td>' +
+                    '<td><div class="action-btns">' +
+                    '<button class="action-btn danger" title="下架" onclick="toggleSupplyStatus(\'' + (s.id || '') + '\', \'' + escapeHtml(s.title || '') + '\')"><i class="bi bi-dash-circle"></i> 下架</button>' +
+                    '</div></td></tr>';
+            }).join('');
+            const totalPages = Math.max(1, Math.ceil(total / SD_PAGE_SIZE));
+            document.getElementById('sdSuppliesTotal').textContent = total;
+            document.getElementById('sdSuppliesPagination').style.display = 'flex';
+            let html = '<button class="page-btn" onclick="goToSdSuppliesPage(' + (sdSuppliesPage - 1) + ')" ' + (sdSuppliesPage <= 1 ? 'disabled' : '') + '><i class="bi bi-chevron-left"></i></button>';
+            for (let i = 1; i <= totalPages && i <= 5; i++) {
+                html += '<button class="page-btn ' + (i === sdSuppliesPage ? 'active' : '') + '" onclick="goToSdSuppliesPage(' + i + ')">' + i + '</button>';
+            }
+            html += '<button class="page-btn" onclick="goToSdSuppliesPage(' + (sdSuppliesPage + 1) + ')" ' + (sdSuppliesPage >= totalPages ? 'disabled' : '') + '><i class="bi bi-chevron-right"></i></button>';
+            document.getElementById('sdSuppliesPbtns').innerHTML = html;
+        }
+
+        function goToSdSuppliesPage(page) {
+            if (page < 1) return;
+            const total = parseInt(document.getElementById('sdSuppliesTotal').textContent || '0', 10);
+            const totalPages = Math.max(1, Math.ceil(total / SD_PAGE_SIZE));
+            if (page > totalPages) return;
+            sdSuppliesPage = page;
+            loadSupplySupplies();
+        }
+
+        async function toggleSupplyStatus(id, title) {
+            if (!id) return;
+            if (!confirm('确定要下架供应「' + title + '」吗？')) return;
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/supply-supplies/' + id + '/status', {
+                    method: 'PUT',
+                    body: JSON.stringify({ status: 'offline' })
+                });
+                if (res.code === 200 || res.code === 0) {
+                    alert('下架成功');
+                    loadSupplySupplies();
+                } else {
+                    alert('下架失败: ' + (res.message || '未知错误'));
+                }
+            } catch (err) {
+                alert('下架失败，网络错误');
+            }
+        }
+
+        async function loadSupplyConnections(page) {
+            if (page) sdConnectionsPage = page;
+            const wrap = document.getElementById('sdConnectionsWrap');
+            const empty = document.getElementById('sdConnectionsEmpty');
+            const tbody = document.getElementById('sdConnectionsTable');
+            if (empty) empty.innerHTML = '<i class="bi bi-inbox"></i><h3>加载中...</h3><p>请稍候</p>';
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/supply-connections?page=' + sdConnectionsPage + '&pageSize=' + SD_PAGE_SIZE);
+                const list = (res.code === 200 && res.data) ? (Array.isArray(res.data) ? res.data : (res.data.list || [])) : [];
+                const total = (res.data && res.data.total) ? res.data.total : list.length;
+                if (list.length) {
+                    if (wrap) wrap.style.display = 'block';
+                    if (empty) empty.style.display = 'none';
+                    renderSupplyConnectionsTable(list, total);
+                } else {
+                    if (wrap) wrap.style.display = 'none';
+                    if (empty) { empty.style.display = 'block'; empty.innerHTML = '<i class="bi bi-inbox"></i><h3>暂无对接记录</h3><p>暂无对接记录</p>'; }
+                    if (tbody) tbody.innerHTML = '';
+                    document.getElementById('sdConnectionsPagination').style.display = 'none';
+                }
+            } catch (err) {
+                console.error('加载对接记录失败:', err);
+                if (wrap) wrap.style.display = 'none';
+                if (empty) { empty.style.display = 'block'; empty.innerHTML = '<i class="bi bi-exclamation-triangle"></i><h3>加载失败</h3><p>网络错误，请稍后重试</p>'; }
+            }
+        }
+
+        function renderSupplyConnectionsTable(list, total) {
+            const tbody = document.getElementById('sdConnectionsTable');
+            const statusMap = { negotiating: '洽谈中', completed: '已完成', cancelled: '已取消' };
+            const statusClass = { negotiating: 'warning', completed: 'success', cancelled: 'danger' };
+            tbody.innerHTML = list.map(c => {
+                const typeLabel = c.demandId ? '需求方发起' : '供应方发起';
+                return '<tr>' +
+                    '<td>' + escapeHtml(c.connectionId || c.id || '-') + '</td>' +
+                    '<td>' + typeLabel + '</td>' +
+                    '<td>' + escapeHtml(c.applicantCompanyName || '-') + '</td>' +
+                    '<td>' + escapeHtml(c.applicantContactName || '-') + '<br><small style="color:var(--text-secondary)">' + escapeHtml(c.applicantContactPhone || '') + '</small></td>' +
+                    '<td><span class="status-badge ' + (statusClass[c.status] || 'info') + '">' + (statusMap[c.status] || c.status || '-') + '</span></td>' +
+                    '<td>' + (c.startDate || '-') + '</td>' +
+                    '<td>' + (c.lastUpdate || '-') + '</td>' +
+                    '<td><div class="action-btns">' +
+                    '<button class="action-btn danger" title="取消对接" onclick="toggleConnectionStatus(\'' + (c.id || '') + '\', \'' + escapeHtml(c.connectionId || '') + '\')"><i class="bi bi-x-circle"></i> 取消</button>' +
+                    '</div></td></tr>';
+            }).join('');
+            const totalPages = Math.max(1, Math.ceil(total / SD_PAGE_SIZE));
+            document.getElementById('sdConnectionsTotal').textContent = total;
+            document.getElementById('sdConnectionsPagination').style.display = 'flex';
+            let html = '<button class="page-btn" onclick="goToSdConnectionsPage(' + (sdConnectionsPage - 1) + ')" ' + (sdConnectionsPage <= 1 ? 'disabled' : '') + '><i class="bi bi-chevron-left"></i></button>';
+            for (let i = 1; i <= totalPages && i <= 5; i++) {
+                html += '<button class="page-btn ' + (i === sdConnectionsPage ? 'active' : '') + '" onclick="goToSdConnectionsPage(' + i + ')">' + i + '</button>';
+            }
+            html += '<button class="page-btn" onclick="goToSdConnectionsPage(' + (sdConnectionsPage + 1) + ')" ' + (sdConnectionsPage >= totalPages ? 'disabled' : '') + '><i class="bi bi-chevron-right"></i></button>';
+            document.getElementById('sdConnectionsPbtns').innerHTML = html;
+        }
+
+        function goToSdConnectionsPage(page) {
+            if (page < 1) return;
+            const total = parseInt(document.getElementById('sdConnectionsTotal').textContent || '0', 10);
+            const totalPages = Math.max(1, Math.ceil(total / SD_PAGE_SIZE));
+            if (page > totalPages) return;
+            sdConnectionsPage = page;
+            loadSupplyConnections();
+        }
+
+        async function toggleConnectionStatus(id, connId) {
+            if (!id) return;
+            if (!confirm('确定要取消对接记录「' + connId + '」吗？')) return;
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/supply-connections/' + id + '/status', {
+                    method: 'PUT',
+                    body: JSON.stringify({ status: 'cancelled' })
+                });
+                if (res.code === 200 || res.code === 0) {
+                    alert('操作成功');
+                    loadSupplyConnections();
+                } else {
+                    alert('操作失败: ' + (res.message || '未知错误'));
+                }
+            } catch (err) {
+                alert('操作失败，网络错误');
+            }
+        }
+
+        function connectWorkOrderWebSocket() {
+            const token = getAdminAuthToken();
+            if (!token || (stompClient && stompClient.connected)) return;
+            try {
+                const socket = new SockJS(WS_BASE);
+                stompClient = Stomp.over(socket);
+                stompClient.debug = null;
+                stompClient.connect({ 'Authorization': 'Bearer ' + token }, function() {
+                    subscribeCurrentWorkOrderChat();
+                }, function() {
+                    setTimeout(connectWorkOrderWebSocket, 3000);
+                });
+            } catch (e) { console.warn('WebSocket connect error', e); }
+        }
+        function unsubscribeWorkOrderChat() {
+            if (currentWorkOrderChatId && wsSubscriptions[currentWorkOrderChatId]) {
+                wsSubscriptions[currentWorkOrderChatId].unsubscribe();
+                delete wsSubscriptions[currentWorkOrderChatId];
+            }
+        }
+        function nowTimeStr() {
+            const d = new Date();
+            const pad = n => n < 10 ? '0' + n : '' + n;
+            return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+        }
+        function subscribeCurrentWorkOrderChat() {
+            unsubscribeWorkOrderChat();
+            if (!currentWorkOrderChatId || !stompClient || !stompClient.connected) return;
+            const sub = stompClient.subscribe('/topic/work-order/' + currentWorkOrderChatId, function(msg) {
+                // 任意一方通过 WS 落库后都会广播，统一从服务端拉取避免漏消息
+                try { JSON.parse(msg.body); } catch (e) { /* ignore */ }
+                setTimeout(function() { refreshWorkOrderChatFromServer(); }, 100);
+            });
+            wsSubscriptions[currentWorkOrderChatId] = sub;
+        }
+        async function refreshWorkOrderChatFromServer() {
+            if (!currentWorkOrderChatId) return;
+            try {
+                const res = await apiFetch(AUTH_BASE + '/work-orders/' + currentWorkOrderChatId);
+                if (isWorkOrderApiOk(res) && res.data) {
+                    currentWorkOrderDetail = res.data;
+                    renderWorkOrderChat(res.data);
+                }
+            } catch (e) { console.warn('refreshWorkOrderChatFromServer', e); }
+        }
+        function openWorkOrderChatModal(orderId) {
+            currentWorkOrderChatId = orderId;
+            currentWorkOrderDetail = null;
+            document.getElementById('workOrderReplyContent').value = '';
+            document.getElementById('workOrderChatMessages').innerHTML = '<p style="color:#999;text-align:center;">加载中...</p>';
+            document.getElementById('workOrderChatModal').classList.add('show');
+            if (workOrderChatPollTimerId) { clearInterval(workOrderChatPollTimerId); workOrderChatPollTimerId = null; }
+            connectWorkOrderWebSocket();
+            apiFetch(AUTH_BASE + '/work-orders/' + orderId).then(res => {
+                if (isWorkOrderApiOk(res) && res.data) {
+                    currentWorkOrderDetail = res.data;
+                    renderWorkOrderChat(res.data);
+                    subscribeCurrentWorkOrderChat();
+                } else {
+                    const errMsg = (res && res.message) ? escapeHtml(res.message) : '无权限或工单不存在';
+                    document.getElementById('workOrderChatMessages').innerHTML = '<p style="color:#c0392b;text-align:center;padding:12px;">加载失败：' + errMsg + '</p>';
+                }
+            }).catch(() => {
+                document.getElementById('workOrderChatMessages').innerHTML = '<p style="color:#999;text-align:center;">网络错误，请检查后端是否启动</p>';
+            });
+            // 每 2 秒轮询一次，检查用户是否发了新消息
+            workOrderChatPollTimerId = setInterval(refreshWorkOrderChatFromServer, 2000);
+        }
+        function closeWorkOrderChatModal() {
+            if (workOrderChatPollTimerId) { clearInterval(workOrderChatPollTimerId); workOrderChatPollTimerId = null; }
+            unsubscribeWorkOrderChat();
+            currentWorkOrderChatId = null;
+            currentWorkOrderDetail = null;
+            document.getElementById('workOrderChatModal').classList.remove('show');
+        }
+        function escapeHtml(s) {
+            if (s == null) return '';
+            const div = document.createElement('div');
+            div.textContent = s;
+            return div.innerHTML;
+        }
+        function renderWorkOrderChat(order) {
+            if (!order) {
+                document.getElementById('workOrderChatMessages').innerHTML = '<p style="color:#999;text-align:center;">暂无数据</p>';
+                return;
+            }
+            const messages = Array.isArray(order.messages) ? order.messages : [];
+            let html = '';
+            const firstContent = (order.content != null && String(order.content).trim() !== '') ? String(order.content).trim() : '';
+            if (firstContent) {
+                html += `<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;">
+                    <div style="width:36px;height:36px;border-radius:50%;background:#e3f2fd;color:#1565c0;display:flex;align-items:center;justify-content:center;font-size:12px;">用户</div>
+                    <div style="max-width:75%;padding:10px 14px;border-radius:12px;background:#f0f0f0;"><div>${escapeHtml(firstContent)}</div><div style="font-size:11px;color:#999;margin-top:4px;">${order.createTime || ''}</div></div>
+                </div>`;
+            }
+            messages.forEach(m => {
+                const isAdmin = m.role === 'admin' || m.role === 'staff';
+                html += `<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;${isAdmin ? 'flex-direction:row-reverse;' : ''}">
+                    <div style="width:36px;height:36px;border-radius:50%;background:${isAdmin ? '#2c5282' : '#e3f2fd'};color:${isAdmin ? '#fff' : '#2c5282'};display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;">${isAdmin ? '客服' : '用户'}</div>
+                    <div style="max-width:75%;padding:10px 14px;border-radius:12px;background:${isAdmin ? '#ebf8ff' : '#f0f0f0'};${isAdmin ? 'text-align:right;' : ''}"><div>${escapeHtml(m.content || '')}</div><div style="font-size:11px;color:#999;margin-top:4px;">${m.time || ''}</div></div>
+                </div>`;
+            });
+            document.getElementById('workOrderChatMessages').innerHTML = html || '<p style="color:#999;text-align:center;">暂无回复，在下方输入内容并发送</p>';
+            const el = document.getElementById('workOrderChatMessages');
+            el.scrollTop = el.scrollHeight;
+        }
+        // 发送后立即强制从服务器刷新（解决双方看不到对方消息的问题）
+        function immediateWorkOrderRefreshAfterSend() {
+            if (!currentWorkOrderChatId) return;
+            refreshWorkOrderChatFromServer();
+            loadWorkorders();
+        }
+
+        async function sendWorkOrderReply() {
+            if (!currentWorkOrderChatId) return;
+            const content = (document.getElementById('workOrderReplyContent').value || '').trim();
+            if (!content) {
+                showToast('请填写回复内容', 'warning');
+                return;
+            }
+            const sendBtn = document.getElementById('workOrderSendBtn');
+            if (sendBtn) sendBtn.disabled = true;
+
+            // 统一走 HTTP 回复接口（后端落库后会广播 /topic/work-order/{id}，与用户端一致）
+            try {
+                const res = await apiFetch(AUTH_BASE + '/work-orders/' + currentWorkOrderChatId + '/reply', {
+                    method: 'POST',
+                    body: JSON.stringify({ content: content })
+                });
+                document.getElementById('workOrderReplyContent').value = '';
+                if (isWorkOrderApiOk(res)) {
+                    immediateWorkOrderRefreshAfterSend();
+                    showToast('回复已发送', 'success');
+                } else {
+                    showToast(res.message || '发送失败', 'error');
+                    immediateWorkOrderRefreshAfterSend();
+                }
+            } catch (err) {
+                showToast('网络错误', 'error');
+            } finally {
+                if (sendBtn) sendBtn.disabled = false;
+            }
+        }
+
+        // ==================== 渲染 ====================
+        function renderRecentUsers(users) {
+            const tbody = document.getElementById('recentUsersTable');
+            if (!users.length) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state"><p>暂无数据</p></td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = users.map(user => {
+                const typeLabel = user.userType === 1 ? '个人' : (user.userType === 2 ? '企业' : '管理员');
+                const statusHtml = user.userType === 2 
+                    ? `<span class="status-badge ${getEnterpriseStatusClass(user.enterpriseStatus)}">${getEnterpriseStatusText(user.enterpriseStatus)}</span>`
+                    : `<span class="status-badge success">正常</span>`;
+                
+                return `
+                    <tr>
+                        <td>
+                            <div class="table-user">
+                                <div class="table-avatar">${(user.nickname || '用户').charAt(0)}</div>
+                                <div class="table-user-info">
+                                    <h4>${user.nickname || '-'}</h4>
+                                    <p>${user.email}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${typeLabel}</td>
+                        <td>${statusHtml}</td>
+                        <td>${formatDate(user.createdAt)}</td>
+                        <td>
+                            <button class="action-btn view" title="查看" onclick="viewUser('${user.id}')">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderUsersTable(users, total) {
+            const tbody = document.getElementById('usersTable');
+            document.getElementById('totalUsers').textContent = total;
+            
+            if (!users.length) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><p>暂无数据</p></td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = users.map(user => {
+                const typeLabel = user.userType === 1 ? '个人' : (user.userType === 2 ? '企业' : '管理员');
+                
+                return `
+                    <tr>
+                        <td>
+                            <div class="table-user">
+                                <div class="table-avatar">${(user.nickname || '用户').charAt(0)}</div>
+                                <div class="table-user-info">
+                                    <h4>${user.nickname || '-'}</h4>
+                                    <p>${user.email}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${user.email}</td>
+                        <td>${typeLabel}</td>
+                        <td>
+                            ${user.userType === 2 
+                                ? `<span class="status-badge ${getEnterpriseStatusClass(user.enterpriseStatus)}">${getEnterpriseStatusText(user.enterpriseStatus)}</span>`
+                                : `<span class="status-badge success">正常</span>`
+                            }
+                        </td>
+                        <td>${formatDate(user.createdAt)}</td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="action-btn view" title="查看" onclick="viewUser('${user.id}')">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                ${user.userType !== 3 ? `
+                                <button class="action-btn delete" title="删除" onclick="deleteUser('${user.id}')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                                ` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+            
+            renderPagination(total, 15, usersPage, 'goToUsersPage', 'paginationBtns');
+        }
+
+        function renderEnterprisesTable(enterprises, total) {
+            const tbody = document.getElementById('enterprisesTable');
+            document.getElementById('totalEnterprises').textContent = total;
+            
+            if (!enterprises.length) {
+                tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><p>暂无数据</p></td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = enterprises.map(ent => `
+                <tr>
+                    <td>
+                        <div class="table-user">
+                            <div class="table-avatar" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">
+                                <i class="bi bi-building"></i>
+                            </div>
+                            <div class="table-user-info">
+                                <h4>${ent.enterpriseName || '-'}</h4>
+                                <p>${ent.email}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${ent.enterpriseLicense || '-'}</td>
+                    <td>
+                        ${ent.licenseImageUrl ? `
+                            <img src="${ent.licenseImageUrl}" alt="营业执照" 
+                                 style="width:60px;height:60px;object-fit:cover;border-radius:4px;cursor:pointer;"
+                                 onclick="previewLicenseImage('${ent.licenseImageUrl}')"
+                                 title="点击查看大图">
+                        ` : '<span style="color:#999;">无</span>'}
+                    </td>
+                    <td>${ent.nickname || '-'}</td>
+                    <td>
+                        <span class="status-badge ${getEnterpriseStatusClass(ent.enterpriseStatus)}">
+                            ${getEnterpriseStatusText(ent.enterpriseStatus)}
+                        </span>
+                    </td>
+                    <td>${formatDate(ent.createdAt)}</td>
+                    <td>
+                        <div class="action-btns">
+                            ${ent.enterpriseStatus === 0 ? `
+                            <button class="action-btn edit" title="审核" onclick="openEnterpriseModal('${ent.id}')">
+                                <i class="bi bi-check-circle"></i>
+                            </button>
+                            ` : `
+                            <button class="action-btn view" title="查看" onclick="openEnterpriseModal('${ent.id}')">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            `}
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            renderPagination(total, 15, enterprisesPage, 'goToEnterprisesPage', 'enterprisePagination');
+        }
+
+        function goToUsersPage(page) {
+            usersPage = page;
+            loadUsers();
+        }
+        function goToEnterprisesPage(page) {
+            enterprisesPage = page;
+            loadEnterprises();
+        }
+        function renderPagination(total, pageSize, currentPage, fnName, containerId) {
+            const totalPages = Math.max(1, Math.ceil(total / pageSize));
+            document.getElementById('currentPage').textContent = currentPage;
+            document.getElementById('totalPages').textContent = totalPages;
+            var html = '';
+            html += '<button class="page-btn" onclick="' + fnName + '(' + (currentPage - 1) + ')" ' + (currentPage === 1 ? 'disabled' : '') + '><i class="bi bi-chevron-left"></i></button>';
+            for (var i = 1; i <= totalPages && i <= 5; i++) {
+                html += '<button class="page-btn ' + (i === currentPage ? 'active' : '') + '" onclick="' + fnName + '(' + i + ')">' + i + '</button>';
+            }
+            html += '<button class="page-btn" onclick="' + fnName + '(' + (currentPage + 1) + ')" ' + (currentPage === totalPages ? 'disabled' : '') + '><i class="bi bi-chevron-right"></i></button>';
+            document.getElementById(containerId).innerHTML = html;
+        }
+
+        // ==================== 操作 ====================
+        function searchUsers() {
+            usersPage = 1;
+            loadUsers();
+        }
+
+        function searchEnterprises() {
+            enterprisesPage = 1;
+            loadEnterprises();
+        }
+
+        async function viewUser(id) {
+            currentViewUserId = id;
+            document.getElementById('userDetailModal').classList.add('show');
+            document.getElementById('userDetailModalBody').innerHTML = '<p class="loading"><div class="spinner"></div></p>';
+            document.getElementById('userDetailResetPwdBtn').style.display = 'none';
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/users/' + id);
+                if (res.code === 200 && res.data) {
+                    var u = res.data;
+                    var typeText = u.userType === 1 ? '个人用户' : (u.userType === 2 ? '企业用户' : '管理员');
+                    var statusText = u.userType === 2 ? (u.enterpriseStatus === 0 ? '待审核' : (u.enterpriseStatus === 1 ? '已通过' : '已拒绝')) : '正常';
+                    var html = '<div class="form-group"><label class="form-label">昵称</label><p>' + (u.nickname || '-') + '</p></div>' +
+                        '<div class="form-group"><label class="form-label">邮箱</label><p>' + (u.email || '-') + '</p></div>' +
+                        '<div class="form-group"><label class="form-label">用户类型</label><p>' + typeText + '</p></div>' +
+                        '<div class="form-group"><label class="form-label">状态</label><p>' + statusText + '</p></div>' +
+                        '<div class="form-group"><label class="form-label">注册时间</label><p>' + formatDate(u.createdAt) + '</p></div>';
+                    if (u.userType === 2) {
+                        html += '<div class="form-group"><label class="form-label">企业名称</label><p>' + (u.enterpriseName || '-') + '</p></div>' +
+                            '<div class="form-group"><label class="form-label">营业执照号</label><p>' + (u.enterpriseLicense || '-') + '</p></div>';
+                    }
+                    html += '<div id="userDetailPasswordForm" style="display:none; margin-top:20px; padding-top:20px; border-top:1px solid var(--border-color);">' +
+                        '<div class="form-group"><label class="form-label">新密码</label><input type="password" class="form-control" id="newPasswordInput" placeholder="请输入新密码" minlength="6"></div>' +
+                        '<div class="form-group"><label class="form-label">确认新密码</label><input type="password" class="form-control" id="confirmPasswordInput" placeholder="请再次输入新密码"></div>' +
+                        '<div style="display:flex; gap:10px;"><button type="button" class="btn btn-primary btn-sm" onclick="submitResetPassword()">提交</button><button type="button" class="btn btn-secondary btn-sm" onclick="hidePasswordForm()">取消</button></div></div>';
+                    document.getElementById('userDetailModalBody').innerHTML = html;
+                    if (u.userType !== 3) {
+                        document.getElementById('userDetailResetPwdBtn').style.display = 'inline-flex';
+                    }
+                } else {
+                    document.getElementById('userDetailModalBody').innerHTML = '<p style="color:#ef4444">加载失败：' + (res.message || '用户不存在') + '</p>';
+                }
+            } catch (err) {
+                document.getElementById('userDetailModalBody').innerHTML = '<p style="color:#ef4444">加载失败，请稍后重试</p>';
+            }
+        }
+        function closeUserDetailModal() {
+            document.getElementById('userDetailModal').classList.remove('show');
+            currentViewUserId = null;
+        }
+        function showPasswordForm() {
+            var el = document.getElementById('userDetailPasswordForm');
+            if (el) { el.style.display = 'block'; }
+        }
+        function hidePasswordForm() {
+            var el = document.getElementById('userDetailPasswordForm');
+            if (el) {
+                el.style.display = 'none';
+                var inp = document.getElementById('newPasswordInput');
+                var conf = document.getElementById('confirmPasswordInput');
+                if (inp) inp.value = '';
+                if (conf) conf.value = '';
+            }
+        }
+        async function submitResetPassword() {
+            var newPwd = document.getElementById('newPasswordInput') && document.getElementById('newPasswordInput').value;
+            var confirmPwd = document.getElementById('confirmPasswordInput') && document.getElementById('confirmPasswordInput').value;
+            if (!newPwd || newPwd.length < 6) {
+                showToast('请输入至少 6 位新密码', 'warning');
+                return;
+            }
+            if (newPwd !== confirmPwd) {
+                showToast('两次输入的密码不一致', 'warning');
+                return;
+            }
+            if (!currentViewUserId) return;
+            try {
+                var res = await apiFetch(ADMIN_BASE + '/users/' + currentViewUserId + '/password', {
+                    method: 'PUT',
+                    body: JSON.stringify({ newPassword: newPwd })
+                });
+                if (res.code === 200) {
+                    showToast('密码已修改', 'success');
+                    hidePasswordForm();
+                } else {
+                    showToast(res.message || '修改失败', 'error');
+                }
+            } catch (err) {
+                showToast('修改失败，请稍后重试', 'error');
+            }
+        }
+
+        // ==================== 客服消息 ====================
+        function loadCustomerServiceConversations() {
+            var listEl = document.getElementById('cs-conv-list-inner');
+            var headerEl = document.getElementById('cs-chat-header');
+            var messagesEl = document.getElementById('cs-chat-messages');
+            var replyEl = document.getElementById('cs-chat-reply');
+            if (!listEl) return;
+            var all = typeof CustomerServiceGetAllConversations === 'function' ? CustomerServiceGetAllConversations() : {};
+            var ids = Object.keys(all);
+            if (ids.length === 0) {
+                listEl.innerHTML = '<p style="padding:16px;color:#6b7280;font-size:14px;">暂无用户留言</p>';
+                headerEl.textContent = '选择左侧会话查看并回复';
+                messagesEl.innerHTML = '';
+                replyEl.style.display = 'none';
+                currentCsConversationId = null;
+                return;
+            }
+            var html = '';
+            ids.forEach(function(id) {
+                var conv = all[id];
+                var name = (conv && conv.userName) ? conv.userName : id;
+                var email = (conv && conv.userEmail) ? conv.userEmail : (id.indexOf('user_') === 0 ? id.replace('user_', '') : '');
+                var count = (conv && conv.messages) ? conv.messages.length : 0;
+                var lastMsg = (conv && conv.messages && conv.messages.length) ? conv.messages[conv.messages.length - 1].content : '';
+                if (lastMsg && lastMsg.length > 20) lastMsg = lastMsg.slice(0, 20) + '...';
+                html += '<div class="cs-conv-item" data-cid="' + id.replace(/"/g, '&quot;') + '" style="padding:12px 16px;border-bottom:1px solid var(--border-color);cursor:pointer;">' +
+                    '<div style="font-weight:600;font-size:14px;">' + (name || '访客') + '</div>' +
+                    (email ? '<div style="font-size:12px;color:#6b7280;">' + email + '</div>' : '') +
+                    '<div style="font-size:12px;color:#9ca3af;margin-top:4px;">' + (lastMsg || '暂无消息') + '</div></div>';
+            });
+            listEl.innerHTML = html;
+            listEl.querySelectorAll('.cs-conv-item').forEach(function(el) {
+                el.addEventListener('click', function() {
+                    var cid = el.getAttribute('data-cid');
+                    if (cid) selectCsConversation(cid);
+                });
+            });
+            if (currentCsConversationId && all[currentCsConversationId]) {
+                selectCsConversation(currentCsConversationId);
+            } else {
+                headerEl.textContent = '选择左侧会话查看并回复';
+                messagesEl.innerHTML = '';
+                replyEl.style.display = 'none';
+            }
+        }
+        function selectCsConversation(cid) {
+            currentCsConversationId = cid;
+            var all = typeof CustomerServiceGetAllConversations === 'function' ? CustomerServiceGetAllConversations() : {};
+            var conv = all[cid];
+            document.getElementById('cs-chat-header').textContent = (conv && conv.userName) ? (conv.userName + (conv.userEmail ? ' (' + conv.userEmail + ')' : '')) : cid;
+            document.getElementById('cs-chat-reply').style.display = 'block';
+            renderCsChatMessages();
+        }
+        function renderCsChatMessages() {
+            var messagesEl = document.getElementById('cs-chat-messages');
+            if (!currentCsConversationId || !messagesEl) return;
+            var list = typeof CustomerServiceGetMessages === 'function' ? CustomerServiceGetMessages(currentCsConversationId) : [];
+            var html = '';
+            list.forEach(function(m) {
+                var isAdmin = m.from === 'admin';
+                var time = m.time ? new Date(m.time).toLocaleString('zh-CN') : '';
+                html += '<div style="max-width:80%;margin-bottom:12px;' + (isAdmin ? 'margin-left:auto;' : '') + '">' +
+                    '<div class="' + (isAdmin ? 'cs-msg-admin' : 'cs-msg-user') + '" style="padding:10px 12px;border-radius:12px;font-size:14px;' +
+                    (isAdmin ? 'background:linear-gradient(135deg,#2c5282,#4299e1);color:#fff;' : 'background:#fff;border:1px solid var(--border-color);') + '">' +
+                    (m.content || '').replace(/</g, '&lt;') + '</div>' +
+                    '<div style="font-size:11px;color:#9ca3af;margin-top:4px;">' + time + (isAdmin ? ' 管理员' : '') + '</div></div>';
+            });
+            messagesEl.innerHTML = html || '<p style="color:#9ca3af;font-size:13px;">暂无消息</p>';
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+        function submitCsReply() {
+            var input = document.getElementById('cs-reply-input');
+            var text = input && input.value ? input.value.trim() : '';
+            if (!text) {
+                showToast('请输入回复内容', 'warning');
+                return;
+            }
+            if (!currentCsConversationId) return;
+            if (typeof CustomerServiceSendAdminReply === 'function') CustomerServiceSendAdminReply(currentCsConversationId, text);
+            if (input) input.value = '';
+            renderCsChatMessages();
+            showToast('回复已发送', 'success');
+        }
+
+        async function deleteUser(id) {
+            if (!confirm('确定要删除该用户吗？')) return;
+            
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/users/' + id, { method: 'DELETE' });
+                if (res.code === 200) {
+                    showToast('用户已删除', 'success');
+                    loadUsers();
+                    loadDashboard();
+                } else {
+                    showToast(res.message || '删除失败', 'error');
+                }
+            } catch (err) {
+                showToast('删除失败', 'error');
+            }
+        }
+
+        async function openEnterpriseModal(id) {
+            currentEnterpriseId = id;
+            document.getElementById('enterpriseModal').classList.add('show');
+            document.getElementById('enterpriseModalBody').innerHTML = '<p>加载中...</p>';
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/users/' + id);
+                if (res.code === 200 && res.data) {
+                    var u = res.data;
+                    var licenseHtml = u.licenseImageUrl 
+                        ? '<p><strong>营业执照照片：</strong><br><img src="' + u.licenseImageUrl + '" alt="营业执照" style="max-width:300px;max-height:200px;margin-top:8px;border-radius:4px;cursor:pointer;" onclick="previewLicenseImage(\'' + u.licenseImageUrl + '\')"></p>'
+                        : '<p><strong>营业执照照片：</strong> 无</p>';
+                    document.getElementById('enterpriseModalBody').innerHTML =
+                        '<p><strong>企业名称：</strong>' + (u.enterpriseName || '-') + '</p>' +
+                        '<p><strong>营业执照号：</strong>' + (u.enterpriseLicense || '-') + '</p>' +
+                        licenseHtml +
+                        '<p><strong>联系人/昵称：</strong>' + (u.nickname || '-') + '</p>' +
+                        '<p><strong>邮箱：</strong>' + (u.email || '-') + '</p>' +
+                        '<p><strong>申请时间：</strong>' + formatDate(u.createdAt) + '</p>';
+                } else {
+                    document.getElementById('enterpriseModalBody').innerHTML = '<p>加载失败</p>';
+                }
+            } catch (err) {
+                document.getElementById('enterpriseModalBody').innerHTML = '<p>加载失败</p>';
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('enterpriseModal').classList.remove('show');
+            currentEnterpriseId = null;
+        }
+
+        function previewLicenseImage(url) {
+            document.getElementById('licensePreviewImage').src = url;
+            document.getElementById('licensePreviewModal').classList.add('show');
+        }
+
+        function closeLicensePreview() {
+            document.getElementById('licensePreviewModal').classList.remove('show');
+            document.getElementById('licensePreviewImage').src = '';
+        }
+
+        async function approveEnterprise() {
+            if (!currentEnterpriseId) return;
+            
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/users/' + currentEnterpriseId + '/status', {
+                    method: 'PUT',
+                    body: JSON.stringify({ status: 1 })
+                });
+                
+                if (res.code === 200) {
+                    showToast('审核通过', 'success');
+                    closeModal();
+                    loadEnterprises();
+                    loadDashboard();
+                } else {
+                    showToast(res.message || '操作失败', 'error');
+                }
+            } catch (err) {
+                showToast('操作失败', 'error');
+            }
+        }
+
+        async function rejectEnterprise() {
+            if (!currentEnterpriseId) return;
+            
+            try {
+                const res = await apiFetch(ADMIN_BASE + '/users/' + currentEnterpriseId + '/status', {
+                    method: 'PUT',
+                    body: JSON.stringify({ status: 2 })
+                });
+                
+                if (res.code === 200) {
+                    showToast('已拒绝', 'success');
+                    closeModal();
+                    loadEnterprises();
+                    loadDashboard();
+                } else {
+                    showToast(res.message || '操作失败', 'error');
+                }
+            } catch (err) {
+                showToast('操作失败', 'error');
+            }
+        }
+
+        function showSettings() {
+            showPage('settings');
+            document.getElementById('userDropdown').classList.remove('show');
+        }
+
+        function saveSettings() {
+            showToast('设置已保存', 'success');
+        }
+
+        function refreshData() {
+            loadDashboard();
+            showToast('数据已刷新', 'success');
+        }
+
+        function logout() {
+            localStorage.removeItem(TOKEN_KEY);
+            localStorage.removeItem(USER_INFO_KEY);
+            localStorage.removeItem('token');
+            localStorage.removeItem('userInfo');
+            currentUser = null;
+            showToast('已退出登录', 'success');
+            setTimeout(function() {
+                window.location.href = '../index.html';
+            }, 500);
+        }
+
+        // ==================== 工具函数 ====================
+        function getEnterpriseStatusClass(status) {
+            if (status === 0) return 'warning';
+            if (status === 1) return 'success';
+            if (status === 2) return 'danger';
+            return 'info';
+        }
+
+        function getEnterpriseStatusText(status) {
+            if (status === 0) return '待审核';
+            if (status === 1) return '已通过';
+            if (status === 2) return '已拒绝';
+            return '未知';
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '-';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('zh-CN');
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toast.className = 'toast ' + type;
+            toastMessage.textContent = message;
+            
+            if (type === 'success') {
+                toast.querySelector('i').className = 'bi bi-check-circle-fill';
+            } else if (type === 'error') {
+                toast.querySelector('i').className = 'bi bi-x-circle-fill';
+            } else if (type === 'warning') {
+                toast.querySelector('i').className = 'bi bi-exclamation-triangle-fill';
+            }
+            
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

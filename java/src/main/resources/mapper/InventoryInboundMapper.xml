@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.InventoryInboundMapper">
+    <resultMap id="VOResultMap" type="com.example.java.dto.InventoryInboundVO">
+        <id column="id" property="id"/>
+        <result column="record_no" property="recordNo"/>
+        <result column="inbound_date" property="inboundDate"/>
+        <result column="supplier_id" property="supplierId"/>
+        <result column="supplier_name" property="supplierName"/>
+        <result column="warehouse_id" property="warehouseId"/>
+        <result column="warehouse_name" property="warehouseName"/>
+        <result column="total_amount" property="totalAmount"/>
+        <result column="status" property="status"/>
+        <result column="operator" property="operator"/>
+        <result column="remark" property="remark"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="VOResultMap">
+        SELECT r.*,
+               s.name as supplier_name,
+               w.name as warehouse_name
+        FROM inventory_inbound_records r
+        LEFT JOIN inventory_suppliers s ON r.supplier_id = s.id
+        LEFT JOIN inventory_warehouses w ON r.warehouse_id = w.id
+        <where>
+            <if test="status != null and status != ''">
+                AND r.status = #{status}
+            </if>
+        </where>
+        ORDER BY r.created_at DESC
+    </select>
+
+    <select id="selectEntityById" resultType="com.example.java.entity.InventoryInboundRecord">
+        SELECT * FROM inventory_inbound_records WHERE id = #{id}
+    </select>
+
+    <select id="selectById" resultMap="VOResultMap">
+        SELECT r.*,
+               s.name as supplier_name,
+               w.name as warehouse_name
+        FROM inventory_inbound_records r
+        LEFT JOIN inventory_suppliers s ON r.supplier_id = s.id
+        LEFT JOIN inventory_warehouses w ON r.warehouse_id = w.id
+        WHERE r.id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO inventory_inbound_records (record_no, inbound_date, supplier_id, warehouse_id, products, total_amount, status, operator, remark)
+        VALUES (#{recordNo}, #{inboundDate}, #{supplierId}, #{warehouseId}, #{products}, #{totalAmount}, #{status}, #{operator}, #{remark})
+    </insert>
+
+    <update id="updateStatus">
+        UPDATE inventory_inbound_records SET status = #{status} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM inventory_inbound_records WHERE id = #{id}
+    </delete>
+
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(*) FROM inventory_inbound_records
+        <where>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="countToday" resultType="int">
+        SELECT COUNT(*) FROM inventory_inbound_records WHERE DATE(inbound_date) = CURDATE()
+    </select>
+</mapper>

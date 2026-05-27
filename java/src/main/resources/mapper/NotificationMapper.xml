@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.NotificationMapper">
+
+    <resultMap id="NotificationResultMap" type="com.example.java.entity.Notification">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="type" property="type"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="related_id" property="relatedId"/>
+        <result column="related_type" property="relatedType"/>
+        <result column="is_read" property="isRead"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO notifications (user_id, type, title, content, related_id, related_type, is_read)
+        VALUES (#{userId}, #{type}, #{title}, #{content}, #{relatedId}, #{relatedType}, #{isRead})
+    </insert>
+
+    <select id="selectByUserId" resultType="com.example.java.dto.NotificationVO">
+        SELECT id, user_id AS userId, type, title, content,
+               related_id AS relatedId, related_type AS relatedType,
+               is_read AS isRead, created_at AS createdAt
+        FROM notifications
+        WHERE user_id = #{userId}
+        ORDER BY created_at DESC
+        LIMIT 100
+    </select>
+
+    <select id="countUnread" resultType="int">
+        SELECT COUNT(*) FROM notifications
+        WHERE user_id = #{userId} AND is_read = 0
+    </select>
+
+    <update id="markAsRead">
+        UPDATE notifications SET is_read = 1 WHERE id = #{id} AND user_id = #{userId} AND is_read = 0
+    </update>
+
+    <update id="markAllAsRead">
+        UPDATE notifications SET is_read = 1 WHERE user_id = #{userId} AND is_read = 0
+    </update>
+</mapper>

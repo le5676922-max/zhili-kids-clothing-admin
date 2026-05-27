@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.RefundMapper">
+
+    <resultMap id="RefundResultMap" type="com.example.java.entity.Refund">
+        <id column="id" property="id"/>
+        <result column="refund_no" property="refundNo"/>
+        <result column="order_id" property="orderId"/>
+        <result column="user_id" property="userId"/>
+        <result column="seller_id" property="sellerId"/>
+        <result column="refund_amount" property="refundAmount"/>
+        <result column="refund_type" property="refundType"/>
+        <result column="reason" property="reason"/>
+        <result column="description" property="description"/>
+        <result column="status" property="status"/>
+        <result column="seller_note" property="sellerNote"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <resultMap id="RefundVOResultMap" type="com.example.java.dto.RefundVO">
+        <id column="id" property="id"/>
+        <result column="refund_no" property="refundNo"/>
+        <result column="order_id" property="orderId"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_nickname" property="userNickname"/>
+        <result column="seller_id" property="sellerId"/>
+        <result column="seller_name" property="sellerName"/>
+        <result column="refund_amount" property="refundAmount"/>
+        <result column="refund_type" property="refundType"/>
+        <result column="reason" property="reason"/>
+        <result column="description" property="description"/>
+        <result column="status" property="status"/>
+        <result column="seller_note" property="sellerNote"/>
+        <result column="order_amount" property="orderAmount"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.example.java.entity.Refund" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO refunds (refund_no, order_id, user_id, seller_id, refund_amount, refund_type, reason, description, status, created_at, updated_at)
+        VALUES (#{refundNo}, #{orderId}, #{userId}, #{sellerId}, #{refundAmount}, #{refundType}, #{reason}, #{description}, #{status}, NOW(), NOW())
+    </insert>
+
+    <select id="selectById" resultMap="RefundVOResultMap">
+        SELECT r.*, u.nickname as user_nickname, e.enterprise_name as seller_name,
+               o.total_amount as order_amount, o.status as order_status
+        FROM refunds r
+        LEFT JOIN users u ON r.user_id = u.id
+        LEFT JOIN users e ON r.seller_id = e.id
+        LEFT JOIN orders o ON r.order_id = o.id
+        WHERE r.id = #{id}
+    </select>
+
+    <select id="selectByRefundNo" resultMap="RefundVOResultMap">
+        SELECT r.*, u.nickname as user_nickname, e.enterprise_name as seller_name,
+               o.total_amount as order_amount, o.status as order_status
+        FROM refunds r
+        LEFT JOIN users u ON r.user_id = u.id
+        LEFT JOIN users e ON r.seller_id = e.id
+        LEFT JOIN orders o ON r.order_id = o.id
+        WHERE r.refund_no = #{refundNo}
+    </select>
+
+    <select id="selectByUserId" resultMap="RefundVOResultMap">
+        SELECT r.*, u.nickname as user_nickname, e.enterprise_name as seller_name,
+               o.total_amount as order_amount, o.status as order_status
+        FROM refunds r
+        LEFT JOIN users u ON r.user_id = u.id
+        LEFT JOIN users e ON r.seller_id = e.id
+        LEFT JOIN orders o ON r.order_id = o.id
+        WHERE r.user_id = #{userId}
+        ORDER BY r.created_at DESC
+    </select>
+
+    <select id="selectBySellerId" resultMap="RefundVOResultMap">
+        SELECT r.*, u.nickname as user_nickname, e.enterprise_name as seller_name,
+               o.total_amount as order_amount, o.status as order_status
+        FROM refunds r
+        LEFT JOIN users u ON r.user_id = u.id
+        LEFT JOIN users e ON r.seller_id = e.id
+        LEFT JOIN orders o ON r.order_id = o.id
+        WHERE r.seller_id = #{sellerId}
+        ORDER BY r.created_at DESC
+    </select>
+
+    <select id="selectByOrderId" resultMap="RefundVOResultMap">
+        SELECT r.*, u.nickname as user_nickname, e.enterprise_name as seller_name,
+               o.total_amount as order_amount, o.status as order_status
+        FROM refunds r
+        LEFT JOIN users u ON r.user_id = u.id
+        LEFT JOIN users e ON r.seller_id = e.id
+        LEFT JOIN orders o ON r.order_id = o.id
+        WHERE r.order_id = #{orderId}
+        ORDER BY r.created_at DESC
+    </select>
+
+    <select id="countPendingByOrderId" resultType="int">
+        SELECT COUNT(*) FROM refunds WHERE order_id = #{orderId} AND status IN ('pending', 'approved')
+    </select>
+
+    <update id="updateStatus">
+        UPDATE refunds
+        SET status = #{status}, seller_note = #{sellerNote}, updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateStatusAndAmount">
+        UPDATE refunds
+        SET status = #{status}, refund_amount = #{refundAmount}, seller_note = #{sellerNote}, updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+
+</mapper>

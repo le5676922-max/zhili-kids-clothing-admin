@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.WorkOrderMapper">
+
+    <resultMap id="WorkOrderResultMap" type="com.example.java.entity.WorkOrder">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="subject" property="subject"/>
+        <result column="content" property="content"/>
+        <result column="level" property="level"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_reply" property="lastReply"/>
+    </resultMap>
+
+    <resultMap id="MessageResultMap" type="com.example.java.entity.WorkOrderMessage">
+        <id column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="role" property="role"/>
+        <result column="content" property="content"/>
+        <result column="time" property="time"/>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO work_orders (id, user_id, subject, content, level, status, create_time, last_reply)
+        VALUES (#{id}, #{userId}, #{subject}, #{content}, #{level}, #{status}, #{createTime}, #{lastReply})
+    </insert>
+
+    <select id="findById" resultMap="WorkOrderResultMap">
+        SELECT * FROM work_orders WHERE id = #{id}
+    </select>
+
+    <select id="findByUserId" resultMap="WorkOrderResultMap">
+        SELECT * FROM work_orders WHERE user_id = #{userId} ORDER BY create_time DESC
+    </select>
+
+    <select id="findAll" resultMap="WorkOrderResultMap">
+        SELECT * FROM work_orders ORDER BY create_time DESC
+    </select>
+
+    <insert id="insertMessage" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO work_order_messages (order_id, role, content, time)
+        VALUES (#{orderId}, #{role}, #{content}, #{time})
+    </insert>
+
+    <select id="findMessagesByOrderId" resultMap="MessageResultMap">
+        SELECT * FROM work_order_messages WHERE order_id = #{orderId} ORDER BY id ASC
+    </select>
+
+    <update id="updateLastReply">
+        UPDATE work_orders SET last_reply = #{lastReply} WHERE id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE work_orders SET status = #{status} WHERE id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.OrderItemMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO order_items (order_id, product_id, product_name, product_image, price, quantity, subtotal, selected_color, selected_size)
+        VALUES (#{orderId}, #{productId}, #{productName}, #{productImage}, #{price}, #{quantity}, #{subtotal}, #{selectedColor}, #{selectedSize})
+    </insert>
+
+    <insert id="insertBatch">
+        INSERT INTO order_items (order_id, product_id, product_name, product_image, price, quantity, subtotal, selected_color, selected_size)
+        VALUES
+        <foreach collection="items" item="item" separator=",">
+            (#{item.orderId}, #{item.productId}, #{item.productName}, #{item.productImage}, #{item.price}, #{item.quantity}, #{item.subtotal}, #{item.selectedColor}, #{item.selectedSize})
+        </foreach>
+    </insert>
+
+    <select id="selectByOrderId" resultType="com.example.java.dto.OrderItemVO">
+        SELECT id, product_id AS productId, product_name AS productName, product_image AS productImage,
+               price, quantity, subtotal, selected_color AS selectedColor, selected_size AS selectedSize
+        FROM order_items WHERE order_id = #{orderId}
+    </select>
+</mapper>

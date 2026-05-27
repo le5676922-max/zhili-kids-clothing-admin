@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.UserMapper">
+
+    <!-- 结果映射：对应表 users -->
+    <resultMap id="BaseResultMap" type="com.example.java.entity.User">
+        <id column="id" property="id"/>
+        <result column="email" property="email"/>
+        <result column="password" property="password"/>
+        <result column="nickname" property="nickname"/>
+        <result column="avatar" property="avatar"/>
+        <result column="user_type" property="userType"/>
+        <result column="is_admin" property="isAdmin"/>
+        <result column="enterprise_status" property="enterpriseStatus"/>
+        <result column="enterprise_name" property="enterpriseName"/>
+        <result column="enterprise_license" property="enterpriseLicense"/>
+        <result column="license_image_url" property="licenseImageUrl"/>
+        <result column="enterprise_address" property="enterpriseAddress"/>
+        <result column="enterprise_phone" property="enterprisePhone"/>
+        <result column="enterprise_contact_email" property="enterpriseContactEmail"/>
+        <result column="enterprise_website" property="enterpriseWebsite"/>
+        <result column="enterprise_introduction" property="enterpriseIntroduction"/>
+        <result column="enterprise_tags" property="enterpriseTags"/>
+        <result column="enterprise_certifications" property="enterpriseCertifications"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <!-- 根据邮箱查询 -->
+    <select id="findByEmail" resultMap="BaseResultMap">
+        SELECT * FROM users
+        WHERE email = #{email}
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT * FROM users
+        WHERE id = #{id}
+    </select>
+
+    <!-- 插入用户 -->
+    <insert id="insert">
+        INSERT INTO users (id, email, password, nickname, avatar, user_type, is_admin,
+            enterprise_status, enterprise_name, enterprise_license, license_image_url,
+            enterprise_address, enterprise_phone, enterprise_contact_email, enterprise_website,
+            enterprise_introduction, enterprise_tags, enterprise_certifications, created_at, updated_at)
+        VALUES (#{id}, #{email}, #{password}, #{nickname}, #{avatar}, #{userType}, #{isAdmin},
+            #{enterpriseStatus}, #{enterpriseName}, #{enterpriseLicense}, #{licenseImageUrl},
+            #{enterpriseAddress}, #{enterprisePhone}, #{enterpriseContactEmail}, #{enterpriseWebsite},
+            #{enterpriseIntroduction}, #{enterpriseTags}, #{enterpriseCertifications}, NOW(), NOW())
+    </insert>
+
+    <!-- 更新用户 -->
+    <update id="update">
+        UPDATE users
+        <set>
+            <if test="email != null">email = #{email},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="nickname != null">nickname = #{nickname},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="userType != null">user_type = #{userType},</if>
+            <if test="isAdmin != null">is_admin = #{isAdmin},</if>
+            <if test="enterpriseStatus != null">enterprise_status = #{enterpriseStatus},</if>
+            <if test="enterpriseName != null">enterprise_name = #{enterpriseName},</if>
+            <if test="enterpriseLicense != null">enterprise_license = #{enterpriseLicense},</if>
+            <if test="licenseImageUrl != null">license_image_url = #{licenseImageUrl},</if>
+            <if test="enterpriseAddress != null">enterprise_address = #{enterpriseAddress},</if>
+            <if test="enterprisePhone != null">enterprise_phone = #{enterprisePhone},</if>
+            <if test="enterpriseContactEmail != null">enterprise_contact_email = #{enterpriseContactEmail},</if>
+            <if test="enterpriseWebsite != null">enterprise_website = #{enterpriseWebsite},</if>
+            <if test="enterpriseIntroduction != null">enterprise_introduction = #{enterpriseIntroduction},</if>
+            <if test="enterpriseTags != null">enterprise_tags = #{enterpriseTags},</if>
+            <if test="enterpriseCertifications != null">enterprise_certifications = #{enterpriseCertifications},</if>
+            updated_at = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID删除（物理删除） -->
+    <delete id="deleteById">
+        DELETE FROM users WHERE id = #{id}
+    </delete>
+
+    <!-- 统计邮箱数量 -->
+    <select id="countByEmail" resultType="int">
+        SELECT COUNT(*) FROM users
+        WHERE email = #{email}
+    </select>
+
+    <!-- 后台管理：分页查询用户列表 -->
+    <select id="findPageForAdmin" resultMap="BaseResultMap">
+        SELECT * FROM users
+        <where>
+            <if test="search != null and search != ''">
+                AND (email LIKE CONCAT('%', #{search}, '%')
+                OR nickname LIKE CONCAT('%', #{search}, '%')
+                OR enterprise_name LIKE CONCAT('%', #{search}, '%'))
+            </if>
+            <if test="userType != null">
+                AND user_type = #{userType}
+            </if>
+            <if test="enterpriseStatus != null">
+                AND enterprise_status = #{enterpriseStatus}
+            </if>
+        </where>
+        ORDER BY created_at DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <!-- 后台管理：统计符合条件的用户总数 -->
+    <select id="countForAdmin" resultType="long">
+        SELECT COUNT(*) FROM users
+        <where>
+            <if test="search != null and search != ''">
+                AND (email LIKE CONCAT('%', #{search}, '%')
+                OR nickname LIKE CONCAT('%', #{search}, '%')
+                OR enterprise_name LIKE CONCAT('%', #{search}, '%'))
+            </if>
+            <if test="userType != null">
+                AND user_type = #{userType}
+            </if>
+            <if test="enterpriseStatus != null">
+                AND enterprise_status = #{enterpriseStatus}
+            </if>
+        </where>
+    </select>
+
+    <!-- 企业展示：已通过审核的企业用户列表 -->
+    <select id="findEnterpriseList" resultMap="BaseResultMap">
+        SELECT id, email, nickname, avatar, user_type, enterprise_status,
+               enterprise_name, enterprise_address, enterprise_phone, enterprise_contact_email,
+               enterprise_website, enterprise_introduction, enterprise_tags, enterprise_certifications,
+               created_at, updated_at
+        FROM users
+        WHERE user_type = 2 AND enterprise_status = 1
+        ORDER BY created_at DESC
+    </select>
+
+</mapper>

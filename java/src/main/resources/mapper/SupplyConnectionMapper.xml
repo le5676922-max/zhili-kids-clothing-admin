@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.SupplyConnectionMapper">
+
+    <resultMap id="SupplyConnectionVOResultMap" type="com.example.java.dto.SupplyConnectionVO">
+        <id column="id" property="id"/>
+        <result column="connection_id" property="connectionId"/>
+        <result column="demand_id" property="demandId"/>
+        <result column="supply_id" property="supplyId"/>
+        <result column="demand_user_id" property="demandUserId"/>
+        <result column="supply_user_id" property="supplyUserId"/>
+        <result column="status" property="status"/>
+        <result column="start_date" property="startDate"/>
+        <result column="last_update" property="lastUpdate"/>
+        <result column="completed_date" property="completedDate"/>
+        <result column="notes" property="notes"/>
+        <result column="applicant_user_id" property="applicantUserId"/>
+        <result column="applicant_company_name" property="applicantCompanyName"/>
+        <result column="applicant_contact_name" property="applicantContactName"/>
+        <result column="applicant_contact_phone" property="applicantContactPhone"/>
+        <result column="applicant_contact_email" property="applicantContactEmail"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <!-- 关联的需求信息 -->
+        <result column="demand_title" property="demandTitle"/>
+        <result column="demand_type" property="demandType"/>
+        <result column="demand_category" property="demandCategory"/>
+        <result column="demand_company_name" property="demandCompanyName"/>
+        <result column="demand_status" property="demandStatus"/>
+        <result column="demand_user_id" property="demandUserId"/>
+        <!-- 关联的供应信息 -->
+        <result column="supply_title" property="supplyTitle"/>
+        <result column="supply_type" property="supplyType"/>
+        <result column="supply_category" property="supplyCategory"/>
+        <result column="supply_company_name" property="supplyCompanyName"/>
+        <result column="supply_status" property="supplyStatus"/>
+        <result column="supply_user_id" property="supplyUserId"/>
+    </resultMap>
+
+    <!-- 新增对接记录 -->
+    <insert id="insert" parameterType="com.example.java.entity.SupplyConnection" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO supply_connections (
+            connection_id, demand_id, supply_id, demand_user_id, supply_user_id, status,
+            start_date, last_update, completed_date, notes,
+            applicant_user_id, applicant_company_name,
+            applicant_contact_name, applicant_contact_phone, applicant_contact_email,
+            created_at, updated_at
+        ) VALUES (
+            #{connectionId}, #{demandId}, #{supplyId}, #{demandUserId}, #{supplyUserId}, #{status},
+            #{startDate}, #{lastUpdate}, #{completedDate}, #{notes},
+            #{applicantUserId}, #{applicantCompanyName},
+            #{applicantContactName}, #{applicantContactPhone}, #{applicantContactEmail},
+            #{createdAt}, #{updatedAt}
+        )
+    </insert>
+
+    <!-- 根据ID查询对接记录（带关联信息） -->
+    <select id="selectById" resultMap="SupplyConnectionVOResultMap">
+        SELECT
+            sc.id, sc.connection_id, sc.demand_id, sc.supply_id, sc.status,
+            sc.start_date, sc.last_update, sc.completed_date, sc.notes,
+            sc.applicant_user_id, sc.applicant_company_name,
+            sc.applicant_contact_name, sc.applicant_contact_phone, sc.applicant_contact_email,
+            sc.created_at, sc.updated_at,
+            d.title AS demand_title, d.type AS demand_type, d.category AS demand_category,
+            d.company_name AS demand_company_name, d.status AS demand_status, d.user_id AS demand_user_id,
+            s.title AS supply_title, s.type AS supply_type, s.category AS supply_category,
+            s.company_name AS supply_company_name, s.status AS supply_status, s.user_id AS supply_user_id
+        FROM supply_connections sc
+        LEFT JOIN supply_demands d ON sc.demand_id = d.id
+        LEFT JOIN supply_supplies s ON sc.supply_id = s.id
+        WHERE sc.id = #{id}
+    </select>
+
+    <!-- 根据需求ID查询所有对接记录 -->
+    <select id="findByDemandId" resultMap="SupplyConnectionVOResultMap">
+        SELECT
+            sc.id, sc.connection_id, sc.demand_id, sc.supply_id, sc.status,
+            sc.start_date, sc.last_update, sc.completed_date, sc.notes,
+            sc.applicant_user_id, sc.applicant_company_name,
+            sc.applicant_contact_name, sc.applicant_contact_phone, sc.applicant_contact_email,
+            sc.created_at, sc.updated_at,
+            d.title AS demand_title, d.type AS demand_type, d.category AS demand_category,
+            d.company_name AS demand_company_name, d.status AS demand_status, d.user_id AS demand_user_id,
+            s.title AS supply_title, s.type AS supply_type, s.category AS supply_category,
+            s.company_name AS supply_company_name, s.status AS supply_status, s.user_id AS supply_user_id
+        FROM supply_connections sc
+        LEFT JOIN supply_demands d ON sc.demand_id = d.id
+        LEFT JOIN supply_supplies s ON sc.supply_id = s.id
+        WHERE sc.demand_id = #{demandId}
+        ORDER BY sc.created_at DESC
+    </select>
+
+    <!-- 根据供应ID查询所有对接记录 -->
+    <select id="findBySupplyId" resultMap="SupplyConnectionVOResultMap">
+        SELECT
+            sc.id, sc.connection_id, sc.demand_id, sc.supply_id, sc.status,
+            sc.start_date, sc.last_update, sc.completed_date, sc.notes,
+            sc.applicant_user_id, sc.applicant_company_name,
+            sc.applicant_contact_name, sc.applicant_contact_phone, sc.applicant_contact_email,
+            sc.created_at, sc.updated_at,
+            d.title AS demand_title, d.type AS demand_type, d.category AS demand_category,
+            d.company_name AS demand_company_name, d.status AS demand_status, d.user_id AS demand_user_id,
+            s.title AS supply_title, s.type AS supply_type, s.category AS supply_category,
+            s.company_name AS supply_company_name, s.status AS supply_status, s.user_id AS supply_user_id
+        FROM supply_connections sc
+        LEFT JOIN supply_demands d ON sc.demand_id = d.id
+        LEFT JOIN supply_supplies s ON sc.supply_id = s.id
+        WHERE sc.supply_id = #{supplyId}
+        ORDER BY sc.created_at DESC
+    </select>
+
+    <!-- 根据申请用户ID查询对接记录 -->
+    <select id="findByApplicantUserId" resultMap="SupplyConnectionVOResultMap">
+        SELECT
+            sc.id, sc.connection_id, sc.demand_id, sc.supply_id, sc.status,
+            sc.start_date, sc.last_update, sc.completed_date, sc.notes,
+            sc.applicant_user_id, sc.applicant_company_name,
+            sc.applicant_contact_name, sc.applicant_contact_phone, sc.applicant_contact_email,
+            sc.created_at, sc.updated_at,
+            d.title AS demand_title, d.type AS demand_type, d.category AS demand_category,
+            d.company_name AS demand_company_name, d.status AS demand_status, d.user_id AS demand_user_id,
+            s.title AS supply_title, s.type AS supply_type, s.category AS supply_category,
+            s.company_name AS supply_company_name, s.status AS supply_status, s.user_id AS supply_user_id
+        FROM supply_connections sc
+        LEFT JOIN supply_demands d ON sc.demand_id = d.id
+        LEFT JOIN supply_supplies s ON sc.supply_id = s.id
+        WHERE sc.applicant_user_id = #{userId}
+        ORDER BY sc.created_at DESC
+    </select>
+
+    <!-- 根据用户ID查询该用户相关的所有对接（作为需求方或供应方的发布者） -->
+    <select id="findByUserId" resultMap="SupplyConnectionVOResultMap">
+        SELECT
+            sc.id, sc.connection_id, sc.demand_id, sc.supply_id, sc.status,
+            sc.start_date, sc.last_update, sc.completed_date, sc.notes,
+            sc.applicant_user_id, sc.applicant_company_name,
+            sc.applicant_contact_name, sc.applicant_contact_phone, sc.applicant_contact_email,
+            sc.created_at, sc.updated_at,
+            d.title AS demand_title, d.type AS demand_type, d.category AS demand_category,
+            d.company_name AS demand_company_name, d.status AS demand_status, d.user_id AS demand_user_id,
+            s.title AS supply_title, s.type AS supply_type, s.category AS supply_category,
+            s.company_name AS supply_company_name, s.status AS supply_status, s.user_id AS supply_user_id
+        FROM supply_connections sc
+        LEFT JOIN supply_demands d ON sc.demand_id = d.id
+        LEFT JOIN supply_supplies s ON sc.supply_id = s.id
+        WHERE sc.applicant_user_id = #{userId}
+           OR d.user_id = #{userId}
+           OR s.user_id = #{userId}
+        ORDER BY sc.created_at DESC
+    </select>
+
+    <!-- 检查需求和供应是否已存在对接记录 -->
+    <select id="countByDemandAndSupply" resultType="int">
+        SELECT COUNT(*) FROM supply_connections
+        WHERE demand_id = #{demandId}
+          AND supply_id = #{supplyId}
+          AND status = 'negotiating'
+    </select>
+
+    <!-- 更新对接状态 -->
+    <update id="updateStatus">
+        UPDATE supply_connections
+        SET status = #{status},
+            last_update = CURDATE()
+        <if test="status == 'completed'">
+            , completed_date = CURDATE()
+        </if>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 更新对接记录 -->
+    <update id="update" parameterType="com.example.java.entity.SupplyConnection">
+        UPDATE supply_connections
+        SET notes = #{notes},
+            last_update = CURDATE(),
+            updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除对接记录 -->
+    <delete id="deleteById">
+        DELETE FROM supply_connections WHERE id = #{id}
+    </delete>
+
+    <!-- 管理端：对接记录分页查询 -->
+    <select id="findListForAdmin" resultMap="SupplyConnectionVOResultMap">
+        SELECT
+            sc.id, sc.connection_id, sc.demand_id, sc.supply_id, sc.status,
+            sc.start_date, sc.last_update, sc.completed_date, sc.notes,
+            sc.applicant_user_id, sc.applicant_company_name,
+            sc.applicant_contact_name, sc.applicant_contact_phone, sc.applicant_contact_email,
+            sc.created_at, sc.updated_at,
+            d.title AS demand_title, d.type AS demand_type, d.category AS demand_category,
+            d.company_name AS demand_company_name, d.status AS demand_status, d.user_id AS demand_user_id,
+            s.title AS supply_title, s.type AS supply_type, s.category AS supply_category,
+            s.company_name AS supply_company_name, s.status AS supply_status, s.user_id AS supply_user_id
+        FROM supply_connections sc
+        LEFT JOIN supply_demands d ON sc.demand_id = d.id
+        LEFT JOIN supply_supplies s ON sc.supply_id = s.id
+        ORDER BY sc.created_at DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- 管理端：对接记录总数 -->
+    <select id="countForAdmin" resultType="int">
+        SELECT COUNT(*) FROM supply_connections
+    </select>
+
+</mapper>

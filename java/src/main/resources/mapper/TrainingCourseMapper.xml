@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.TrainingCourseMapper">
+
+    <resultMap id="TrainingCourseResultMap" type="com.example.java.entity.TrainingCourse">
+        <id column="id" property="id"/>
+        <result column="course_name" property="courseName"/>
+        <result column="course_category" property="courseCategory"/>
+        <result column="course_level" property="courseLevel"/>
+        <result column="course_type" property="courseType"/>
+        <result column="start_date" property="startDate"/>
+        <result column="duration" property="duration"/>
+        <result column="instructor" property="instructor"/>
+        <result column="price" property="price"/>
+        <result column="original_price" property="originalPrice"/>
+        <result column="course_description" property="courseDescription"/>
+        <result column="course_image" property="courseImage"/>
+        <result column="tags" property="tags"/>
+        <result column="enroll_count" property="enrollCount"/>
+        <result column="status" property="status"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="TrainingCourseResultMap">
+        SELECT id, course_name, course_category, course_level, course_type,
+               start_date, duration, instructor, price, original_price,
+               course_description, course_image, tags, enroll_count, status,
+               created_at, updated_at
+        FROM training_courses
+        WHERE status = 1
+        ORDER BY start_date ASC
+    </select>
+
+    <select id="search" resultMap="TrainingCourseResultMap">
+        SELECT id, course_name, course_category, course_level, course_type,
+               start_date, duration, instructor, price, original_price,
+               course_description, course_image, tags, enroll_count, status,
+               created_at, updated_at
+        FROM training_courses
+        WHERE status = 1
+        <if test="category != null and category != ''">
+            AND course_category = #{category}
+        </if>
+        <if test="level != null and level != ''">
+            AND course_level = #{level}
+        </if>
+        <if test="type != null and type != ''">
+            AND course_type = #{type}
+        </if>
+        ORDER BY start_date ASC
+    </select>
+
+    <select id="findListForAdmin" resultMap="TrainingCourseResultMap">
+        SELECT id, course_name, course_category, course_level, course_type,
+               start_date, duration, instructor, price, original_price,
+               course_description, course_image, tags, enroll_count, status,
+               created_at, updated_at
+        FROM training_courses
+        ORDER BY created_at DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+    <select id="countForAdmin" resultType="int">
+        SELECT COUNT(*) FROM training_courses
+    </select>
+    <select id="selectById" resultMap="TrainingCourseResultMap">
+        SELECT id, course_name, course_category, course_level, course_type,
+               start_date, duration, instructor, price, original_price,
+               course_description, course_image, tags, enroll_count, status,
+               created_at, updated_at
+        FROM training_courses WHERE id = #{id}
+    </select>
+    <insert id="insert" parameterType="com.example.java.entity.TrainingCourse" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO training_courses (course_name, course_category, course_level, course_type, start_date, duration,
+                                     instructor, price, original_price, course_description, course_image, tags, enroll_count, status, created_at, updated_at)
+        VALUES (#{courseName}, #{courseCategory}, #{courseLevel}, #{courseType}, #{startDate}, #{duration},
+                #{instructor}, #{price}, #{originalPrice}, #{courseDescription}, #{courseImage}, #{tags}, 0, 1, NOW(), NOW())
+    </insert>
+    <update id="updateStatus">
+        UPDATE training_courses SET status = #{status}, updated_at = NOW() WHERE id = #{id}
+    </update>
+    <update id="incrementEnrollCount">
+        UPDATE training_courses SET enroll_count = enroll_count + 1, updated_at = NOW() WHERE id = #{id}
+    </update>
+</mapper>

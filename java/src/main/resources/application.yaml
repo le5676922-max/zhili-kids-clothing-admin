@@ -1,0 +1,80 @@
+spring:
+  application:
+    name: zhili-kids-industry
+
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 6MB
+
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1/zhili_kids_industry?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: zhili_kids_industry
+    password: ${DB_PASSWORD}
+
+# MyBatis配置
+mybatis:
+  mapper-locations: classpath:/mapper/**/*.xml
+  type-aliases-package: com.example.java.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# JWT配置
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 43200000  # 12小时，单位毫秒
+  header: Authorization
+  prefix: Bearer
+
+# 服务器配置
+server:
+  port: 8080
+
+# 邮件配置
+spring.mail:
+  host: smtp.qq.com
+  port: 587
+  username: ${MAIL_USERNAME}
+  password: ${MAIL_PASSWORD}
+  properties:
+    mail.smtp.auth: true
+    mail.smtp.starttls.enable: true
+    mail.smtp.starttls.required: true
+
+# 验证码配置
+verify-code:
+  expire-minutes: 5
+
+# 阿里云 OSS 配置
+aliyun:
+  oss:
+    access-key-id: ${ALIYUN_OSS_ACCESS_KEY_ID}
+    access-key-secret: ${ALIYUN_OSS_ACCESS_KEY_SECRET}
+    avatar-bucket: zhili-kids-industry-system
+    avatar-region: oss-cn-hangzhou
+    license-bucket: yingyezhizhao-zhili-kids-system
+    license-region: oss-cn-beijing
+
+# Redis 配置
+spring.data.redis:
+  host: 127.0.0.1
+  port: 6379
+  password:
+  database: 0
+  timeout: 5000
+
+# DeepSeek-V4-flash API 配置（纯文本对话）
+deepseek:
+  api-key: ${DEEPSEEK_API_KEY}
+
+# 阿里云 DashScope API 配置（图片识别/多模态，复用之前的 key）
+dashscope:
+  api-key: ${DASHSCOPE_API_KEY}
+
+# 日志配置
+logging:
+  level:
+    com.example.java: debug

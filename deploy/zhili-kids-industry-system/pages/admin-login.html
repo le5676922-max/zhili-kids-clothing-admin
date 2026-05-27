@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员登录 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        .admin-login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        .admin-login-box {
+            width: 100%;
+            max-width: 420px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+        }
+        .admin-login-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .admin-login-header h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .admin-login-header p {
+            color: #666;
+            font-size: 14px;
+        }
+        .admin-login-header .admin-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+        .admin-login-header .admin-icon i {
+            font-size: 28px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-login-container">
+        <div class="admin-login-box">
+            <div class="admin-login-header">
+                <div class="admin-icon">
+                    <i class="bi bi-shield-lock"></i>
+                </div>
+                <h2>管理员登录</h2>
+                <p>织里镇童装产业协同管理平台</p>
+            </div>
+            
+            <form class="login-form" id="adminLoginForm">
+                <div class="form-group">
+                    <label for="email">管理员邮箱</label>
+                    <div class="input-with-icon">
+                        <i class="bi bi-envelope"></i>
+                        <input type="email" id="email" name="email" placeholder="请输入管理员邮箱" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <div class="input-with-icon">
+                        <i class="bi bi-lock"></i>
+                        <input type="password" id="password" name="password" placeholder="请输入密码" required>
+                        <i class="bi bi-eye-slash toggle-password"></i>
+                    </div>
+                </div>
+                
+                <div id="error-message" class="error-message" style="display:none;"></div>
+                
+                <button type="submit" class="btn-primary btn-login-submit">登 录</button>
+            </form>
+            
+            <div class="login-back">
+                <a href="../index.html"><i class="bi bi-arrow-left"></i> 返回首页</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/api-config.js"></script>
+    <!-- 禁用 AI 助手 -->
+    <script>window.disableAIAssistant = true;</script>
+    <script src="../js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var API_BASE = window.ZhiliApi.apiAuth();
+            var TOKEN_KEY = 'adminToken';
+            var USER_INFO_KEY = 'adminUserInfo';
+            
+            // 密码显示/隐藏
+            var togglePassword = document.querySelector('.toggle-password');
+            var passwordInput = document.getElementById('password');
+            if (togglePassword && passwordInput) {
+                togglePassword.addEventListener('click', function() {
+                    var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    this.classList.toggle('bi-eye');
+                    this.classList.toggle('bi-eye-slash');
+                });
+            }
+            
+            var form = document.getElementById('adminLoginForm');
+            var errorEl = document.getElementById('error-message');
+            
+            function showError(msg) {
+                if (errorEl) {
+                    errorEl.textContent = msg;
+                    errorEl.style.display = 'block';
+                }
+            }
+            
+            function clearError() {
+                if (errorEl) errorEl.style.display = 'none';
+            }
+            
+            // 已登录则跳转后台
+            if (localStorage.getItem(TOKEN_KEY)) {
+                window.location.href = 'admin.html';
+                return;
+            }
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                clearError();
+                
+                var email = document.getElementById('email').value.trim();
+                var password = document.getElementById('password').value;
+                
+                if (!email || !password) {
+                    showError('请输入邮箱和密码');
+                    return;
+                }
+                
+                var btn = form.querySelector('.btn-login-submit');
+                btn.disabled = true;
+                btn.textContent = '登录中...';
+                
+                fetch(API_BASE + '/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email, password: password })
+                })
+                .then(function(res) { return res.json().then(function(data) { return { ok: res.ok, data: data }; }).catch(function() { return { ok: false, data: {} }; }); })
+                .then(function(result) {
+                    var data = result.data;
+                    if (result.ok && data.code === 200 && data.data && data.data.token) {
+                        var userInfo = data.data.userInfo || data.data.user;
+                        if (!userInfo || !userInfo.isAdmin) {
+                            showError('非管理员账号，无权访问后台');
+                            btn.disabled = false;
+                            btn.textContent = '登 录';
+                            return;
+                        }
+                        localStorage.setItem(TOKEN_KEY, data.data.token);
+                        localStorage.setItem(USER_INFO_KEY, JSON.stringify(userInfo));
+                        window.location.href = 'admin.html';
+                    } else {
+                        showError((data && data.message) ? data.message : '登录失败');
+                        btn.disabled = false;
+                        btn.textContent = '登 录';
+                    }
+                })
+                .catch(function(err) {
+                    console.error('登录失败:', err);
+                    var msg = (err && err.message) ? String(err.message) : '';
+                    if (msg.indexOf('Failed to fetch') !== -1 || msg.indexOf('NetworkError') !== -1 || msg.indexOf('Load failed') !== -1) {
+                        showError('无法连接认证服务。请确认 Java 后端已启动（端口 8080）。若用 file:// 打开本页，请改用本地服务器打开（如 VS Code Live Server）');
+                    } else {
+                        showError(msg || '网络错误，请检查服务是否启动');
+                    }
+                    btn.disabled = false;
+                    btn.textContent = '登 录';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

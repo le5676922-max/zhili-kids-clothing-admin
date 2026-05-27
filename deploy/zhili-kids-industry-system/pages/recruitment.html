@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人才招聘 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/recruitment.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html" class="active">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 面包屑导航 -->
+    <div class="breadcrumb container">
+        <a href="../index.html">首页</a> &gt; 人才招聘
+    </div>
+
+    <!-- 主要内容区 -->
+    <main class="container">
+        <!-- 企业待审核横幅 -->
+        <div id="enterpriseStatusBanner" style="display:none; margin: 16px 0; padding: 14px 20px; border-radius: 8px; font-size: 14px; line-height: 1.6; background: #fffbeb; border: 1px solid #fde68a;">
+            <strong style="color:#92400e;">&#x26A0; 提示：</strong>
+            <span id="enterpriseStatusMsg" style="color:#92400e;"></span>
+        </div>
+        <!-- 招聘信息搜索区 -->
+        <section class="job-search-section">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                <h2 style="margin:0;">职位搜索</h2>
+                <div style="display:flex;gap:10px;">
+                    <a href="my-positions.html" class="btn btn-outline" id="btnAddPosition" style="display:none;"><i class="bi bi-plus-lg"></i> 添加岗位</a>
+                    <a href="recruitment-resumes.html" class="btn btn-outline btn-recruit-wrap" id="btnRecruitmentInfo" style="display:none;"><i class="bi bi-file-earmark-person"></i> 招聘信息<span class="recruit-unread-dot" id="recruitUnreadDot" style="display:none;"></span></a>
+                    <a href="recruitment-resumes.html" class="btn btn-outline" id="btnMyApplications" style="display:none;"><i class="bi bi-file-earmark-text"></i> 已投简历</a>
+                    <a href="job-info.html" class="btn btn-outline btn-info-wrap" id="btnJobInfo" style="display:none;"><i class="bi bi-info-circle"></i> 信息<span class="info-unread-dot" id="infoUnreadDot" style="display:none;"></span></a>
+                </div>
+            </div>
+            <div class="search-box">
+                <form id="job-search">
+                    <div class="search-row">
+                        <div class="search-field">
+                            <label for="job-keyword">关键词</label>
+                            <input type="text" id="job-keyword" placeholder="职位名称/技能/公司名">
+                        </div>
+                        <div class="search-field">
+                            <label for="job-category">职位类别</label>
+                            <select id="job-category">
+                                <option value="">全部</option>
+                                <option value="design">设计类</option>
+                                <option value="production">生产类</option>
+                                <option value="marketing">营销类</option>
+                                <option value="management">管理类</option>
+                                <option value="technical">技术类</option>
+                            </select>
+                        </div>
+                        <div class="search-field">
+                            <label for="job-experience">工作经验</label>
+                            <select id="job-experience">
+                                <option value="">不限</option>
+                                <option value="应届毕业生">应届毕业生</option>
+                                <option value="1-3年">1-3年</option>
+                                <option value="3-5年">3-5年</option>
+                                <option value="5-10年">5-10年</option>
+                                <option value="10年以上">10年以上</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="search-row">
+                        <div class="search-field">
+                            <label for="job-education">学历要求</label>
+                            <select id="job-education">
+                                <option value="">不限</option>
+                                <option value="高中及以下">高中及以下</option>
+                                <option value="大专">大专</option>
+                                <option value="本科">本科</option>
+                                <option value="硕士">硕士</option>
+                                <option value="博士">博士</option>
+                            </select>
+                        </div>
+                        <div class="search-field">
+                            <label for="job-salary">薪资范围</label>
+                            <select id="job-salary">
+                                <option value="">不限</option>
+                                <option value="0-5k">5K以下</option>
+                                <option value="5-10k">5K-10K</option>
+                                <option value="10-15k">10K-15K</option>
+                                <option value="15-20k">15K-20K</option>
+                                <option value="20k+">20K以上</option>
+                            </select>
+                        </div>
+                        <div class="search-buttons">
+                            <button type="submit" class="btn-primary">搜索</button>
+                            <button type="reset" class="btn-secondary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- 职位筛选与排序 -->
+        <div class="job-filter">
+            <div class="filter-tags">
+                <span>已选条件：</span>
+                <div class="tag-list">
+                    <!-- 这里将通过JS动态添加已选条件标签 -->
+                </div>
+                <a href="#" class="clear-all btn-clear-all">清除全部</a>
+            </div>
+            <div class="sort-options">
+                <span>排序：</span>
+                <a href="#" class="active">最新发布</a>
+                <a href="#">薪资最高</a>
+                <a href="#">热门职位</a>
+            </div>
+        </div>
+
+        <!-- 职位列表 -->
+        <section class="job-list-section" id="job-list-section">
+            <!-- 职位列表将通过JS动态加载 -->
+            <div class="loading">加载中...</div>
+        </section>
+
+        <!-- 分页 -->
+        <div class="pagination" id="job-pagination">
+            <a href="#" class="prev disabled"><i class="bi bi-chevron-left"></i></a>
+            <a href="#" class="active">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <span>...</span>
+            <a href="#">10</a>
+            <a href="#" class="next"><i class="bi bi-chevron-right"></i></a>
+        </div>
+
+        <!-- 人才需求统计 -->
+        <section class="talent-stats">
+            <h2>人才需求统计</h2>
+            <div class="stats-cards">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="bi bi-briefcase"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h3>当前职位数</h3>
+                        <p class="stats-number">1,256</p>
+                        <p class="stats-trend up">较上月<span>+3.2%</span></p>
+                    </div>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h3>需求人数</h3>
+                        <p class="stats-number">2,580</p>
+                        <p class="stats-trend up">较上月<span>+8.1%</span></p>
+                    </div>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h3>招聘企业</h3>
+                        <p class="stats-number">358</p>
+                        <p class="stats-trend up">较上月<span>+5.7%</span></p>
+                    </div>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="bi bi-graph-up"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h3>平均薪资</h3>
+                        <p class="stats-number">8,650元</p>
+                        <p class="stats-trend up">较上月<span>+4.3%</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="../images/logo-footer.png" alt="织里镇童装产业协同管理平台">
+                    <p>织里镇童装产业协同管理平台</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h3>关于我们</h3>
+                        <ul>
+                            <li><a href="#">平台介绍</a></li>
+                            <li><a href="#">联系我们</a></li>
+                            <li><a href="#">服务条款</a></li>
+                            <li><a href="#">隐私政策</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>企业服务</h3>
+                        <ul>
+                            <li><a href="#">企业入驻</a></li>
+                            <li><a href="#">供应链对接</a></li>
+                            <li><a href="#">产品展示</a></li>
+                            <li><a href="#">人才招聘</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>个人服务</h3>
+                        <ul>
+                            <li><a href="#">求职信息</a></li>
+                            <li><a href="#">技能培训</a></li>
+                            <li><a href="#">设计比赛</a></li>
+                            <li><a href="#">资源下载</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-contact">
+                    <h3>联系方式</h3>
+                    <p><i class="icon-address"></i>浙江省湖州市织里镇XXX路XX号</p>
+                    <p><i class="icon-phone"></i>0572-XXXXXXXX</p>
+                    <p><i class="icon-email"></i>contact@zhili-industry.com</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="icon-weixin"></i></a>
+                        <a href="#" class="social-link"><i class="icon-weibo"></i></a>
+                        <a href="#" class="social-link"><i class="icon-douyin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 织里镇童装产业协同管理平台 版权所有 浙ICP备XXXXXXXX号</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 申请职位弹窗：上传简历图片 -->
+    <div id="applyJobModal" class="apply-modal" style="display:none;">
+        <div class="apply-modal-content">
+            <span class="apply-modal-close" id="applyModalClose">&times;</span>
+            <h2>申请职位</h2>
+            <p class="apply-job-name" id="applyJobName"></p>
+            <form id="applyJobForm">
+                <input type="hidden" id="applyJobId" name="jobId">
+                <div class="form-group">
+                    <label>上传简历（图片）<span class="required">*</span></label>
+                    <input type="file" id="applyResumeFile" name="resume" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp">
+                    <div class="resume-preview" id="resumePreview"></div>
+                </div>
+                <div class="apply-modal-actions">
+                    <button type="button" class="btn-secondary" id="applyModalCancel">取消</button>
+                    <button type="submit" class="btn-primary" id="applyModalSubmit"><i class="bi bi-send"></i> 完成</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/auth-header.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/recruitment.js"></script>
+</body>
+</html> 

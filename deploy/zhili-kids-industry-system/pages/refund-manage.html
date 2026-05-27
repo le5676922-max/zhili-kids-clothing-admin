@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>退款管理 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        .refund-manage-page { padding: 20px 0 40px; min-height: 500px; }
+        .refund-manage-title { font-size: 24px; font-weight: 600; color: var(--primary-color); margin: 0 0 20px 0; }
+        .refund-card { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 24px; }
+        .empty-refund { text-align: center; padding: 60px 20px; color: #999; }
+        .empty-refund i { font-size: 48px; margin-bottom: 16px; color: #ddd; }
+        .empty-refund p { margin: 0 0 20px 0; font-size: 15px; }
+
+        .refund-list { margin-top: 20px; }
+        .refund-item { border: 1px solid #eee; border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
+        .refund-header { background: #f9f9f9; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .refund-id { font-size: 14px; color: #666; }
+        .refund-id span { color: #333; font-weight: 500; }
+        .refund-status { font-size: 14px; font-weight: 500; padding: 4px 10px; border-radius: 4px; }
+        .refund-status.pending { color: #ff9800; background: #fff3e0; }
+        .refund-status.approved { color: #2196f3; background: #e3f2fd; }
+        .refund-status.rejected { color: #f44336; background: #ffebee; }
+        .refund-status.completed { color: #4caf50; background: #e8f5e9; }
+
+        .refund-body { padding: 20px; }
+        .buyer-info { background: #f5f9ff; padding: 12px 16px; border-radius: 6px; margin-bottom: 12px; font-size: 14px; }
+        .buyer-info p { margin: 4px 0; }
+        .refund-products { margin: 12px 0; }
+        .refund-product-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f5f5f5; }
+        .refund-product-item:last-child { border-bottom: none; }
+        .refund-product-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; }
+        .refund-product-item .info { flex: 1; font-size: 14px; }
+        .refund-reason-box { background: #fff3e0; padding: 12px; border-radius: 6px; margin: 12px 0; }
+        .refund-reason-box p { margin: 4px 0; font-size: 14px; }
+        .refund-amount { font-size: 18px; font-weight: 600; color: #f44336; margin: 12px 0; }
+
+        .order-actions { display: flex; gap: 10px; }
+        .btn-order { padding: 8px 12px; font-size: 14px; border-radius: 6px; cursor: pointer; border: 1px solid var(--border-color); background: #fff; color: var(--light-text); transition: all 0.2s; text-align: center; }
+        .btn-order:hover { border-color: var(--primary-color); color: var(--primary-color); }
+        .btn-order.primary { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+        .btn-order.primary:hover { background: var(--secondary-color); border-color: var(--secondary-color); }
+        .btn-order.success { color: #4caf50; border-color: #4caf50; }
+        .btn-order.success:hover { background: #4caf50; color: #fff; border-color: #4caf50; }
+        .btn-order.danger { color: #f44336; border-color: #f44336; }
+        .btn-order.danger:hover { background: #f44336; color: #fff; border-color: #f44336; }
+        .btn-order.info { color: #2196f3; border-color: #2196f3; }
+        .btn-order.info:hover { background: #2196f3; color: #fff; border-color: #2196f3; }
+
+        .refund-footer { background: #f9f9f9; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+
+        .loading { text-align: center; padding: 40px; color: #999; }
+        
+        /* 标签页 */
+        .refund-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .refund-tab { padding: 8px 16px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; font-size: 14px; background: #fff; }
+        .refund-tab.active { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+        .refund-count { display: inline-block; background: #f44336; color: #fff; padding: 2px 6px; border-radius: 10px; font-size: 11px; margin-left: 4px; }
+        
+        /* 拒绝原因模态框 */
+        .reject-modal {
+            position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center;
+        }
+        .reject-modal-content {
+            background: #fff; border-radius: 8px; width: 90%; max-width: 400px; padding: 20px; position: relative;
+        }
+        .reject-modal-content h3 { margin: 0 0 15px 0; }
+        .reject-modal-content textarea {
+            width: 100%; min-height: 100px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;
+            font-size: 14px; box-sizing: border-box; resize: vertical;
+        }
+        .reject-modal-content .actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px; }
+        .reject-modal-content button { padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; }
+        .reject-modal-content .btn-cancel { border: 1px solid #ddd; background: #fff; }
+        .reject-modal-content .btn-confirm { border: none; background: #f44336; color: #fff; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb container">
+        <a href="../index.html">首页</a> &gt; <a href="my-shop.html">我的店铺</a> &gt; 退款管理
+    </div>
+
+    <main class="container refund-manage-page">
+        <h1 class="refund-manage-title">退款管理</h1>
+        <div class="refund-card">
+            <div class="refund-tabs">
+                <button class="refund-tab active" data-tab="pending">
+                    待处理<span class="refund-count" id="pendingCount">0</span>
+                </button>
+                <button class="refund-tab" data-tab="approved">处理中</button>
+                <button class="refund-tab" data-tab="completed">已完成</button>
+                <button class="refund-tab" data-tab="rejected">已拒绝</button>
+            </div>
+            <div class="loading" id="refundContent">
+                <i class="bi bi-arrow-repeat"></i>
+                <p>加载中...</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 织里镇童装产业协同管理平台 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 拒绝原因模态框 -->
+    <div class="reject-modal" id="rejectModal" style="display:none;">
+        <div class="reject-modal-content">
+            <h3>拒绝退款申请</h3>
+            <textarea id="rejectRemark" placeholder="请输入拒绝原因（必填）"></textarea>
+            <div class="actions">
+                <button class="btn-cancel" onclick="closeRejectModal()">取消</button>
+                <button class="btn-confirm" onclick="confirmReject()">确认拒绝</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/auth-header.js"></script>
+    <script src="../js/common.js"></script>
+    <script>
+        const API_BASE = window.ZhiliApi.apiAuth();
+        let currentFilter = 'pending';
+        let allRefunds = [];
+        let currentRefundId = null;
+
+        function getToken() {
+            return localStorage.getItem('token');
+        }
+
+        function checkLogin() {
+            const token = getToken();
+            if (!token) {
+                window.location.href = 'login.html?redirect=refund-manage.html';
+                return false;
+            }
+            return true;
+        }
+
+        function loadRefunds() {
+            if (!checkLogin()) return;
+            const token = getToken();
+            const container = document.getElementById('refundContent');
+            
+            fetch(API_BASE + '/refunds/seller', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 200) {
+                    allRefunds = data.data || [];
+                    updatePendingCount();
+                    renderRefunds();
+                } else {
+                    container.innerHTML = '<div class="empty-refund"><i class="bi bi-exclamation-triangle"></i><p>加载失败，请稍后重试</p></div>';
+                }
+            })
+            .catch(err => {
+                console.error('加载退款申请失败:', err);
+                container.innerHTML = '<div class="empty-refund"><i class="bi bi-exclamation-triangle"></i><p>加载失败，请稍后重试</p></div>';
+            });
+        }
+
+        function updatePendingCount() {
+            const pendingCount = allRefunds.filter(r => r.status === 'pending').length;
+            const countEl = document.getElementById('pendingCount');
+            if (countEl) {
+                countEl.textContent = pendingCount;
+                countEl.style.display = pendingCount > 0 ? 'inline-block' : 'none';
+            }
+        }
+
+        function renderRefunds() {
+            const container = document.getElementById('refundContent');
+            let filteredRefunds = [];
+            
+            if (currentFilter === 'pending') {
+                filteredRefunds = allRefunds.filter(r => r.status === 'pending');
+            } else if (currentFilter === 'approved') {
+                filteredRefunds = allRefunds.filter(r => r.status === 'approved');
+            } else if (currentFilter === 'completed') {
+                filteredRefunds = allRefunds.filter(r => r.status === 'completed' || r.status === 'refunded');
+            } else if (currentFilter === 'rejected') {
+                filteredRefunds = allRefunds.filter(r => r.status === 'rejected');
+            }
+            
+            if (filteredRefunds.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-refund">
+                        <i class="bi bi-box-seam"></i>
+                        <p>暂无退款申请</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '<div class="refund-list">';
+            filteredRefunds.forEach(refund => {
+                const refundType = refund.refundType === 'refund' ? '仅退款' : '退货退款';
+
+                let statusClass = refund.status;
+                let footerHtml = '';
+
+                if (refund.status === 'pending') {
+                    footerHtml = `
+                        <button class="btn-order success" onclick="approveRefund('${refund.id}')">通过</button>
+                        <button class="btn-order danger" onclick="showRejectModal('${refund.id}')">拒绝</button>
+                    `;
+                } else if (refund.status === 'approved') {
+                    footerHtml = `
+                        <button class="btn-order info" onclick="completeRefund('${refund.id}')">确认退款完成</button>
+                    `;
+                }
+
+                html += `
+                    <div class="refund-item">
+                        <div class="refund-header">
+                            <div class="refund-id">退款单号: <span>${refund.refundNo}</span></div>
+                            <div class="refund-status ${statusClass}">${refund.statusText || refund.status}</div>
+                        </div>
+                        <div class="refund-body">
+                            <div class="buyer-info">
+                                <p><strong>买家：</strong>${refund.userNickname || '-'}</p>
+                                <p><strong>订单号：</strong>${refund.orderId || '-'}</p>
+                            </div>
+                            <div class="refund-amount">退款金额：¥${(refund.refundAmount || 0).toFixed(2)}</div>
+                            <div class="refund-reason-box">
+                                <p><strong>退款类型：</strong>${refundType}</p>
+                                <p><strong>退款原因：</strong>${refund.reason}</p>
+                                ${refund.description ? '<p><strong>详细说明：</strong>' + refund.description + '</p>' : ''}
+                                <p style="color:#999;margin-top:8px;">申请时间：${refund.createdAt ? new Date(refund.createdAt).toLocaleString('zh-CN') : '-'}</p>
+                            </div>
+                            ${refund.sellerNote ? '<div style="color:#4caf50;font-size:14px;margin-top:8px;"><strong>处理备注：</strong>' + refund.sellerNote + '</div>' : ''}
+                        </div>
+                        <div class="refund-footer">
+                            <div></div>
+                            <div class="order-actions">${footerHtml}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // 标签页切换
+        document.querySelectorAll('.refund-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.refund-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.tab;
+                renderRefunds();
+            });
+        });
+
+        // 审核通过
+        function approveRefund(refundId) {
+            if (!confirm('确定通过该退款申请吗？')) return;
+
+            const token = getToken();
+            fetch(API_BASE + '/refunds/' + refundId + '/approve', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                body: JSON.stringify({ sellerNote: '审核通过' })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 200) {
+                    alert('退款申请已通过');
+                    loadRefunds();
+                } else {
+                    alert(data.message || '操作失败');
+                }
+            })
+            .catch(err => {
+                console.error('操作失败:', err);
+                alert('操作失败，请稍后重试');
+            });
+        }
+
+        // 显示拒绝模态框
+        function showRejectModal(refundId) {
+            currentRefundId = refundId;
+            document.getElementById('rejectRemark').value = '';
+            document.getElementById('rejectModal').style.display = 'flex';
+        }
+
+        function closeRejectModal() {
+            document.getElementById('rejectModal').style.display = 'none';
+            currentRefundId = null;
+        }
+
+        // 确认拒绝
+        function confirmReject() {
+            const remark = document.getElementById('rejectRemark').value.trim();
+            if (!remark) {
+                alert('请输入拒绝原因');
+                return;
+            }
+
+            const token = getToken();
+            fetch(API_BASE + '/refunds/' + currentRefundId + '/reject', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                body: JSON.stringify({ reason: remark })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 200) {
+                    alert('退款申请已拒绝');
+                    closeRejectModal();
+                    loadRefunds();
+                } else {
+                    alert(data.message || '操作失败');
+                }
+            })
+            .catch(err => {
+                console.error('操作失败:', err);
+                alert('操作失败，请稍后重试');
+            });
+        }
+
+        // 完成退款
+        function completeRefund(refundId) {
+            if (!confirm('确定退款已完成吗？款项将退回买家账户。')) return;
+            
+            const token = getToken();
+            fetch(API_BASE + '/refunds/' + refundId + '/complete', {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === 200) {
+                    alert('退款已完成');
+                    loadRefunds();
+                } else {
+                    alert(data.message || '操作失败');
+                }
+            })
+            .catch(err => {
+                console.error('操作失败:', err);
+                alert('操作失败，请稍后重试');
+            });
+        }
+
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', loadRefunds);
+    </script>
+</body>
+</html>

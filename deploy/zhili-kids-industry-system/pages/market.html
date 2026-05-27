@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>市场信息 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/market.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html" class="active">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 面包屑导航 -->
+    <div class="breadcrumb container">
+        <a href="../index.html">首页</a> &gt; 市场信息
+    </div>
+
+    <!-- 主要内容区 -->
+    <main class="container">
+        <!-- 市场动态导航 -->
+        <div class="market-nav">
+            <ul>
+                <li class="active" data-tab="market-trends">
+                    <i class="bi bi-graph-up"></i>
+                    <span>市场趋势</span>
+                </li>
+                <li data-tab="industry-news">
+                    <i class="bi bi-newspaper"></i>
+                    <span>行业资讯</span>
+                </li>
+                <li data-tab="policy-regulations">
+                    <i class="bi bi-file-text"></i>
+                    <span>政策法规</span>
+                </li>
+                <li data-tab="exhibitions">
+                    <i class="bi bi-calendar-event"></i>
+                    <span>展会信息</span>
+                </li>
+                <li data-tab="market-analysis">
+                    <i class="bi bi-bar-chart"></i>
+                    <span>市场分析</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 市场趋势区域 -->
+        <section class="tab-content active" id="market-trends">
+            <h2>市场趋势</h2>
+            
+            <!-- 趋势概览卡片 -->
+            <div class="trend-overview">
+                <div class="trend-card">
+                    <div class="trend-header">
+                        <h3>2025年童装市场规模</h3>
+                        <span class="trend-icon up"><i class="bi bi-arrow-up-right"></i></span>
+                    </div>
+                    <div class="trend-value">3,580亿元</div>
+                    <div class="trend-growth">同比增长 <span class="up">9.5%</span></div>
+                </div>
+                
+                <div class="trend-card">
+                    <div class="trend-header">
+                        <h3>童装消费增速</h3>
+                        <span class="trend-icon up"><i class="bi bi-arrow-up-right"></i></span>
+                    </div>
+                    <div class="trend-value">14.2%</div>
+                    <div class="trend-growth">高于服装行业平均水平 <span class="up">4.7%</span></div>
+                </div>
+                
+                <div class="trend-card">
+                    <div class="trend-header">
+                        <h3>线上销售占比</h3>
+                        <span class="trend-icon up"><i class="bi bi-arrow-up-right"></i></span>
+                    </div>
+                    <div class="trend-value">58.3%</div>
+                    <div class="trend-growth">同比增长 <span class="up">6.1%</span></div>
+                </div>
+                
+                <div class="trend-card">
+                    <div class="trend-header">
+                        <h3>童装出口额</h3>
+                        <span class="trend-icon up"><i class="bi bi-arrow-up-right"></i></span>
+                    </div>
+                    <div class="trend-value">198.5亿美元</div>
+                    <div class="trend-growth">同比增长 <span class="up">8.2%</span></div>
+                </div>
+            </div>
+            
+            <!-- 趋势图表 -->
+            <div class="trend-charts">
+                <div class="chart-container">
+                    <h3>童装市场规模趋势（2011-2024）</h3>
+                    <div class="chart-placeholder">
+                        <img src="../images/market/market-category-chart.jpg" alt="童装市场规模趋势图">
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>童装品类销售占比</h3>
+                    <div class="chart-placeholder">
+                        <img src="../images/market/market-trend-chart.jpg" alt="童装品类销售占比图">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 热门趋势 -->
+            <div class="hot-trends">
+                <h3>热门趋势</h3>
+                <div class="trend-list">
+                    <div class="trend-item">
+                        <div class="trend-item-icon">
+                            <i class="bi bi-stars"></i>
+                        </div>
+                        <div class="trend-item-content">
+                            <h4>可持续环保材料</h4>
+                            <p>有机棉、再生纤维等环保材质童装需求大幅增长，循环织物和生物基面料成为主流。消费者环保意识和可追溯需求明显提高。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="trend-item">
+                        <div class="trend-item-icon">
+                            <i class="bi bi-palette"></i>
+                        </div>
+                        <div class="trend-item-content">
+                            <h4>智能功能性服装</h4>
+                            <p>智能温控、UV监测、生长可调节等科技功能融入童装，同时结合时尚设计，满足现代父母对实用性与美观的更高要求。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="trend-item">
+                        <div class="trend-item-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div class="trend-item-content">
+                            <h4>虚实融合购物体验</h4>
+                            <p>AR/VR虚拟试衣技术普及，数字化定制服务受到欢迎。元宇宙童装体验店提升购物乐趣，社交媒体短视频直播成为主要营销渠道。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="trend-item">
+                        <div class="trend-item-icon">
+                            <i class="bi bi-globe"></i>
+                        </div>
+                        <div class="trend-item-content">
+                            <h4>文化融合创新设计</h4>
+                            <p>传统文化元素与国际时尚潮流融合，现代美学重构传统图案和剪裁。特色文创IP童装产品兴起，文化自信带动高端消费。</p>
+                        </div>
+                    </div>
+
+                    <div class="trend-item">
+                        <div class="trend-item-icon">
+                            <i class="bi bi-cloud-check"></i>
+                        </div>
+                        <div class="trend-item-content">
+                            <h4>智能供应链管理</h4>
+                            <p>区块链透明供应链追溯系统普及，AI预测需求与柔性生产相结合，极大缩短产品从设计到上架时间，小批量个性化定制成为可能。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 行业资讯区域 -->
+        <section class="tab-content" id="industry-news">
+            <h2>行业资讯</h2>
+            
+            <!-- 资讯分类标签 -->
+            <div class="news-categories">
+                <span class="news-tag active">全部资讯</span>
+                <span class="news-tag">行业动态</span>
+                <span class="news-tag">企业新闻</span>
+                <span class="news-tag">技术创新</span>
+                <span class="news-tag">市场观察</span>
+            </div>
+            
+            <!-- 资讯列表 -->
+            <div class="news-list">
+                <!-- 资讯项1 -->
+                <div class="news-item">
+                    <div class="news-image">
+                        <img src="../images/products/special/special-costume-01.jpg" alt="2025年童装行业发展报告发布">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <span class="news-date"><i class="bi bi-calendar3"></i> 2025-07-15</span>
+                            <span class="news-category">行业动态</span>
+                        </div>
+                        <h3 class="news-title">2025年童装行业发展报告发布，智能科技融合成为主流趋势</h3>
+                        <p class="news-summary">中国服装协会发布的《2025年童装行业发展报告》显示，生物可降解材料、智能穿戴技术以及个性化定制成为行业三大增长点，消费者对产品功能性与环保性要求持续提高...</p>
+                        <div class="news-footer">
+                            <a href="#" class="btn-outline btn-sm">阅读全文</a>
+                            <div class="news-stats">
+                                <span><i class="bi bi-eye"></i> 2856</span>
+                                <span><i class="bi bi-chat"></i> 83</span>
+                                <span><i class="bi bi-share"></i> 156</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 资讯项2 -->
+                <div class="news-item">
+                    <div class="news-image">
+                        <img src="../images/products/seasonal/seasonal-sweater-01.jpg" alt="全球童装可持续发展标准更新">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <span class="news-date"><i class="bi bi-calendar3"></i> 2025-07-10</span>
+                            <span class="news-category">政策解读</span>
+                        </div>
+                        <h3 class="news-title">全球童装可持续发展标准更新，碳足迹标签强制执行</h3>
+                        <p class="news-summary">国际纺织服装联盟发布新版《全球童装可持续发展标准》，要求所有童装产品必须标注碳足迹数据，并逐步淘汰无法达到再循环标准的合成材料...</p>
+                        <div class="news-footer">
+                            <a href="#" class="btn-outline btn-sm">阅读全文</a>
+                            <div class="news-stats">
+                                <span><i class="bi bi-eye"></i> 2156</span>
+                                <span><i class="bi bi-chat"></i> 97</span>
+                                <span><i class="bi bi-share"></i> 243</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 资讯项3 -->
+                <div class="news-item">
+                    <div class="news-image">
+                        <img src="../images/products/boys/boys-tshirt-01.jpg" alt="织里数字化产业园正式投产">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <span class="news-date"><i class="bi bi-calendar3"></i> 2025-07-05</span>
+                            <span class="news-category">技术创新</span>
+                        </div>
+                        <h3 class="news-title">织里智能童装产业园正式投产，年产能突破2亿件</h3>
+                        <p class="news-summary">织里智能童装产业园投资50亿元打造的智能制造基地正式投产，引入全自动裁剪系统、机器人缝制线和AI品控系统，产线效率较传统工厂提升3倍，能耗降低40%...</p>
+                        <div class="news-footer">
+                            <a href="#" class="btn-outline btn-sm">阅读全文</a>
+                            <div class="news-stats">
+                                <span><i class="bi bi-eye"></i> 1892</span>
+                                <span><i class="bi bi-chat"></i> 61</span>
+                                <span><i class="bi bi-share"></i> 128</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 资讯项4 -->
+                <div class="news-item">
+                    <div class="news-image">
+                        <img src="../images/products/girls/girls-dress-01.jpg" alt="元宇宙童装展示平台上线">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <span class="news-date"><i class="bi bi-calendar3"></i> 2025-06-28</span>
+                            <span class="news-category">企业新闻</span>
+                        </div>
+                        <h3 class="news-title">全球首个童装元宇宙展示平台上线，虚拟试衣体验革新销售模式</h3>
+                        <p class="news-summary">由织里镇数字经济促进中心联合多家企业开发的童装元宇宙展示平台正式上线，消费者可通过3D扫描创建虚拟替身，实现高精度在线试衣，首月注册用户突破百万...</p>
+                        <div class="news-footer">
+                            <a href="#" class="btn-outline btn-sm">阅读全文</a>
+                            <div class="news-stats">
+                                <span><i class="bi bi-eye"></i> 3278</span>
+                                <span><i class="bi bi-chat"></i> 145</span>
+                                <span><i class="bi bi-share"></i> 392</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分页 -->
+            <div class="pagination">
+                <a href="#" class="prev disabled"><i class="bi bi-chevron-left"></i></a>
+                <a href="#" class="active">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <span>...</span>
+                <a href="#">10</a>
+                <a href="#" class="next"><i class="bi bi-chevron-right"></i></a>
+            </div>
+        </section>
+
+        <!-- 政策法规区域 -->
+        <section class="tab-content" id="policy-regulations">
+            <h2>政策法规</h2>
+            
+            <!-- 政策分类 -->
+            <div class="policy-categories">
+                <div class="policy-category active">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>国家政策</span>
+                </div>
+                <div class="policy-category">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>行业标准</span>
+                </div>
+                <div class="policy-category">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>地方政策</span>
+                </div>
+                <div class="policy-category">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>国际法规</span>
+                </div>
+            </div>
+            
+            <!-- 政策列表 -->
+            <div class="policy-list">
+                <!-- 政策项1 -->
+                <div class="policy-item">
+                    <div class="policy-icon">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </div>
+                    <div class="policy-content">
+                        <div class="policy-meta">
+                            <span class="policy-type">国家政策</span>
+                            <span class="policy-date">2025-06-15</span>
+                        </div>
+                        <h3 class="policy-title">《纺织服装产业绿色创新发展规划（2025-2030）》</h3>
+                        <p class="policy-summary">工信部发布《纺织服装产业绿色创新发展规划》，提出到2030年，建成一批绿色零碳智能工厂，实现全行业碳排放强度下降50%，原材料循环利用率达80%以上...</p>
+                        <div class="policy-footer">
+                            <a href="#" class="btn-outline btn-sm">查看详情</a>
+                            <a href="#" class="btn-outline btn-sm">下载文件</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 政策项2 -->
+                <div class="policy-item">
+                    <div class="policy-icon">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </div>
+                    <div class="policy-content">
+                        <div class="policy-meta">
+                            <span class="policy-type">行业标准</span>
+                            <span class="policy-date">2025-05-20</span>
+                        </div>
+                        <h3 class="policy-title">《智能儿童服装技术规范与安全评估标准》（GB 42503-2025）</h3>
+                        <p class="policy-summary">国家市场监督管理总局发布《智能儿童服装技术规范与安全评估标准》，首次对融入电子元件、智能传感器的童装产品安全性能和功能要求进行规范，将于2025年9月1日起实施...</p>
+                        <div class="policy-footer">
+                            <a href="#" class="btn-outline btn-sm">查看详情</a>
+                            <a href="#" class="btn-outline btn-sm">下载文件</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 政策项3 -->
+                <div class="policy-item">
+                    <div class="policy-icon">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </div>
+                    <div class="policy-content">
+                        <div class="policy-meta">
+                            <span class="policy-type">地方政策</span>
+                            <span class="policy-date">2025-04-10</span>
+                        </div>
+                        <h3 class="policy-title">《织里镇童装产业数字化转型与品牌国际化战略（2025-2030）》</h3>
+                        <p class="policy-summary">织里镇政府发布新一轮发展战略，设立100亿元产业基金，聚焦"数字化制造链、智慧供应链、国际品牌链"三链联动，打造全球领先的智能童装制造中心...</p>
+                        <div class="policy-footer">
+                            <a href="#" class="btn-outline btn-sm">查看详情</a>
+                            <a href="#" class="btn-outline btn-sm">下载文件</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 政策项4 -->
+                <div class="policy-item">
+                    <div class="policy-icon">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </div>
+                    <div class="policy-content">
+                        <div class="policy-meta">
+                            <span class="policy-type">国际法规</span>
+                            <span class="policy-date">2025-03-15</span>
+                        </div>
+                        <h3 class="policy-title">《全球纺织品生命周期责任法案》</h3>
+                        <p class="policy-summary">联合国环境规划署与世界贸易组织联合发布《全球纺织品生命周期责任法案》，要求所有服装制造商承担产品全生命周期责任，建立完整回收体系，逐步禁止使用不可降解材料...</p>
+                        <div class="policy-footer">
+                            <a href="#" class="btn-outline btn-sm">查看详情</a>
+                            <a href="#" class="btn-outline btn-sm">下载文件</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 政策项5（新增） -->
+                <div class="policy-item">
+                    <div class="policy-icon">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </div>
+                    <div class="policy-content">
+                        <div class="policy-meta">
+                            <span class="policy-type">国家政策</span>
+                            <span class="policy-date">2025-02-18</span>
+                        </div>
+                        <h3 class="policy-title">《儿童服装品牌国际化发展支持计划》</h3>
+                        <p class="policy-summary">商务部联合财政部发布《儿童服装品牌国际化发展支持计划》，设立50亿元专项资金，支持本土儿童服装品牌"走出去"，在境外设立品牌店铺、开拓国际市场...</p>
+                        <div class="policy-footer">
+                            <a href="#" class="btn-outline btn-sm">查看详情</a>
+                            <a href="#" class="btn-outline btn-sm">下载文件</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 政策解读 -->
+            <div class="policy-interpretation">
+                <h3>政策解读</h3>
+                <div class="interpretation-list">
+                    <div class="interpretation-item">
+                        <div class="interpretation-image">
+                            <img src="../images/market/policy-interpretation1.jpg" alt="政策解读">
+                        </div>
+                        <div class="interpretation-content">
+                            <h4>《智能儿童服装技术规范与安全评估标准》解读</h4>
+                            <p>新标准对智能元件嵌入方式、电池安全、信号传输、数据保护等方面提出具体指标，企业需重点做好合规与技术升级...</p>
+                            <a href="#" class="read-more">查看详情 <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="interpretation-item">
+                        <div class="interpretation-image">
+                            <img src="../images/market/policy-interpretation2.jpg" alt="政策解读">
+                        </div>
+                        <div class="interpretation-content">
+                            <h4>《织里镇童装产业数字化转型与品牌国际化战略》解读</h4>
+                            <p>战略实施将分三个阶段，第一阶段(2025-2026)重点支持数字化改造，企业可申请最高3000万元技术改造补贴...</p>
+                            <a href="#" class="read-more">查看详情 <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 展会信息区域 -->
+        <section class="tab-content" id="exhibitions">
+            <h2>展会信息</h2>
+            
+            <!-- 展会时间轴 -->
+            <div class="exhibition-timeline">
+                <div class="timeline-header">
+                    <h3>2025年重要展会日程</h3>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">
+                            <span class="month">3月</span>
+                            <span class="day">15-19</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>2025中国国际儿童时尚周</h4>
+                            <p class="location"><i class="bi bi-geo-alt"></i> 上海国家会展中心</p>
+                            <div class="timeline-status past">已结束</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">
+                            <span class="month">5月</span>
+                            <span class="day">22-25</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>2025全球智能童装与可持续发展博览会</h4>
+                            <p class="location"><i class="bi bi-geo-alt"></i> 杭州国际博览中心</p>
+                            <div class="timeline-status past">已结束</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">
+                            <span class="month">6月</span>
+                            <span class="day">10-14</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>2025 CBME中国孕婴童展</h4>
+                            <p class="location"><i class="bi bi-geo-alt"></i> 上海新国际博览中心</p>
+                            <div class="timeline-status past">已结束</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item active">
+                        <div class="timeline-date">
+                            <span class="month">8月</span>
+                            <span class="day">21-25</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>2025织里国际童装博览会暨元宇宙服装设计大赛</h4>
+                            <p class="location"><i class="bi bi-geo-alt"></i> 湖州织里智慧童装产业园</p>
+                            <div class="timeline-status upcoming">即将开始</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">
+                            <span class="month">10月</span>
+                            <span class="day">15-19</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>2025广州国际童装展</h4>
+                            <p class="location"><i class="bi bi-geo-alt"></i> 广州中国进出口商品交易会展馆</p>
+                            <div class="timeline-status upcoming">筹备中</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">
+                            <span class="month">11月</span>
+                            <span class="day">8-12</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>2025亚洲童装与儿童生活方式展</h4>
+                            <p class="location"><i class="bi bi-geo-alt"></i> 新加坡滨海湾金沙会展中心</p>
+                            <div class="timeline-status upcoming">筹备中</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">
+                            <span class="month">12月</span>
+                            <span class="day">5-9</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>2025深圳国际童装产业博览会</h4>
+                            <p class="location"><i class="bi bi-geo-alt"></i> 深圳会展中心</p>
+                            <div class="timeline-status upcoming">筹备中</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 重点展会推荐 -->
+            <div class="exhibition-highlight">
+                <h3>重点展会推荐</h3>
+                <div class="highlight-exhibition">
+                    <div class="highlight-image">
+                        <img src="https://via.placeholder.com/600x300?text=织里国际童装博览会" alt="2025织里国际童装博览会">
+                    </div>
+                    <div class="highlight-content">
+                        <h4>2025织里国际童装博览会暨元宇宙服装设计大赛</h4>
+                        <div class="highlight-info">
+                            <p><i class="bi bi-calendar-event"></i> 2025年8月21日-25日</p>
+                            <p><i class="bi bi-geo-alt"></i> 湖州织里智慧童装产业园</p>
+                            <p><i class="bi bi-people"></i> 预计参展企业500+，专业观众35000+</p>
+                        </div>
+                        <p class="highlight-desc">
+                            2025织里国际童装博览会是全球规模最大的童装专业展会之一，今年首次结合元宇宙技术，打造线上线下融合的沉浸式展览体验。本届展会以"智能科技·绿色未来"为主题，设置智能童装、可持续面料、元宇宙设计、跨界合作、全球品牌等多个展区。同期举办的"全球元宇宙童装设计大赛"将邀请国际知名设计师担任评委，优胜作品将获得产业化支持。展会期间还将举办产业趋势发布会、智能制造高峰论坛、全球采购对接会等活动。
+                        </p>
+                        <div class="highlight-actions">
+                            <a href="#" class="btn-primary">参展报名</a>
+                            <a href="#" class="btn-outline">观展预约</a>
+                            <a href="#" class="btn-outline">下载手册</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 展会回顾 -->
+            <div class="exhibition-review">
+                <h3>展会回顾</h3>
+                <div class="review-list">
+                    <div class="review-item">
+                        <div class="review-image">
+                            <img src="https://via.placeholder.com/280x180?text=展会回顾" alt="2025中国国际儿童时尚周回顾">
+                        </div>
+                        <div class="review-content">
+                            <h4>2025中国国际儿童时尚周回顾</h4>
+                            <p>本届展会吸引了来自25个国家的480家企业参展，展出面积达45000平方米，专业观众突破32000人次，集中展示了全球儿童服装前沿设计和创新科技...</p>
+                            <a href="#" class="read-more">查看详情 <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="review-item">
+                        <div class="review-image">
+                            <img src="https://via.placeholder.com/280x180?text=展会回顾" alt="2025全球智能童装与可持续发展博览会回顾">
+                        </div>
+                        <div class="review-content">
+                            <h4>2025全球智能童装与可持续发展博览会回顾</h4>
+                            <p>首届智能童装专题展会圆满落幕，展示了超过200项智能面料和科技创新成果，现场展示智能生长调节童装、温度自适应面料等前沿产品，达成合作意向额超过30亿元...</p>
+                            <a href="#" class="read-more">查看详情 <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="review-item">
+                        <div class="review-image">
+                            <img src="https://via.placeholder.com/280x180?text=展会回顾" alt="2025 CBME中国孕婴童展回顾">
+                        </div>
+                        <div class="review-content">
+                            <h4>2025 CBME中国孕婴童展回顾</h4>
+                            <p>展会规模再创新高，展出面积达38万平方米，汇聚5000多个品牌，采用沉浸式数字展厅和实体展示相结合方式，访问量突破50万人次，现场达成合作金额超过120亿元...</p>
+                            <a href="#" class="read-more">查看详情 <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 市场分析区域 -->
+        <section class="tab-content" id="market-analysis">
+            <h2>市场分析</h2>
+            
+            <!-- 分析指标卡片 -->
+            <div class="analysis-metrics">
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>童装市场规模</h3>
+                        <div class="metric-value">3,580<span class="unit">亿元</span></div>
+                        <div class="metric-trend">
+                            <span class="trend-icon up"><i class="bi bi-arrow-up-right"></i></span>
+                            <span class="trend-text">同比增长9.5%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="bi bi-shop"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>童装企业数量</h3>
+                        <div class="metric-value">18,750<span class="unit">家</span></div>
+                        <div class="metric-trend">
+                            <span class="trend-icon up"><i class="bi bi-arrow-up-right"></i></span>
+                            <span class="trend-text">同比增长5.3%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="bi bi-cart-check"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>童装消费频次</h3>
+                        <div class="metric-value">6.2<span class="unit">次/年</span></div>
+                        <div class="metric-trend">
+                            <span class="trend-icon up"><i class="bi bi-arrow-up-right"></i></span>
+                            <span class="trend-text">同比增长14.8%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>人均消费金额</h3>
+                        <div class="metric-value">2,280<span class="unit">元/年</span></div>
+                        <div class="metric-trend">
+                            <span class="trend-icon up"><i class="bi bi-arrow-up-right"></i></span>
+                            <span class="trend-text">同比增长12.5%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="bi bi-recycle"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>环保材质占比</h3>
+                        <div class="metric-value">46.8<span class="unit">%</span></div>
+                        <div class="metric-trend">
+                            <span class="trend-icon up"><i class="bi bi-arrow-up-right"></i></span>
+                            <span class="trend-text">同比增长15.2%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="bi bi-cpu"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>智能童装渗透率</h3>
+                        <div class="metric-value">28.5<span class="unit">%</span></div>
+                        <div class="metric-trend">
+                            <span class="trend-icon up"><i class="bi bi-arrow-up-right"></i></span>
+                            <span class="trend-text">同比增长23.6%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 市场分析图表 -->
+            <div class="analysis-charts">
+                <div class="chart-row">
+                    <div class="chart-container">
+                        <h3>童装市场细分结构</h3>
+                        <div class="chart-placeholder">
+                            <img src="https://via.placeholder.com/580x380?text=市场细分结构图" alt="童装市场细分结构图">
+                        </div>
+                        <div class="chart-description">
+                            <p>2025年童装市场细分结构中，智能科技童装占比快速增长至15.8%，休闲童装占比32.5%，学生装占比21.7%，婴幼儿服装占比17.2%，运动童装占比8.8%，礼服/正装占比4.0%。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h3>童装销售渠道占比</h3>
+                        <div class="chart-placeholder">
+                            <img src="https://via.placeholder.com/580x380?text=销售渠道占比图" alt="童装销售渠道占比图">
+                        </div>
+                        <div class="chart-description">
+                            <p>2025年线上渠道占比达到58.3%，其中社交电商占比25.5%，传统电商平台占比22.8%，元宇宙购物占比10.0%；线下渠道中专卖店占比18.6%，百货商场占比10.5%，超市/卖场占比7.4%，其他渠道占比5.2%。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-row">
+                    <div class="chart-container">
+                        <h3>童装消费人群年龄分布</h3>
+                        <div class="chart-placeholder">
+                            <img src="https://via.placeholder.com/580x380?text=消费人群年龄分布图" alt="童装消费人群年龄分布图">
+                        </div>
+                        <div class="chart-description">
+                            <p>25-35岁年轻父母仍是童装消费的主力军，占比达51.5%，其次是35-45岁中年父母（27.3%）和祖辈消费者（15.8%），值得注意的是，青少年自主选购比例上升至5.4%。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h3>童装品牌市场份额</h3>
+                        <div class="chart-placeholder">
+                            <img src="https://via.placeholder.com/580x380?text=品牌市场份额图" alt="童装品牌市场份额图">
+                        </div>
+                        <div class="chart-description">
+                            <p>品牌集中度持续提高，前十大品牌市场份额合计约36.8%，其中本土品牌占比22.5%，国际品牌占比14.3%，第一梯队品牌市场份额均超过3%。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-row">
+                    <div class="chart-container">
+                        <h3>童装产品材质分布</h3>
+                        <div class="chart-placeholder">
+                            <img src="https://via.placeholder.com/580x380?text=材质分布图" alt="童装产品材质分布图">
+                        </div>
+                        <div class="chart-description">
+                            <p>有机棉占比24.5%，再生纤维占比18.3%，生物基新型材料占比4.0%，传统棉质占比22.6%，合成材料占比18.2%，混纺面料占比12.4%。环保材质比例首次超过传统材料。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h3>全球童装市场地区分布</h3>
+                        <div class="chart-placeholder">
+                            <img src="https://via.placeholder.com/580x380?text=全球市场分布图" alt="全球童装市场地区分布图">
+                        </div>
+                        <div class="chart-description">
+                            <p>中国市场占比达到全球的28.6%，欧洲占比24.3%，北美占比22.5%，东南亚占比10.8%，拉丁美洲占比5.7%，中东和非洲占比4.8%，其他地区占比3.3%。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 市场分析报告 -->
+            <div class="analysis-reports">
+                <h3>市场分析报告</h3>
+                <div class="report-list">
+                    <div class="report-item">
+                        <div class="report-icon">
+                            <i class="bi bi-file-earmark-pdf"></i>
+                        </div>
+                        <div class="report-content">
+                            <h4>2025年中国童装市场智能化与可持续发展趋势分析报告</h4>
+                            <p class="report-meta">
+                                <span><i class="bi bi-calendar3"></i> 2025-06-15</span>
+                                <span><i class="bi bi-person"></i> 中国服装协会</span>
+                                <span><i class="bi bi-file-earmark-text"></i> 82页</span>
+                            </p>
+                            <p class="report-summary">报告重点分析了智能童装市场发展现状、生物基材料应用趋势、消费者需求变化和全球竞争格局，并对未来五年市场发展进行预测。</p>
+                            <div class="report-actions">
+                                <a href="#" class="btn-outline btn-sm">下载报告</a>
+                                <a href="#" class="btn-outline btn-sm">在线阅读</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="report-item">
+                        <div class="report-icon">
+                            <i class="bi bi-file-earmark-pdf"></i>
+                        </div>
+                        <div class="report-content">
+                            <h4>织里镇童装产业智慧转型研究报告</h4>
+                            <p class="report-meta">
+                                <span><i class="bi bi-calendar3"></i> 2025-05-20</span>
+                                <span><i class="bi bi-person"></i> 湖州市经信局</span>
+                                <span><i class="bi bi-file-earmark-text"></i> 65页</span>
+                            </p>
+                            <p class="report-summary">报告详细分析了织里镇智慧童装产业园建设成果、智能制造应用案例、产业数字化转型效益，以及未来产业集群发展路径。</p>
+                            <div class="report-actions">
+                                <a href="#" class="btn-outline btn-sm">下载报告</a>
+                                <a href="#" class="btn-outline btn-sm">在线阅读</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="report-item">
+                        <div class="report-icon">
+                            <i class="bi bi-file-earmark-pdf"></i>
+                        </div>
+                        <div class="report-content">
+                            <h4>全球童装产业元宇宙营销与消费趋势分析</h4>
+                            <p class="report-meta">
+                                <span><i class="bi bi-calendar3"></i> 2025-04-10</span>
+                                <span><i class="bi bi-person"></i> 国际纺织服装联合会</span>
+                                <span><i class="bi bi-file-earmark-text"></i> 78页</span>
+                            </p>
+                            <p class="report-summary">报告首次系统分析了元宇宙技术在童装行业应用的商业模式、消费者接受度、营销效果和未来发展潜力，为企业拓展新渠道提供参考。</p>
+                            <div class="report-actions">
+                                <a href="#" class="btn-outline btn-sm">下载报告</a>
+                                <a href="#" class="btn-outline btn-sm">在线阅读</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="report-item">
+                        <div class="report-icon">
+                            <i class="bi bi-file-earmark-pdf"></i>
+                        </div>
+                        <div class="report-content">
+                            <h4>2025年童装消费行为与品牌忠诚度研究</h4>
+                            <p class="report-meta">
+                                <span><i class="bi bi-calendar3"></i> 2025-03-25</span>
+                                <span><i class="bi bi-person"></i> 中国消费者协会</span>
+                                <span><i class="bi bi-file-earmark-text"></i> 53页</span>
+                            </p>
+                            <p class="report-summary">报告通过10万名消费者调研，分析了当代家长购买童装的决策因素、品牌忠诚度、价格敏感度以及对可持续发展的态度和购买意愿。</p>
+                            <div class="report-actions">
+                                <a href="#" class="btn-outline btn-sm">下载报告</a>
+                                <a href="#" class="btn-outline btn-sm">在线阅读</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="../images/logo-footer.png" alt="织里镇童装产业协同管理平台">
+                    <p>织里镇童装产业协同管理平台</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h3>关于我们</h3>
+                        <ul>
+                            <li><a href="#">平台介绍</a></li>
+                            <li><a href="#">联系我们</a></li>
+                            <li><a href="#">服务条款</a></li>
+                            <li><a href="#">隐私政策</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>企业服务</h3>
+                        <ul>
+                            <li><a href="#">企业入驻</a></li>
+                            <li><a href="#">供应链对接</a></li>
+                            <li><a href="#">产品展示</a></li>
+                            <li><a href="#">人才招聘</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>个人服务</h3>
+                        <ul>
+                            <li><a href="#">求职信息</a></li>
+                            <li><a href="#">技能培训</a></li>
+                            <li><a href="#">设计比赛</a></li>
+                            <li><a href="#">资源下载</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-contact">
+                    <h3>联系方式</h3>
+                    <p><i class="icon-address"></i>浙江省湖州市织里镇XXX路XX号</p>
+                    <p><i class="icon-phone"></i>0572-XXXXXXXX</p>
+                    <p><i class="icon-email"></i>contact@zhili-industry.com</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="icon-weixin"></i></a>
+                        <a href="#" class="social-link"><i class="icon-weibo"></i></a>
+                        <a href="#" class="social-link"><i class="icon-douyin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 织里镇童装产业协同管理平台 版权所有 浙ICP备XXXXXXXX号</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/auth-header.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/market.js"></script>
+</body>
+</html> 

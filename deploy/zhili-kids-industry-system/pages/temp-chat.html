@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>临时会话 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: #f5f7fa;
+        }
+        
+        .chat-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            display: flex;
+            height: calc(100vh - 100px);
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        /* 左侧会话列表 */
+        .chat-sidebar {
+            width: 300px;
+            border-right: 1px solid #e8e8e8;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            padding: 16px;
+            border-bottom: 1px solid #e8e8e8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .sidebar-header h3 {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .session-search {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        
+        .session-search input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .session-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .session-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            gap: 12px;
+        }
+        
+        .session-item:hover {
+            background: #f5f7fa;
+        }
+        
+        .session-item.active {
+            background: #ecf5ff;
+            border-left: 3px solid #409eff;
+        }
+        
+        .session-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        
+        .session-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .session-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        
+        .session-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .session-time {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .session-preview {
+            font-size: 13px;
+            color: #666;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .session-product {
+            font-size: 12px;
+            color: #909399;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 2px;
+        }
+        
+        .unread-badge {
+            background: #f56c6c;
+            color: #fff;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+        
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background: #67c23a;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 4px;
+        }
+        
+        .offline-dot {
+            width: 8px;
+            height: 8px;
+            background: #c0c4cc;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 4px;
+        }
+        
+        /* 右侧聊天区域 */
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e8e8e8;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .chat-header-info {
+            flex: 1;
+        }
+        
+        .chat-header-name {
+            font-weight: 600;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .chat-header-product {
+            font-size: 13px;
+            color: #666;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .product-tag {
+            background: #fdf6ec;
+            color: #e6a23c;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .chat-header-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .chat-action-btn {
+            padding: 6px 12px;
+            border: 1px solid #dcdfe6;
+            background: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #606266;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+        
+        .chat-action-btn:hover {
+            border-color: #409eff;
+            color: #409eff;
+        }
+        
+        .chat-action-btn.danger:hover {
+            border-color: #f56c6c;
+            color: #f56c6c;
+        }
+        
+        .chat-status-badge {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .status-active {
+            background: #f0f9eb;
+            color: #67c23a;
+        }
+        
+        .status-closed {
+            background: #f4f4f5;
+            color: #909399;
+        }
+        
+        /* 消息区域 */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .message-date {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            padding: 8px 0;
+        }
+        
+        .message-item {
+            display: flex;
+            gap: 10px;
+            max-width: 70%;
+        }
+        
+        .message-item.sent {
+            flex-direction: row-reverse;
+            align-self: flex-end;
+        }
+        
+        .message-item.received {
+            align-self: flex-start;
+        }
+        
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        
+        .message-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .message-item.sent .message-content {
+            align-items: flex-end;
+        }
+        
+        .message-bubble {
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+        
+        .message-item.sent .message-bubble {
+            background: #409eff;
+            color: #fff;
+            border-bottom-right-radius: 2px;
+        }
+        
+        .message-item.received .message-bubble {
+            background: #f5f5f5;
+            color: #333;
+            border-bottom-left-radius: 2px;
+        }
+        
+        .message-time {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .message-product-tip {
+            background: linear-gradient(135deg, #fdf6ec, #fef0e6);
+            border: 1px solid #f5dab1;
+            border-radius: 8px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .message-product-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+        
+        .message-product-info h4 {
+            margin: 0;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .message-product-info p {
+            margin: 4px 0 0;
+            font-size: 12px;
+            color: #e6a23c;
+        }
+        
+        /* 输入区域 */
+        .chat-input-area {
+            padding: 16px 20px;
+            border-top: 1px solid #e8e8e8;
+            background: #fff;
+        }
+        
+        .chat-input-toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .toolbar-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #f5f5f5;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #606266;
+            transition: all 0.2s;
+        }
+        
+        .toolbar-btn:hover {
+            background: #ecf5ff;
+            color: #409eff;
+        }
+        
+        .chat-input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+        
+        .chat-input {
+            flex: 1;
+            min-height: 40px;
+            max-height: 120px;
+            padding: 8px 12px;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            resize: none;
+            font-size: 14px;
+            line-height: 1.5;
+            font-family: inherit;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: #409eff;
+        }
+        
+        .send-btn {
+            padding: 8px 20px;
+            background: #409eff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .send-btn:hover {
+            background: #66b1ff;
+        }
+        
+        .send-btn:disabled {
+            background: #c0c4cc;
+            cursor: not-allowed;
+        }
+        
+        /* 空状态 */
+        .empty-state {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #909399;
+        }
+        
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+        
+        .empty-state p {
+            font-size: 14px;
+        }
+        
+        /* 会话关闭提示 */
+        .session-closed-tip {
+            background: #fdf6ec;
+            border: 1px solid #f5dab1;
+            color: #e6a23c;
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin: 10px 20px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* 黑名单提示 */
+        .blacklist-tip {
+            background: #fef0f0;
+            border: 1px solid #fecccc;
+            color: #f56c6c;
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin: 10px 20px;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .chat-sidebar {
+                width: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                z-index: 100;
+                background: #fff;
+            }
+            
+            .chat-sidebar.hidden {
+                display: none;
+            }
+            
+            .message-item {
+                max-width: 85%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="chat-container">
+        <!-- 左侧会话列表 -->
+        <div class="chat-sidebar" id="chatSidebar">
+            <div class="sidebar-header">
+                <h3><i class="bi bi-chat-dots"></i> 消息</h3>
+                <span class="unread-badge" id="totalUnreadBadge" style="display:none;">0</span>
+            </div>
+            <div class="session-search">
+                <input type="text" placeholder="搜索会话..." id="sessionSearchInput">
+            </div>
+            <div class="session-list" id="sessionList">
+                <!-- 会话列表动态生成 -->
+            </div>
+        </div>
+
+        <!-- 右侧聊天区域 -->
+        <div class="chat-main" id="chatMain">
+            <!-- 空状态 -->
+            <div class="empty-state" id="emptyState">
+                <i class="bi bi-chat-left-dots"></i>
+                <p>选择一个会话开始聊天</p>
+            </div>
+
+            <!-- 聊天内容（默认隐藏） -->
+            <div id="chatContent" style="display:none; flex-direction: column; height: 100%;">
+                <div class="chat-header" id="chatHeader">
+                    <!-- 动态填充 -->
+                </div>
+                
+                <div id="closedTipContainer"></div>
+                <div id="blacklistTipContainer"></div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <!-- 消息列表动态生成 -->
+                </div>
+                
+                <div class="chat-input-area" id="chatInputArea">
+                    <div class="chat-input-wrapper">
+                        <textarea class="chat-input" id="messageInput" placeholder="输入消息..." rows="1"></textarea>
+                        <button class="send-btn" id="sendBtn">发送</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入脚本 -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <script src="../js/auth-header.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/temp-chat.js"></script>
+    
+    <script>
+        // ==================== 临时会话页面逻辑 ====================
+        document.addEventListener('DOMContentLoaded', async function() {
+            // 检查登录
+            const token = localStorage.getItem('token');
+            const userInfoStr = localStorage.getItem('userInfo');
+            
+            if (!token || !userInfoStr) {
+                alert('请先登录');
+                window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.href);
+                return;
+            }
+
+            const userInfo = JSON.parse(userInfoStr);
+            const currentUserId = userInfo.id;
+
+            // 初始化临时会话
+            const tempChat = TempChatManager.getInstance();
+            await tempChat.init();
+
+            // DOM 元素
+            const sessionList = document.getElementById('sessionList');
+            const emptyState = document.getElementById('emptyState');
+            const chatContent = document.getElementById('chatContent');
+            const chatHeader = document.getElementById('chatHeader');
+            const chatMessages = document.getElementById('chatMessages');
+            const messageInput = document.getElementById('messageInput');
+            const sendBtn = document.getElementById('sendBtn');
+            const totalUnreadBadge = document.getElementById('totalUnreadBadge');
+            const closedTipContainer = document.getElementById('closedTipContainer');
+            const blacklistTipContainer = document.getElementById('blacklistTipContainer');
+            const chatInputArea = document.getElementById('chatInputArea');
+
+            let currentSession = null;
+            let currentOtherUserId = null;
+
+            // ==================== 渲染会话列表 ====================
+            async function renderSessionList() {
+                const sessions = tempChat.getSessionList();
+                
+                if (sessions.length === 0) {
+                    sessionList.innerHTML = `
+                        <div style="padding: 20px; text-align: center; color: #909399;">
+                            <i class="bi bi-inbox" style="font-size: 32px; display: block; margin-bottom: 10px;"></i>
+                            <p>暂无会话记录</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                sessionList.innerHTML = sessions.map(session => {
+                    const otherUserId = session.otherUserId;
+                    const otherNickname = session.otherUserNickname || '未知用户';
+                    const avatar = session.otherUserAvatar || generateDefaultAvatar(otherNickname);
+                    const productTitle = session.productTitle || '商品';
+                    const unreadCount = tempChat.getUnreadCount(session.sessionId);
+                    const createdAt = tempChat.formatTime(parseInt(session.createdAt));
+                    const isActive = session.status === 'active';
+                    
+                    return `
+                        <div class="session-item ${currentSession && currentSession.sessionId === session.sessionId ? 'active' : ''}" 
+                             data-session-id="${session.sessionId}"
+                             data-other-user-id="${otherUserId}"
+                             data-status="${session.status}">
+                            <img class="session-avatar" src="${avatar}" alt="${otherNickname}">
+                            <div class="session-info">
+                                <div class="session-header">
+                                    <span class="session-name">${escapeHtml(otherNickname)}</span>
+                                    <span class="session-time">${createdAt}</span>
+                                </div>
+                                <div class="session-preview">点击查看详情</div>
+                                <div class="session-product">
+                                    <i class="bi bi-box"></i> ${escapeHtml(productTitle)}
+                                    ${unreadCount > 0 ? `<span class="unread-badge">${unreadCount}</span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                // 更新总未读数
+                const totalUnread = tempChat.getTotalUnreadCount();
+                if (totalUnread > 0) {
+                    totalUnreadBadge.textContent = totalUnread > 99 ? '99+' : totalUnread;
+                    totalUnreadBadge.style.display = 'inline';
+                } else {
+                    totalUnreadBadge.style.display = 'none';
+                }
+            }
+
+            // ==================== 选择会话 ====================
+            async function selectSession(sessionId, otherUserId, status) {
+                currentOtherUserId = otherUserId;
+                currentSession = await tempChat.getSessionDetail(sessionId);
+                tempChat.setCurrentSession(currentSession);
+
+                // 显示聊天内容
+                emptyState.style.display = 'none';
+                chatContent.style.display = 'flex';
+
+                // 渲染头部
+                const otherNickname = currentSession.otherUserNickname || '未知用户';
+                const productTitle = currentSession.productTitle || '商品';
+                const productType = currentSession.productType;
+                
+                chatHeader.innerHTML = `
+                    <div class="chat-header-info">
+                        <div class="chat-header-name">
+                            ${escapeHtml(otherNickname)}
+                            ${await checkOnline(otherUserId) ? '<span class="online-dot" title="在线"></span>' : '<span class="offline-dot" title="离线"></span>'}
+                        </div>
+                        <div class="chat-header-product">
+                            <span class="product-tag">${getProductTypeName(productType)}</span>
+                            ${escapeHtml(productTitle)}
+                        </div>
+                    </div>
+                    <div class="chat-header-actions">
+                        ${status === 'active' ? 
+                            `<button class="chat-action-btn" onclick="viewProduct('${currentSession.productType}', '${currentSession.productId}')">
+                                <i class="bi bi-box"></i> 查看商品
+                            </button>
+                            <button class="chat-action-btn danger" onclick="closeCurrentSession()">
+                                <i class="bi bi-x-circle"></i> 关闭会话
+                            </button>` : 
+                            `<span class="chat-status-badge status-closed">会话已关闭</span>`
+                        }
+                    </div>
+                `;
+
+                // 显示关闭提示
+                if (status !== 'active') {
+                    closedTipContainer.innerHTML = `
+                        <div class="session-closed-tip">
+                            <i class="bi bi-info-circle"></i>
+                            该会话已关闭，${status === 'product_sold' ? '商品已售出' : status === 'expired' ? '会话已过期' : '无法继续发送消息'}
+                        </div>
+                    `;
+                    chatInputArea.style.display = 'none';
+                } else {
+                    closedTipContainer.innerHTML = '';
+                    chatInputArea.style.display = 'block';
+                }
+
+                // 清空黑名单提示
+                blacklistTipContainer.innerHTML = '';
+
+                // 渲染消息
+                await renderMessages();
+
+                // 更新会话列表高亮
+                renderSessionList();
+            }
+
+            // ==================== 渲染消息 ====================
+            async function renderMessages() {
+                const messages = tempChat.getMessages(currentSession.sessionId);
+                
+                if (messages.length === 0) {
+                    chatMessages.innerHTML = `
+                        <div style="text-align: center; color: #909399; padding: 40px;">
+                            <i class="bi bi-chat-dots" style="font-size: 48px; display: block; margin-bottom: 16px;"></i>
+                            <p>暂无消息记录</p>
+                            <p style="font-size: 13px;">发送消息开始对话</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                chatMessages.innerHTML = messages.map(msg => {
+                    const isSent = msg.fromUserId === currentUserId;
+                    const avatar = isSent ? (userInfo.avatar || generateDefaultAvatar(userInfo.nickname)) : 
+                                          (currentSession.otherUserAvatar || generateDefaultAvatar(currentSession.otherUserNickname));
+                    const nickname = isSent ? userInfo.nickname : currentSession.otherUserNickname;
+                    const time = tempChat.formatTime(msg.timestamp || msg.createdAt);
+                    
+                    return `
+                        <div class="message-item ${isSent ? 'sent' : 'received'}">
+                            <img class="message-avatar" src="${avatar}" alt="${nickname}">
+                            <div class="message-content">
+                                <div class="message-bubble">${escapeHtml(msg.content)}</div>
+                                <div class="message-time">${time}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                // 滚动到底部
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            // ==================== 发送消息 ====================
+            async function sendMessage() {
+                const content = messageInput.value.trim();
+                if (!content) return;
+                if (!currentSession) return;
+                if (currentSession.status !== 'active') {
+                    alert('会话已关闭，无法发送消息');
+                    return;
+                }
+
+                // 检查黑名单
+                if (await tempChat.isInBlacklist(currentOtherUserId)) {
+                    blacklistTipContainer.innerHTML = `
+                        <div class="blacklist-tip">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            无法发送消息，该用户已将您拉黑
+                        </div>
+                    `;
+                    return;
+                }
+
+                // 构建消息
+                const msg = {
+                    type: 'chat',
+                    sessionId: currentSession.sessionId,
+                    fromUserId: currentUserId,
+                    toUserId: currentOtherUserId,
+                    content: content,
+                    timestamp: Date.now()
+                };
+
+                // 发送
+                tempChat.send(msg);
+
+                // 保存到本地
+                tempChat.saveMessage(currentSession.sessionId, msg);
+
+                // 清空输入框
+                messageInput.value = '';
+
+                // 乐观更新 UI
+                await renderMessages();
+            }
+
+            // ==================== 事件绑定 ====================
+
+            // 点击会话
+            sessionList.addEventListener('click', async (e) => {
+                const sessionItem = e.target.closest('.session-item');
+                if (!sessionItem) return;
+
+                const sessionId = sessionItem.dataset.sessionId;
+                const otherUserId = sessionItem.dataset.otherUserId;
+                const status = sessionItem.dataset.status;
+
+                await selectSession(sessionId, otherUserId, status);
+            });
+
+            // 发送按钮
+            sendBtn.addEventListener('click', sendMessage);
+
+            // 回车发送
+            messageInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+
+            // 自动调整输入框高度
+            messageInput.addEventListener('input', () => {
+                messageInput.style.height = 'auto';
+                messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + 'px';
+            });
+
+            // 接收消息
+            tempChat.onMessage(async (msg) => {
+                if (msg.type === 'session_closed') {
+                    // 会话被关闭
+                    if (currentSession && currentSession.sessionId === msg.sessionId) {
+                        currentSession.status = 'closed';
+                        closedTipContainer.innerHTML = `
+                            <div class="session-closed-tip">
+                                <i class="bi bi-info-circle"></i>
+                                会话已被对方关闭
+                            </div>
+                        `;
+                        chatInputArea.style.display = 'none';
+                    }
+                } else if (msg.sessionId === currentSession?.sessionId) {
+                    // 当前会话的新消息
+                    await renderMessages();
+                }
+                
+                // 更新会话列表
+                await renderSessionList();
+            });
+
+            // ==================== 全局函数 ====================
+
+            window.closeCurrentSession = async function() {
+                if (!currentSession) return;
+                if (!confirm('确定要关闭此会话吗？')) return;
+
+                try {
+                    await tempChat.closeSession(currentSession.sessionId, 'closed');
+                    currentSession.status = 'closed';
+                    closedTipContainer.innerHTML = `
+                        <div class="session-closed-tip">
+                            <i class="bi bi-info-circle"></i>
+                            会话已关闭
+                        </div>
+                    `;
+                    chatInputArea.style.display = 'none';
+                    renderSessionList();
+                } catch (e) {
+                    alert('关闭会话失败: ' + e.message);
+                }
+            };
+
+            window.viewProduct = function(productType, productId) {
+                // 根据商品类型跳转到对应页面
+                if (productType === 'product') {
+                    window.location.href = `product.html?id=${productId}`;
+                } else if (productType === 'connection') {
+                    window.location.href = `supply-chain.html?id=${productId}`;
+                }
+            };
+
+            // ==================== 工具函数 ====================
+
+            async function checkOnline(userId) {
+                try {
+                    return await tempChat.checkOnline(userId);
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            function generateDefaultAvatar(nick) {
+                const firstChar = nick && nick.length > 0 ? nick.charAt(0) : 'U';
+                const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#00f2fe', '#43e97b', '#38f9d7'];
+                const colorIndex = nick.charCodeAt(0) % colors.length;
+                const color = colors[colorIndex];
+                return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Ccircle cx='24' cy='24' r='24' fill='${encodeURIComponent(color)}'/%3E%3Ctext x='24' y='31' text-anchor='middle' fill='white' font-size='22' font-family='Microsoft YaHei'%3E${encodeURIComponent(firstChar)}%3C/text%3E%3C/svg%3E`;
+            }
+
+            function escapeHtml(str) {
+                if (!str) return '';
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+
+            function getProductTypeName(type) {
+                const typeMap = {
+                    'product': '商品',
+                    'connection': '供需',
+                    'order': '订单'
+                };
+                return typeMap[type] || type;
+            }
+
+            // ==================== 初始化 ====================
+            await renderSessionList();
+
+            // 如果有未读会话，自动打开
+            const sessions = tempChat.getSessionList();
+            if (sessions.length > 0) {
+                const unreadSession = sessions.find(s => tempChat.getUnreadCount(s.sessionId) > 0);
+                if (unreadSession) {
+                    await selectSession(unreadSession.sessionId, unreadSession.otherUserId, unreadSession.status);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

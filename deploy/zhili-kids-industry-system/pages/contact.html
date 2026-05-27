@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系我们 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        .contact-page { padding: 40px 0 60px; min-height: 500px; }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .contact-card { background: #fff; border-radius: 12px; padding: 36px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .contact-card h3 { font-size: 22px; color: var(--primary-color); margin: 0 0 24px 0; padding-bottom: 12px; border-bottom: 2px solid var(--secondary-color); }
+        .contact-info-item { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 20px; }
+        .contact-info-item i { font-size: 22px; color: var(--primary-color); margin-top: 2px; flex-shrink: 0; }
+        .contact-info-item .label { font-size: 13px; color: #999; margin-bottom: 2px; }
+        .contact-info-item .value { font-size: 15px; color: #333; }
+
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 14px; color: #555; margin-bottom: 6px; font-weight: 500; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box; transition: border-color 0.2s; }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--primary-color); outline: none; }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        .btn-submit { background: var(--primary-color); color: #fff; border: none; padding: 10px 28px; border-radius: 6px; font-size: 15px; cursor: pointer; transition: opacity 0.2s; }
+        .btn-submit:hover { opacity: 0.85; }
+
+        @media (max-width: 768px) {
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb container">
+        <a href="../index.html">首页</a> &gt; 联系我们
+    </div>
+
+    <main class="container contact-page">
+        <div class="contact-grid">
+            <div class="contact-card">
+                <h3>联系方式</h3>
+                <div class="contact-info-item">
+                    <i class="bi bi-geo-alt"></i>
+                    <div>
+                        <div class="label">地址</div>
+                        <div class="value">浙江省湖州市吴兴区织里镇</div>
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <i class="bi bi-telephone"></i>
+                    <div>
+                        <div class="label">电话</div>
+                        <div class="value">0572-XXXXXXX</div>
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <i class="bi bi-envelope"></i>
+                    <div>
+                        <div class="label">邮箱</div>
+                        <div class="value">service@zhilikids.com</div>
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <i class="bi bi-clock"></i>
+                    <div>
+                        <div class="label">工作时间</div>
+                        <div class="value">周一至周五 9:00 - 18:00</div>
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <i class="bi bi-wechat"></i>
+                    <div>
+                        <div class="label">微信公众号</div>
+                        <div class="value">织里童装产业平台</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-card">
+                <h3>在线留言</h3>
+                <div class="form-group">
+                    <label for="contactName">姓名</label>
+                    <input type="text" id="contactName" placeholder="请输入您的姓名">
+                </div>
+                <div class="form-group">
+                    <label for="contactEmail">邮箱</label>
+                    <input type="email" id="contactEmail" placeholder="请输入您的邮箱">
+                </div>
+                <div class="form-group">
+                    <label for="contactPhone">电话</label>
+                    <input type="text" id="contactPhone" placeholder="请输入您的电话">
+                </div>
+                <div class="form-group">
+                    <label for="contactMsg">留言内容</label>
+                    <textarea id="contactMsg" placeholder="请输入您想咨询的内容"></textarea>
+                </div>
+                <button class="btn-submit" onclick="submitFeedback()">提交留言</button>
+                <p id="feedbackMsg" style="margin-top:12px;font-size:13px;display:none;"></p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 织里镇童装产业协同管理平台 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/auth-header.js"></script>
+    <script src="../js/common.js"></script>
+    <script>
+        function submitFeedback() {
+            var name = document.getElementById('contactName').value.trim();
+            var email = document.getElementById('contactEmail').value.trim();
+            var phone = document.getElementById('contactPhone').value.trim();
+            var msg = document.getElementById('contactMsg').value.trim();
+            var feedbackEl = document.getElementById('feedbackMsg');
+
+            if (!name) { showFeedback('请输入姓名', false); return; }
+            if (!email) { showFeedback('请输入邮箱', false); return; }
+            if (!msg) { showFeedback('请输入留言内容', false); return; }
+
+            var token = localStorage.getItem('token') || sessionStorage.getItem('token');
+            var apiBase = window.ZhiliApi ? window.ZhiliApi.apiAuth() : 'http://localhost:8080/api/auth';
+
+            fetch(apiBase + '/work-order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token ? 'Bearer ' + token : ''
+                },
+                body: JSON.stringify({ title: '用户反馈-' + name, content: '姓名：' + name + '\n邮箱：' + email + '\n电话：' + phone + '\n留言内容：' + msg, type: 'feedback' })
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(result) {
+                if (result.code === 200) {
+                    showFeedback('留言已提交，我们会尽快与您联系，感谢您的反馈！', true);
+                    document.getElementById('contactName').value = '';
+                    document.getElementById('contactEmail').value = '';
+                    document.getElementById('contactPhone').value = '';
+                    document.getElementById('contactMsg').value = '';
+                } else {
+                    showFeedback(result.message || '提交失败，请稍后重试', false);
+                }
+            })
+            .catch(function() {
+                showFeedback('网络错误，请稍后重试', false);
+            });
+        }
+
+        function showFeedback(msg, success) {
+            var el = document.getElementById('feedbackMsg');
+            el.textContent = msg;
+            el.style.color = success ? '#4caf50' : '#e74c3c';
+            el.style.display = 'block';
+            setTimeout(function() { el.style.display = 'none'; }, 5000);
+        }
+    </script>
+</body>
+</html>

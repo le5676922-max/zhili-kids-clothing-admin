@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人才培育 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/training.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html" class="active">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 面包屑导航 -->
+    <div class="breadcrumb container">
+        <a href="../index.html">首页</a> &gt; 人才培育
+    </div>
+
+    <!-- 主要内容区 -->
+    <main class="container">
+        <!-- 培训课程导航 -->
+        <div class="training-nav">
+            <ul>
+                <li class="active" data-tab="courses">
+                    <i class="bi bi-book"></i>
+                    <span>培训课程</span>
+                </li>
+                <li data-tab="workshops">
+                    <i class="bi bi-people"></i>
+                    <span>工作坊</span>
+                </li>
+                <li data-tab="certificates">
+                    <i class="bi bi-award"></i>
+                    <span>职业认证</span>
+                </li>
+                <li data-tab="mentorship">
+                    <i class="bi bi-person-check"></i>
+                    <span>导师计划</span>
+                </li>
+                <li data-tab="resources">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>学习资源</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 培训课程区域 -->
+        <section class="tab-content active" id="courses">
+            <h2>培训课程</h2>
+            
+            <!-- 课程筛选 -->
+            <div class="course-filter">
+                <div class="filter-group">
+                    <span>课程类别：</span>
+                    <a href="#" class="active">全部</a>
+                    <a href="#">设计类</a>
+                    <a href="#">技术类</a>
+                    <a href="#">管理类</a>
+                    <a href="#">营销类</a>
+                </div>
+                <div class="filter-group">
+                    <span>课程级别：</span>
+                    <a href="#" class="active">全部</a>
+                    <a href="#">入门级</a>
+                    <a href="#">进阶级</a>
+                    <a href="#">高级</a>
+                    <a href="#">专家级</a>
+                </div>
+                <div class="filter-group">
+                    <span>课程形式：</span>
+                    <a href="#" class="active">全部</a>
+                    <a href="#">线上课程</a>
+                    <a href="#">线下课程</a>
+                    <a href="#">混合式</a>
+                </div>
+            </div>
+            
+            <!-- 课程列表（由 JS 从接口加载并渲染） -->
+            <div class="course-list" id="course-list">
+                <div class="loading">加载中...</div>
+            </div>
+            
+            <!-- 分页（由 JS 在加载课程后生成） -->
+            <div class="pagination" id="course-pagination"></div>
+        </section>
+
+        <!-- 工作坊区域 -->
+        <section class="tab-content" id="workshops">
+            <h2>工作坊</h2>
+            <div class="workshop-list">
+                <div class="workshop-card">
+                    <div class="workshop-image">
+                        <img src="../images/workshops/workshop1.jpg" alt="童装创意设计工作坊">
+                    </div>
+                    <div class="workshop-content">
+                        <h3>童装创意设计工作坊</h3>
+                        <p>以小组形式进行童装创意设计实操，邀请行业设计师现场指导。</p>
+                        <span class="workshop-date"><i class="bi bi-calendar3"></i> 2025-10-10</span>
+                        <button class="btn-primary">报名参加</button>
+                    </div>
+                </div>
+                <div class="workshop-card">
+                    <div class="workshop-image">
+                        <img src="../images/workshops/workshop2.jpg" alt="童装面料创新工作坊">
+                    </div>
+                    <div class="workshop-content">
+                        <h3>童装面料创新工作坊</h3>
+                        <p>探索新型童装面料与环保材料，现场体验创新工艺。</p>
+                        <span class="workshop-date"><i class="bi bi-calendar3"></i> 2025-10-20</span>
+                        <button class="btn-primary">报名参加</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 职业认证区域 -->
+        <section class="tab-content" id="certificates">
+            <h2>职业认证</h2>
+            <div class="certificate-list">
+                <div class="certificate-card">
+                    <div class="certificate-image">
+                        <img src="../images/certificates/certificate1.jpg" alt="童装设计师认证">
+                    </div>
+                    <div class="certificate-content">
+                        <h3>童装设计师认证</h3>
+                        <p>权威机构颁发，提升行业认可度，助力职业发展。</p>
+                        <button class="btn-primary">了解详情</button>
+                    </div>
+                </div>
+                <div class="certificate-card">
+                    <div class="certificate-image">
+                        <img src="../images/certificates/certificate2.jpg" alt="童装工艺师认证">
+                    </div>
+                    <div class="certificate-content">
+                        <h3>童装工艺师认证</h3>
+                        <p>系统考核童装工艺能力，获得专业资质证书。</p>
+                        <button class="btn-primary">了解详情</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 导师计划区域 -->
+        <section class="tab-content" id="mentorship">
+            <h2>导师计划</h2>
+            <div class="mentor-list">
+                <div class="mentor-card">
+                    <div class="mentor-image">
+                        <img src="../images/mentors/mentor1.jpg" alt="导师王老师">
+                    </div>
+                    <div class="mentor-content">
+                        <h3>王老师</h3>
+                        <p>童装设计领域资深专家，10年行业经验，擅长创新设计与团队指导。</p>
+                        <button class="btn-primary">预约咨询</button>
+                    </div>
+                </div>
+                <div class="mentor-card">
+                    <div class="mentor-image">
+                        <img src="../images/mentors/mentor2.jpg" alt="导师李工">
+                    </div>
+                    <div class="mentor-content">
+                        <h3>李工</h3>
+                        <p>童装生产工艺专家，丰富的实战经验，擅长工艺优化与流程管理。</p>
+                        <button class="btn-primary">预约咨询</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 学习资源区域 -->
+        <section class="tab-content" id="resources">
+            <h2>学习资源</h2>
+            <div class="resource-list">
+                <div class="resource-card">
+                    <div class="resource-image">
+                        <img src="../images/resources/resource1.jpg" alt="童装设计资料">
+                    </div>
+                    <div class="resource-content">
+                        <h3>童装设计资料包</h3>
+                        <p>包含最新童装设计趋势、色彩搭配、面料选择等资料下载。</p>
+                        <button class="btn-primary">下载资料</button>
+                    </div>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-image">
+                        <img src="../images/resources/resource2.jpg" alt="工艺流程手册">
+                    </div>
+                    <div class="resource-content">
+                        <h3>工艺流程手册</h3>
+                        <p>详细讲解童装生产工艺流程，适合新手和进阶学员学习。</p>
+                        <button class="btn-primary">下载资料</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="../images/logo-footer.png" alt="织里镇童装产业协同管理平台">
+                    <p>织里镇童装产业协同管理平台</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h3>关于我们</h3>
+                        <ul>
+                            <li><a href="#">平台介绍</a></li>
+                            <li><a href="#">联系我们</a></li>
+                            <li><a href="#">服务条款</a></li>
+                            <li><a href="#">隐私政策</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>企业服务</h3>
+                        <ul>
+                            <li><a href="#">企业入驻</a></li>
+                            <li><a href="#">供应链对接</a></li>
+                            <li><a href="#">产品展示</a></li>
+                            <li><a href="#">人才招聘</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>个人服务</h3>
+                        <ul>
+                            <li><a href="#">求职信息</a></li>
+                            <li><a href="#">技能培训</a></li>
+                            <li><a href="#">设计比赛</a></li>
+                            <li><a href="#">资源下载</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-contact">
+                    <h3>联系方式</h3>
+                    <p><i class="icon-address"></i>浙江省湖州市织里镇XXX路XX号</p>
+                    <p><i class="icon-phone"></i>0572-XXXXXXXX</p>
+                    <p><i class="icon-email"></i>contact@zhili-industry.com</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="icon-weixin"></i></a>
+                        <a href="#" class="social-link"><i class="icon-weibo"></i></a>
+                        <a href="#" class="social-link"><i class="icon-douyin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 织里镇童装产业协同管理平台 版权所有 浙ICP备XXXXXXXX号</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 确认订单弹窗 -->
+    <div class="order-modal" id="orderModal" style="display: none;">
+        <div class="order-modal-overlay"></div>
+        <div class="order-modal-content">
+            <div class="order-modal-header">
+                <h2>确认订单</h2>
+                <button class="order-modal-close" id="closeOrderModal">&times;</button>
+            </div>
+            <div class="order-modal-body">
+                <!-- 课程信息 -->
+                <div class="order-section">
+                    <h3>课程信息 <span id="courseItemCount">(1门课程)</span></h3>
+                    <div class="order-course-item" id="orderCourseItem">
+                        <img id="orderCourseImage" src="" alt="" class="course-thumbnail">
+                        <div class="course-details">
+                            <div class="course-title" id="orderCourseName"></div>
+                            <div class="course-spec" id="orderCourseSpec"></div>
+                            <div class="course-price-quantity">
+                                数量：<span id="orderCourseQuantity">1</span>门 × <span id="orderCoursePrice"></span> = <span id="orderCourseTotal"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 收货地址（课程订单不需要，但保留样式） -->
+                <div class="order-section">
+                    <h3>联系信息</h3>
+                    <div class="order-form-group">
+                        <label>姓名：</label>
+                        <input type="text" id="orderReceiverName" placeholder="请输入姓名" value="">
+                    </div>
+                    <div class="order-form-group">
+                        <label>手机号：</label>
+                        <input type="text" id="orderReceiverPhone" placeholder="请输入手机号" value="">
+                    </div>
+                    <div class="order-form-group">
+                        <label>联系地址：</label>
+                        <input type="text" id="orderReceiverAddress" placeholder="请输入联系地址" value="">
+                    </div>
+                </div>
+
+                <!-- 支付方式 -->
+                <div class="order-section">
+                    <h3>支付方式</h3>
+                    <div class="payment-methods">
+                        <div class="payment-method active" data-method="wechat">
+                            <i class="bi bi-wechat"></i>
+                            <span>微信支付</span>
+                            <i class="bi bi-check-circle-fill payment-check"></i>
+                        </div>
+                        <div class="payment-method" data-method="alipay">
+                            <i class="bi bi-credit-card"></i>
+                            <span>支付宝</span>
+                            <i class="bi bi-circle payment-check"></i>
+                        </div>
+                        <div class="payment-method" data-method="bank">
+                            <i class="bi bi-bank"></i>
+                            <span>银行卡</span>
+                            <i class="bi bi-circle payment-check"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 价格汇总 -->
+                <div class="order-summary">
+                    <div class="summary-row">
+                        <span>课程金额：</span>
+                        <span id="summaryCourseAmount">¥0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>优惠金额：</span>
+                        <span id="summaryDiscount">-¥0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>运费：</span>
+                        <span>¥0.00</span>
+                    </div>
+                    <div class="summary-divider"></div>
+                    <div class="summary-total">
+                        <span>订单总计：</span>
+                        <span id="summaryTotalAmount">¥0.00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="order-modal-footer">
+                <button class="btn-confirm-payment" id="btnConfirmPayment">确认支付</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/auth-header.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/training.js"></script>
+</body>
+</html> 

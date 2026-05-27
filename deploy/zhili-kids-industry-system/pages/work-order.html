@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的工单 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        .work-order-page { padding: 20px 0 40px; }
+        .work-order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+        .work-order-title { font-size: 24px; font-weight: 600; color: var(--primary-color); margin: 0; }
+        .btn-create { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: var(--primary-color); color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
+        .btn-create:hover { background: var(--secondary-color); }
+        .work-order-card { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; }
+        .work-order-card h3 { padding: 16px 20px; margin: 0; font-size: 16px; border-bottom: 1px solid var(--border-color); }
+        .work-order-table { width: 100%; border-collapse: collapse; }
+        .work-order-table th, .work-order-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .work-order-table th { background: #f8f9fa; font-weight: 600; font-size: 13px; color: #555; }
+        .work-order-table tbody tr:hover { background: #f8f9fa; }
+        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 12px; }
+        .status-open { background: #e3f2fd; color: #1976d2; }
+        .status-closed { background: #ffebee; color: #c62828; }
+        .status-processing { background: #fff3e0; color: #e65100; }
+        .level-low { color: #2e7d32; }
+        .level-mid { color: #ed6c02; }
+        .level-high { color: #c62828; }
+        .btn-view { padding: 6px 12px; font-size: 13px; border: 1px solid var(--primary-color); color: var(--primary-color); background: #fff; border-radius: 4px; cursor: pointer; margin-right: 8px; }
+        .btn-view:hover { background: var(--primary-color); color: #fff; }
+        .btn-close { padding: 6px 12px; font-size: 13px; border: 1px solid #e65100; color: #e65100; background: #fff; border-radius: 4px; cursor: pointer; }
+        .btn-close:hover { background: #fff3e0; color: #e65100; }
+        .op-closed { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #ffebee; color: #c62828; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-overlay.show { display: flex; }
+        .modal-box { background: #fff; border-radius: 12px; width: 100%; max-width: 500px; max-height: 90vh; overflow: auto; }
+        .modal-header { padding: 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { margin: 0; font-size: 18px; }
+        .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: #666; }
+        .modal-body { padding: 20px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 14px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 14px; }
+        .form-group textarea { min-height: 100px; resize: vertical; }
+        .speed-options { display: flex; gap: 12px; }
+        .speed-options label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+        .modal-footer { padding: 16px 20px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 10px; }
+        .btn-cancel { padding: 8px 20px; background: #f5f5f5; border: none; border-radius: 6px; cursor: pointer; }
+        .btn-submit { padding: 8px 20px; background: var(--primary-color); color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+        .btn-submit:hover { background: var(--secondary-color); }
+        .empty-tip { text-align: center; padding: 40px 20px; color: #999; }
+        /* 工单聊天弹窗 */
+        .chat-modal .modal-box { max-width: 560px; display: flex; flex-direction: column; max-height: 85vh; }
+        .chat-modal .modal-body { flex: 1; overflow: hidden; display: flex; flex-direction: column; padding: 0; }
+        .chat-messages { flex: 1; overflow-y: auto; padding: 16px 20px; min-height: 200px; max-height: 320px; }
+        .chat-msg { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; }
+        .chat-msg.me { flex-direction: row-reverse; }
+        .chat-msg .avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--primary-color); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+        .chat-msg.me .avatar { background: #2e7d32; }
+        .chat-msg .bubble { max-width: 75%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; }
+        .chat-msg:not(.me) .bubble { background: #f0f0f0; color: #333; }
+        .chat-msg.me .bubble { background: #e3f2fd; color: #1565c0; }
+        .chat-msg .meta { font-size: 11px; color: #999; margin-top: 4px; }
+        .chat-msg.me .meta { text-align: right; }
+        .chat-reply { padding: 16px 20px; border-top: 1px solid var(--border-color); }
+        .chat-reply label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 14px; }
+        .chat-reply textarea { width: 100%; min-height: 80px; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 14px; resize: vertical; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                <h1>织里镇童装产业协同管理平台</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="enterprise.html">企业信息</a></li>
+                    <li><a href="supply-chain.html">供应链协同</a></li>
+                    <li><a href="product.html">产品展示</a></li>
+                    <li><a href="market.html">市场信息</a></li>
+                    <li><a href="recruitment.html">人才招聘</a></li>
+                    <li><a href="training.html">人才培育</a></li>
+                    <li><a href="data-center.html">数据中心</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="user-info-guest">
+                    <a href="login.html" class="btn btn-login">登录</a>
+                    <a href="register.html" class="btn btn-register">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb container">
+        <a href="../index.html">首页</a> &gt; 我的工单
+    </div>
+
+    <main class="container work-order-page">
+        <div class="work-order-header">
+            <h1 class="work-order-title">工单</h1>
+            <button type="button" class="btn-create" id="btnCreate">
+                <i class="bi bi-plus-square"></i> 创建工单
+            </button>
+        </div>
+        <div class="work-order-card">
+            <h3>工单列表</h3>
+            <table class="work-order-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>主题</th>
+                        <th>级别</th>
+                        <th>状态</th>
+                        <th>创建时间</th>
+                        <th>最后回复</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="workOrderTbody">
+                    <tr><td colspan="7" class="empty-tip">暂无工单，点击「创建工单」提交</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="createModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>创建工单</h3>
+                <button type="button" class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>期待响应速度</label>
+                    <div class="speed-options">
+                        <label><input type="radio" name="speed" value="低" checked> 低</label>
+                        <label><input type="radio" name="speed" value="中"> 中</label>
+                        <label><input type="radio" name="speed" value="高"> 高</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>主题</label>
+                    <input type="text" id="subject" placeholder="一句话描述您的目的">
+                </div>
+                <div class="form-group">
+                    <label>内容</label>
+                    <textarea id="content" placeholder="描述您的问题"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" id="btnCancel">取消</button>
+                <button type="button" class="btn-submit" id="btnSubmit">提交</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay chat-modal" id="chatModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>工单聊天</h3>
+                <button type="button" class="modal-close" id="chatModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="chat-messages" id="chatMessages"></div>
+                <div class="chat-reply">
+                    <label>回复内容</label>
+                    <textarea id="chatReplyContent" placeholder="输入回复内容"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" id="chatBtnCancel">取消</button>
+                <button type="button" class="btn-submit" id="chatBtnSend">发送</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <script src="../js/auth-header.js"></script>
+    <script src="../js/common.js"></script>
+    <script>
+        (function() {
+            var API_BASE = window.ZhiliApi.apiAuth();
+            var WS_BASE = window.ZhiliApi.sockJsHttpBase();
+            var TOKEN_KEY = 'token';
+            var currentChatOrderId = null;
+            var currentOrderDetail = null;
+            var stompClient = null;
+            var wsSubscriptions = {};
+            var chatPollTimerId = null;
+
+            function getToken() { return localStorage.getItem(TOKEN_KEY); }
+            function api(url, options) {
+                options = options || {};
+                var headers = options.headers || {};
+                headers['Content-Type'] = 'application/json';
+                var token = getToken();
+                if (token) headers['Authorization'] = 'Bearer ' + token;
+                return fetch(API_BASE + url, Object.assign({}, options, { headers: headers })).then(function(r) { return r.json(); });
+            }
+
+            function escapeHtml(s) {
+                if (!s) return '';
+                var div = document.createElement('div');
+                div.textContent = s;
+                return div.innerHTML;
+            }
+
+            function renderTable(list) {
+                var tbody = document.getElementById('workOrderTbody');
+                if (!list || list.length === 0) {
+                    var hasToken = !!getToken();
+                    var tip = hasToken
+                        ? '暂无工单，点击「创建工单」提交'
+                        : '暂无工单，请先<a href="login.html">登录</a>后点击「创建工单」提交';
+                    tbody.innerHTML = '<tr><td colspan="7" class="empty-tip">' + tip + '</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = list.map(function(o) {
+                    var statusClass = o.status === '已关闭' ? 'status-closed' : (o.status === '处理中' ? 'status-processing' : 'status-open');
+                    var levelClass = o.level === '高' ? 'level-high' : (o.level === '中' ? 'level-mid' : 'level-low');
+                    var opHtml = '<button type="button" class="btn-view" data-id="' + escapeHtml(String(o.id || '')) + '"><i class="bi bi-eye"></i> 查看</button>';
+                    if (o.status === '已关闭') {
+                        opHtml += '<span class="op-closed"><i class="bi bi-square-fill"></i> 已关闭</span>';
+                    } else {
+                        opHtml += '<button type="button" class="btn-close" data-id="' + escapeHtml(String(o.id || '')) + '"><i class="bi bi-square"></i> 关闭</button>';
+                    }
+                    return '<tr>' +
+                        '<td>' + (o.id || '-') + '</td>' +
+                        '<td>' + escapeHtml(o.subject || '-') + '</td>' +
+                        '<td class="' + levelClass + '">' + (o.level || '低') + '</td>' +
+                        '<td><span class="status-badge ' + statusClass + '">' + (o.status || '待处理') + '</span></td>' +
+                        '<td>' + (o.createTime || '-') + '</td>' +
+                        '<td>' + (o.lastReply || o.createTime || '-') + '</td>' +
+                        '<td>' + opHtml + '</td></tr>';
+                }).join('');
+                tbody.querySelectorAll('.btn-view').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        var id = this.getAttribute('data-id');
+                        if (id) openChatModal(id);
+                    });
+                });
+                tbody.querySelectorAll('.btn-close').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        var id = this.getAttribute('data-id');
+                        if (!id) return;
+                        if (!confirm('确定要关闭该工单吗？')) return;
+                        api('/work-orders/' + id + '/close', { method: 'PUT' }).then(function(res) {
+                            if (res.code === 200) {
+                                loadOrders();
+                                alert('工单已关闭');
+                            } else {
+                                alert(res.message || '关闭失败');
+                            }
+                        }).catch(function() { alert('网络错误'); });
+                    });
+                });
+            }
+
+            function loadOrders() {
+                if (!getToken()) {
+                    renderTable([]);
+                    return;
+                }
+                api('/work-orders').then(function(res) {
+                    if (res.code === 200) renderTable(res.data || []);
+                    else renderTable([]);
+                }).catch(function() { renderTable([]); });
+            }
+
+            function connectWorkOrderWebSocket() {
+                var token = getToken();
+                if (!token || stompClient && stompClient.connected) return;
+                try {
+                    var socket = new SockJS(WS_BASE);
+                    stompClient = Stomp.over(socket);
+                    stompClient.debug = null;
+                    stompClient.connect({ 'Authorization': 'Bearer ' + token }, function() {
+                        subscribeCurrentWorkOrder();
+                    }, function() {
+                        setTimeout(connectWorkOrderWebSocket, 3000);
+                    });
+                } catch (e) { console.warn('WebSocket connect error', e); }
+            }
+            function unsubscribeCurrentWorkOrder() {
+                if (currentChatOrderId && wsSubscriptions[currentChatOrderId]) {
+                    wsSubscriptions[currentChatOrderId].unsubscribe();
+                    delete wsSubscriptions[currentChatOrderId];
+                }
+            }
+            function nowTimeStr() {
+                var d = new Date();
+                function pad(n) { return n < 10 ? '0' + n : '' + n; }
+                return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+            }
+            function subscribeCurrentWorkOrder() {
+                unsubscribeCurrentWorkOrder();
+                if (!currentChatOrderId || !stompClient || !stompClient.connected) return;
+                var sub = stompClient.subscribe('/topic/work-order/' + currentChatOrderId, function() {
+                    // 任意一方发消息后服务端都会广播，此时库已落库
+                    setTimeout(function() { refreshChatFromServer(); }, 80);
+                });
+                wsSubscriptions[currentChatOrderId] = sub;
+            }
+            // 强制从服务端刷新聊天（发送后立即调用，确保看到对方最新消息）
+            function refreshChatFromServer() {
+                if (!currentChatOrderId || !getToken()) return;
+                api('/work-orders/' + currentChatOrderId).then(function(res) {
+                    if (res.code === 200 && res.data) {
+                        currentOrderDetail = res.data;
+                        renderChatMessages(res.data);
+                    }
+                }).catch(function() {});
+            }
+            function openChatModal(orderId) {
+                currentChatOrderId = orderId;
+                currentOrderDetail = null;
+                document.getElementById('chatReplyContent').value = '';
+                document.getElementById('chatMessages').innerHTML = '<div class="empty-tip">加载中...</div>';
+                document.getElementById('chatModal').classList.add('show');
+                if (chatPollTimerId) { clearInterval(chatPollTimerId); chatPollTimerId = null; }
+                if (!getToken()) {
+                    document.getElementById('chatMessages').innerHTML = '<div class="empty-tip">请先登录</div>';
+                    return;
+                }
+                connectWorkOrderWebSocket();
+                api('/work-orders/' + orderId).then(function(res) {
+                    if (res.code === 200) {
+                        currentOrderDetail = res.data;
+                        renderChatMessages(res.data);
+                        subscribeCurrentWorkOrder();
+                    } else {
+                        document.getElementById('chatMessages').innerHTML = '<div class="empty-tip">加载失败</div>';
+                    }
+                }).catch(function() {
+                    document.getElementById('chatMessages').innerHTML = '<div class="empty-tip">加载失败</div>';
+                });
+                // 每 2 秒轮询一次，检查对方是否发了新消息
+                chatPollTimerId = setInterval(refreshChatFromServer, 2000);
+            }
+            function closeChatModal() {
+                if (chatPollTimerId) { clearInterval(chatPollTimerId); chatPollTimerId = null; }
+                unsubscribeCurrentWorkOrder();
+                currentChatOrderId = null;
+                currentOrderDetail = null;
+                document.getElementById('chatModal').classList.remove('show');
+            }
+            function renderChatMessages(data) {
+                var order = data;
+                var messages = order.messages || [];
+                var html = '';
+                if (order.content) {
+                    html += '<div class="chat-msg me"><div class="avatar">ME</div><div class="bubble">' + escapeHtml(order.content) + '<div class="meta">你 ' + (order.createTime || '') + '</div></div></div>';
+                }
+                messages.forEach(function(m) {
+                    var isMe = m.role === 'user' || m.role === 'me';
+                    html += '<div class="chat-msg ' + (isMe ? 'me' : '') + '"><div class="avatar">' + (isMe ? 'ME' : '客服') + '</div><div class="bubble">' + escapeHtml(m.content) + '<div class="meta">' + (isMe ? '你 ' : '') + (m.time || '') + '</div></div></div>';
+                });
+                document.getElementById('chatMessages').innerHTML = html || '<div class="empty-tip">暂无回复，在下方输入内容并发送</div>';
+                var el = document.getElementById('chatMessages');
+                el.scrollTop = el.scrollHeight;
+            }
+
+            document.getElementById('chatModalClose').onclick = document.getElementById('chatBtnCancel').onclick = closeChatModal;
+            // 发送后立即强制从服务器刷新（解决双方看不到对方消息的问题）
+            function immediateRefreshAfterSend() {
+                if (!currentChatOrderId) return;
+                api('/work-orders/' + currentChatOrderId).then(function(res) {
+                    if (res.code === 200 && res.data) {
+                        currentOrderDetail = res.data;
+                        renderChatMessages(res.data);
+                    }
+                }).catch(function() {});
+                loadOrders();
+            }
+
+            document.getElementById('chatBtnSend').onclick = function() {
+                if (!currentChatOrderId) return;
+                var content = (document.getElementById('chatReplyContent').value || '').trim();
+                if (!content) { alert('请填写回复内容'); return; }
+                if (!getToken()) { alert('请先登录'); return; }
+
+                var sendBtn = document.getElementById('chatBtnSend');
+                sendBtn.disabled = true;
+                sendBtn.textContent = '发送中...';
+
+                // 统一走 HTTP：STOMP send 不等待服务端落库，仅用 setTimeout 拉取会早于事务提交，导致本人消息不显示
+                api('/work-orders/' + currentChatOrderId + '/reply', { method: 'POST', body: JSON.stringify({ content: content }) })
+                    .then(function(res) {
+                        document.getElementById('chatReplyContent').value = '';
+                        if (res.code === 200) {
+                            immediateRefreshAfterSend();
+                        } else {
+                            alert(res.message || '发送失败');
+                            immediateRefreshAfterSend();
+                        }
+                        sendBtn.disabled = false;
+                        sendBtn.textContent = '发送';
+                    })
+                    .catch(function() {
+                        alert('网络错误');
+                        sendBtn.disabled = false;
+                        sendBtn.textContent = '发送';
+                    });
+            };
+            document.getElementById('btnCreate').onclick = function() {
+                if (!getToken()) {
+                    alert('请先登录后再创建工单');
+                    return;
+                }
+                document.getElementById('createModal').classList.add('show');
+                document.getElementById('subject').value = '';
+                document.getElementById('content').value = '';
+            };
+            document.getElementById('modalClose').onclick = document.getElementById('btnCancel').onclick = function() {
+                document.getElementById('createModal').classList.remove('show');
+            };
+            document.getElementById('btnSubmit').onclick = function() {
+                var subject = (document.getElementById('subject').value || '').trim();
+                var content = (document.getElementById('content').value || '').trim();
+                var speed = (document.querySelector('input[name="speed"]:checked') || {}).value || '低';
+                if (!subject) { alert('请填写主题'); return; }
+                if (!getToken()) { alert('请先登录'); return; }
+                api('/work-orders', {
+                    method: 'POST',
+                    body: JSON.stringify({ subject: subject, content: content, level: speed })
+                }).then(function(res) {
+                    if (res.code === 200) {
+                        document.getElementById('createModal').classList.remove('show');
+                        loadOrders();
+                        alert('工单已提交');
+                    } else alert(res.message || '提交失败');
+                }).catch(function() { alert('网络错误'); });
+            };
+            loadOrders();
+        })();
+    </script>
+</body>
+</html>

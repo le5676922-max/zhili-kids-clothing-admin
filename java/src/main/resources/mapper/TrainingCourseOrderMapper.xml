@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.TrainingCourseOrderMapper">
+    <insert id="insert" parameterType="com.example.java.entity.TrainingCourseOrder" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO training_course_orders (user_id, course_id, course_name, price, status, created_at)
+        VALUES (#{userId}, #{courseId}, #{courseName}, #{price}, #{status}, NOW())
+    </insert>
+
+    <select id="selectAllForAdmin" resultType="com.example.java.dto.admin.AdminCourseOrderRowDTO">
+        SELECT o.id, o.user_id AS userId, o.course_id AS courseId, o.course_name AS courseName,
+               o.price, o.status, o.created_at AS createdAt,
+               u.nickname AS buyerName, u.email AS buyerEmail
+        FROM training_course_orders o
+        INNER JOIN users u ON o.user_id = u.id
+        ORDER BY o.created_at DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+    <select id="countForAdmin" resultType="int">
+        SELECT COUNT(*) FROM training_course_orders
+    </select>
+    <select id="selectByUserId" resultType="com.example.java.entity.TrainingCourseOrder">
+        SELECT id, user_id AS userId, course_id AS courseId, course_name AS courseName,
+               price, status, created_at AS createdAt
+        FROM training_course_orders
+        WHERE user_id = #{userId}
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 检查用户是否已购买过该课程 -->
+    <select id="selectByUserIdAndCourseId" resultType="com.example.java.entity.TrainingCourseOrder">
+        SELECT id, user_id AS userId, course_id AS courseId, course_name AS courseName,
+               price, status, created_at AS createdAt
+        FROM training_course_orders
+        WHERE user_id = #{userId} AND course_id = #{courseId}
+        LIMIT 1
+    </select>
+</mapper>

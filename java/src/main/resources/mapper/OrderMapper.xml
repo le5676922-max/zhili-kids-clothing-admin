@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.java.mapper.OrderMapper">
+    <insert id="insert">
+        INSERT INTO orders (id, user_id, total_amount, status, receiver_name, receiver_phone, receiver_address, remark, created_at)
+        VALUES (#{id}, #{userId}, #{totalAmount}, #{status}, #{receiverName}, #{receiverPhone}, #{receiverAddress}, #{remark}, NOW())
+    </insert>
+
+    <update id="updateStatus">
+        UPDATE orders SET status = #{status},
+            paid_time = CASE WHEN #{status} = 'paid' THEN NOW() ELSE paid_time END,
+            shipped_time = CASE WHEN #{status} = 'shipped' THEN NOW() ELSE shipped_time END,
+            completed_time = CASE WHEN #{status} = 'completed' THEN NOW() ELSE completed_time END,
+            updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateStatusWithLock">
+        UPDATE orders SET status = #{status},
+            paid_time = CASE WHEN #{status} = 'paid' THEN NOW() ELSE paid_time END,
+            shipped_time = CASE WHEN #{status} = 'shipped' THEN NOW() ELSE shipped_time END,
+            completed_time = CASE WHEN #{status} = 'completed' THEN NOW() ELSE completed_time END,
+            updated_at = NOW()
+        WHERE id = #{id} AND status = #{expectedStatus}
+    </update>
+
+    <select id="selectById" resultType="com.example.java.dto.OrderVO">
+        SELECT o.id, o.user_id AS userId, o.total_amount AS totalAmount, o.status,
+               o.receiver_name AS receiverName, o.receiver_phone AS receiverPhone,
+               o.receiver_address AS receiverAddress, o.remark, o.tracking_no AS trackingNo,
+               o.paid_time AS paidTime, o.shipped_time AS shippedTime,
+               o.completed_time AS completedTime, o.created_at AS createdAt,
+               (SELECT p.user_id FROM order_items oi INNER JOIN products p ON oi.product_id = p.id WHERE oi.order_id = o.id LIMIT 1) AS sellerId
+        FROM orders o WHERE o.id = #{id}
+    </select>
+
+    <!-- 通过运单号查询订单 -->
+    <select id="selectByTrackingNo" resultType="com.example.java.dto.OrderVO">
+        SELECT id, user_id AS userId, total_amount AS totalAmount, status,
+               receiver_name AS receiverName, receiver_phone AS receiverPhone,
+               receiver_address AS receiverAddress, remark, tracking_no AS trackingNo,
+               paid_time AS paidTime, shipped_time AS shippedTime,
+               completed_time AS completedTime, created_at AS createdAt
+        FROM orders WHERE tracking_no = #{trackingNo}
+    </select>
+
+    <select id="selectByUserId" resultType="com.example.java.dto.OrderVO">
+        SELECT id, user_id AS userId, total_amount AS totalAmount, status,
+               receiver_name AS receiverName, receiver_phone AS receiverPhone,
+               receiver_address AS receiverAddress, remark, tracking_no AS trackingNo,
+               paid_time AS paidTime, shipped_time AS shippedTime,
+               completed_time AS completedTime, created_at AS createdAt
+        FROM orders WHERE user_id = #{userId}
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 商家：查询包含自己商品的订单（销售订单列表） -->
+    <select id="selectSalesBySellerId" resultType="com.example.java.dto.OrderVO">
+        SELECT DISTINCT o.id, o.user_id AS userId, o.total_amount AS totalAmount, o.status,
+               o.receiver_name AS receiverName, o.receiver_phone AS receiverPhone,
+               o.receiver_address AS receiverAddress, o.remark, o.tracking_no AS trackingNo,
+               o.paid_time AS paidTime, o.shipped_time AS shippedTime,
+               o.completed_time AS completedTime, o.created_at AS createdAt
+        FROM orders o
+        INNER JOIN order_items oi ON o.id = oi.order_id
+        INNER JOIN products p ON oi.product_id = p.id
+        WHERE p.user_id = #{sellerId}
+        ORDER BY o.created_at DESC
+    </select>
+
+    <update id="updateShip">
+        UPDATE orders SET status = 'shipped', tracking_no = #{trackingNo},
+            shipped_time = NOW(), updated_at = NOW()
+        WHERE id = #{orderId} AND status = 'paid'
+    </update>
+
+    <!-- 管理端：按订单项展开，含买家、卖家、商品 -->
+    <select id="selectAllForAdmin" resultType="com.example.java.dto.admin.AdminOrderRowDTO">
+        SELECT o.id AS orderId, o.status AS orderStatus, o.created_at AS createdAt,
+               u_buyer.nickname AS buyerName, u_buyer.email AS buyerEmail,
+               u_seller.enterprise_name AS sellerName,
+               oi.product_id AS productId, oi.product_name AS productName, oi.product_image AS productImage,
+               oi.quantity, oi.price, oi.subtotal
+        FROM order_items oi
+        INNER JOIN orders o ON oi.order_id = o.id
+        INNER JOIN users u_buyer ON o.user_id = u_buyer.id
+        INNER JOIN products p ON oi.product_id = p.id
+        INNER JOIN users u_seller ON p.user_id = u_seller.id
+        ORDER BY o.created_at DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="countForAdmin" resultType="int">
+        SELECT COUNT(*)
+        FROM order_items oi
+        INNER JOIN orders o ON oi.order_id = o.id
+        INNER JOIN products p ON oi.product_id = p.id
+    </select>
+
+    <!-- 查询超时未支付的订单（状态为pending） -->
+    <select id="findExpiredPendingOrders" resultType="com.example.java.entity.Order">
+        SELECT id, user_id AS userId, total_amount AS totalAmount, status,
+               receiver_name AS receiverName, receiver_phone AS receiverPhone,
+               receiver_address AS receiverAddress, remark, tracking_no AS trackingNo,
+               paid_time AS paidTime, shipped_time AS shippedTime,
+               completed_time AS completedTime, created_at AS createdAt
+        FROM orders
+        WHERE status = 'pending'
+          AND created_at &lt; DATE_SUB(NOW(), INTERVAL #{minutes} MINUTE)
+        ORDER BY created_at ASC
+    </select>
+
+    <!-- 查询发货超过指定天数未确认收货的订单（状态为shipped） -->
+    <select id="findDeliveredOrdersForAutoConfirm" resultType="com.example.java.entity.Order">
+        SELECT id, user_id AS userId, total_amount AS totalAmount, status,
+               receiver_name AS receiverName, receiver_phone AS receiverPhone,
+               receiver_address AS receiverAddress, remark, tracking_no AS trackingNo,
+               paid_time AS paidTime, shipped_time AS shippedTime,
+               completed_time AS completedTime, created_at AS createdAt
+        FROM orders
+        WHERE status = 'shipped'
+          AND shipped_time &lt; DATE_SUB(NOW(), INTERVAL #{days} DAY)
+        ORDER BY shipped_time ASC
+    </select>
+
+    <select id="getSellerIdByOrderId" resultType="string">
+        SELECT p.user_id FROM order_items oi
+        INNER JOIN products p ON oi.product_id = p.id
+        WHERE oi.order_id = #{orderId}
+        LIMIT 1
+    </select>
+</mapper>

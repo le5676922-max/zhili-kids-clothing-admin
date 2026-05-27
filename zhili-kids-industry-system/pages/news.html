@@ -1,0 +1,473 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>行业资讯 - 织里镇童装产业协同管理平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/market.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-plus/dist/index.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        .news-page {
+            padding: 40px 0;
+            background-color: var(--light-bg);
+        }
+        
+        .news-filter {
+            display: flex;
+            margin-bottom: 30px;
+            background-color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .filter-item {
+            margin-right: 20px;
+            position: relative;
+        }
+        
+        .filter-label {
+            font-size: 14px;
+            color: var(--light-text);
+            margin-right: 10px;
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .filter-option {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 5px;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-option:hover {
+            color: var(--primary-color);
+        }
+        
+        .filter-option.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .news-list-full {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .news-item-full {
+            display: flex;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .news-item-full:hover {
+            transform: translateY(-5px);
+        }
+        
+        .news-date-full {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 100px;
+            text-align: center;
+        }
+        
+        .news-date-full .day {
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1;
+        }
+        
+        .news-date-full .month {
+            font-size: 16px;
+            margin-top: 5px;
+        }
+        
+        .news-content-full {
+            padding: 20px;
+            flex: 1;
+        }
+        
+        .news-content-full h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .news-content-full h3 a {
+            color: var(--primary-color);
+            transition: color 0.2s ease;
+        }
+        
+        .news-content-full h3 a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .news-meta {
+            display: flex;
+            margin-bottom: 10px;
+            color: var(--light-text);
+            font-size: 14px;
+        }
+        
+        .news-meta span {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        
+        .news-meta i {
+            margin-right: 5px;
+        }
+        
+        .news-content-full p {
+            color: var(--light-text);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .news-tags {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        
+        .news-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .pagination a, .pagination span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            margin: 0 5px;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        
+        .pagination a {
+            background-color: white;
+            color: var(--text-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .pagination a:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .pagination a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .pagination a.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .pagination .prev, .pagination .next {
+            width: auto;
+            padding: 0 15px;
+        }
+        
+        .pagination .prev i, .pagination .next i {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 头部导航 -->
+        <header class="header">
+            <div class="container">
+                <div class="logo">
+                    <img src="../images/logo.png" alt="织里镇童装产业协同管理平台">
+                    <h1>织里镇童装产业协同管理平台</h1>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="../index.html">首页</a></li>
+                        <li><a href="enterprise.html">企业信息</a></li>
+                        <li><a href="supply-chain.html">供应链协同</a></li>
+                        <li><a href="product.html">产品展示</a></li>
+                        <li><a href="market.html">市场信息</a></li>
+                        <li><a href="recruitment.html">人才招聘</a></li>
+                        <li><a href="training.html">人才培育</a></li>
+                        <li><a href="data-center.html">数据中心</a></li>
+                    </ul>
+                </nav>
+                <div class="user-info">
+                    <div class="user-info-guest">
+                        <a href="login.html" class="btn btn-login">登录</a>
+                        <a href="register.html" class="btn btn-register">注册</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 面包屑导航 -->
+        <div class="breadcrumb">
+            <div class="container">
+                <a href="../index.html">首页</a> &gt; 行业资讯
+            </div>
+        </div>
+
+        <!-- 新闻列表页面 -->
+        <section class="news-page">
+            <div class="container">
+                <h2 class="section-title">行业资讯</h2>
+                
+                <!-- 新闻筛选 -->
+                <div class="news-filter">
+                    <div class="filter-item">
+                        <span class="filter-label">资讯类型：</span>
+                        <div class="filter-options">
+                            <span class="filter-option active">全部</span>
+                            <span class="filter-option">行业动态</span>
+                            <span class="filter-option">政策法规</span>
+                            <span class="filter-option">展会信息</span>
+                            <span class="filter-option">技术创新</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 新闻列表 -->
+                <div class="news-list-full">
+                    <!-- 新闻项1 -->
+                    <div class="news-item-full">
+                        <div class="news-date-full">
+                            <span class="day">15</span>
+                            <span class="month">七月</span>
+                        </div>
+                        <div class="news-content-full">
+                            <h3><a href="news-detail.html?id=1">织里镇童装产业数字化转型推进会顺利召开</a></h3>
+                            <div class="news-meta">
+                                <span><i class="bi bi-person"></i>织里镇人民政府</span>
+                                <span><i class="bi bi-tag"></i>行业动态</span>
+                                <span><i class="bi bi-eye"></i>1256次浏览</span>
+                            </div>
+                            <p>7月15日，织里镇人民政府组织召开童装产业数字化转型推进会，会议强调要加快推进童装产业数字化转型，提升产业竞争力。会议由镇长主持，邀请了行业专家、企业代表等共同参与，围绕数字化转型面临的机遇与挑战、转型路径与方法等议题展开深入讨论。会议还发布了《织里镇童装产业数字化转型三年行动计划（2023-2025）》，明确了未来三年的发展目标和重点任务。</p>
+                            <div class="news-tags">
+                                <span class="tag">数字化转型</span>
+                                <span class="tag">产业升级</span>
+                                <span class="tag">政策发布</span>
+                            </div>
+                            <div class="news-actions">
+                                <a href="news-detail.html?id=1" class="btn btn-outline">阅读全文</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 新闻项2 -->
+                    <div class="news-item-full">
+                        <div class="news-date-full">
+                            <span class="day">12</span>
+                            <span class="month">七月</span>
+                        </div>
+                        <div class="news-content-full">
+                            <h3><a href="news-detail.html?id=2">织里镇举办首届童装设计大赛</a></h3>
+                            <div class="news-meta">
+                                <span><i class="bi bi-person"></i>织里镇文化中心</span>
+                                <span><i class="bi bi-tag"></i>行业动态</span>
+                                <span><i class="bi bi-eye"></i>986次浏览</span>
+                            </div>
+                            <p>为推动织里童装创新设计能力提升，培养更多优秀童装设计人才，织里镇举办首届童装设计大赛，大赛将持续至9月。本次大赛以"童趣·创新·未来"为主题，面向全国高校服装设计专业学生及童装设计师征集作品。大赛设置专业组和学生组两个组别，共设置金、银、铜奖及优秀奖若干，总奖金池超过30万元。获奖作品将有机会与织里本地企业合作，实现商业化生产。</p>
+                            <div class="news-tags">
+                                <span class="tag">设计大赛</span>
+                                <span class="tag">人才培养</span>
+                                <span class="tag">创新设计</span>
+                            </div>
+                            <div class="news-actions">
+                                <a href="news-detail.html?id=2" class="btn btn-outline">阅读全文</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 新闻项3 -->
+                    <div class="news-item-full">
+                        <div class="news-date-full">
+                            <span class="day">08</span>
+                            <span class="month">七月</span>
+                        </div>
+                        <div class="news-content-full">
+                            <h3><a href="news-detail.html?id=3">织里镇童装协会组织企业参加广州童装展</a></h3>
+                            <div class="news-meta">
+                                <span><i class="bi bi-person"></i>织里镇童装协会</span>
+                                <span><i class="bi bi-tag"></i>展会信息</span>
+                                <span><i class="bi bi-eye"></i>875次浏览</span>
+                            </div>
+                            <p>7月8日-10日，织里镇童装协会组织20家骨干企业参加广州国际童装展，展示织里优质童装产品，对接国内外客户资源。本次展会上，织里童装展团以"织里童装·品质童年"为主题，设立了300平方米的统一展区，集中展示了织里童装产业的最新成果和特色产品。展会期间，织里展团共接待专业采购商1500余人次，现场达成合作意向300余项，意向订单金额超过5000万元。</p>
+                            <div class="news-tags">
+                                <span class="tag">展会信息</span>
+                                <span class="tag">市场拓展</span>
+                                <span class="tag">产业合作</span>
+                            </div>
+                            <div class="news-actions">
+                                <a href="news-detail.html?id=3" class="btn btn-outline">阅读全文</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 新闻项4 -->
+                    <div class="news-item-full">
+                        <div class="news-date-full">
+                            <span class="day">05</span>
+                            <span class="month">七月</span>
+                        </div>
+                        <div class="news-content-full">
+                            <h3><a href="news-detail.html?id=4">《童装行业绿色发展指南》正式发布</a></h3>
+                            <div class="news-meta">
+                                <span><i class="bi bi-person"></i>中国服装协会</span>
+                                <span><i class="bi bi-tag"></i>政策法规</span>
+                                <span><i class="bi bi-eye"></i>763次浏览</span>
+                            </div>
+                            <p>7月5日，中国服装协会正式发布《童装行业绿色发展指南》，为童装行业的可持续发展提供指导。该指南围绕材料选择、生产工艺、产品设计、回收利用等方面提出了具体的绿色发展要求和建议，旨在推动童装行业向环保、健康、可持续方向发展。指南强调，童装产品应优先选用有机棉、再生纤维等环保材料，生产过程应减少水资源消耗和化学品使用，产品设计应考虑耐用性和可回收性。</p>
+                            <div class="news-tags">
+                                <span class="tag">政策法规</span>
+                                <span class="tag">绿色发展</span>
+                                <span class="tag">可持续发展</span>
+                            </div>
+                            <div class="news-actions">
+                                <a href="news-detail.html?id=4" class="btn btn-outline">阅读全文</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 新闻项5 -->
+                    <div class="news-item-full">
+                        <div class="news-date-full">
+                            <span class="day">01</span>
+                            <span class="month">七月</span>
+                        </div>
+                        <div class="news-content-full">
+                            <h3><a href="news-detail.html?id=5">织里镇童装产业数字化人才培训班开班</a></h3>
+                            <div class="news-meta">
+                                <span><i class="bi bi-person"></i>织里镇人力资源中心</span>
+                                <span><i class="bi bi-tag"></i>行业动态</span>
+                                <span><i class="bi bi-eye"></i>685次浏览</span>
+                            </div>
+                            <p>7月1日，织里镇童装产业数字化人才培训班正式开班，首期培训班将持续两周，共有来自50家企业的100名学员参加。本次培训聚焦童装产业数字化转型所需的关键技能，包括数字化设计工具应用、智能制造设备操作、电商平台运营等内容，由行业专家和高校教授授课。培训班由织里镇人民政府主办，旨在为童装产业数字化转型培养专业人才，提升企业数字化应用水平。</p>
+                            <div class="news-tags">
+                                <span class="tag">人才培训</span>
+                                <span class="tag">数字化转型</span>
+                                <span class="tag">技能提升</span>
+                            </div>
+                            <div class="news-actions">
+                                <a href="news-detail.html?id=5" class="btn btn-outline">阅读全文</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 分页 -->
+                <div class="pagination">
+                    <a href="#" class="prev disabled"><i class="bi bi-chevron-left"></i> 上一页</a>
+                    <a href="#" class="active">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <span>...</span>
+                    <a href="#">5</a>
+                    <a href="#" class="next">下一页 <i class="bi bi-chevron-right"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 页脚 -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-logo">
+                        <img src="../images/logo-footer.png" alt="织里镇童装产业协同管理平台">
+                        <p>织里镇童装产业协同管理平台</p>
+                    </div>
+                    <div class="footer-links">
+                        <div class="link-group">
+                            <h3>关于我们</h3>
+                            <ul>
+                                <li><a href="#">平台介绍</a></li>
+                                <li><a href="#">联系我们</a></li>
+                                <li><a href="#">服务条款</a></li>
+                                <li><a href="#">隐私政策</a></li>
+                            </ul>
+                        </div>
+                        <div class="link-group">
+                            <h3>企业服务</h3>
+                            <ul>
+                                <li><a href="#">企业入驻</a></li>
+                                <li><a href="#">供应链对接</a></li>
+                                <li><a href="#">产品展示</a></li>
+                                <li><a href="#">人才招聘</a></li>
+                            </ul>
+                        </div>
+                        <div class="link-group">
+                            <h3>个人服务</h3>
+                            <ul>
+                                <li><a href="#">求职信息</a></li>
+                                <li><a href="#">技能培训</a></li>
+                                <li><a href="#">设计比赛</a></li>
+                                <li><a href="#">资源下载</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="footer-contact">
+                        <h3>联系方式</h3>
+                        <p><i class="icon-address"></i>浙江省湖州市织里镇XXX路XX号</p>
+                        <p><i class="icon-phone"></i>0572-XXXXXXXX</p>
+                        <p><i class="icon-email"></i>contact@zhili-industry.com</p>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="icon-weixin"></i></a>
+                            <a href="#" class="social-link"><i class="icon-weibo"></i></a>
+                            <a href="#" class="social-link"><i class="icon-douyin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>© 2026 织里镇童装产业协同管理平台 版权所有 浙ICP备XXXXXXXX号</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../js/auth-header.js"></script>
+    <script src="../js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 筛选选项点击事件
+            const filterOptions = document.querySelectorAll('.filter-option');
+            filterOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    filterOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

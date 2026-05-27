@@ -1,0 +1,392 @@
+/* =============================================
+   main-index.css - 首页内联样式（由 main.js 动态注入提取而来）
+   包含：Banner轮播增强动画、滚动动画、视差、鼠标跟随等交互特效
+   ============================================= */
+
+/* ---------- Banner 轮播增强动画 ---------- */
+.banner-slider.enhanced .slide {
+    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.8s ease;
+}
+
+.banner-slider.enhanced .slide.active {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.banner-slider.enhanced .slide:not(.active) {
+    transform: scale(0.9);
+    opacity: 0;
+    filter: blur(5px);
+}
+
+.banner-slider.enhanced .slide-content {
+    transform: translateY(20px);
+    transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1), opacity 1s ease;
+}
+
+.banner-slider.enhanced .slide.active .slide-content {
+    transform: translateY(0);
+    opacity: 1;
+    transition-delay: 0.3s;
+}
+
+.banner-slider.enhanced .slide:not(.active) .slide-content {
+    transform: translateY(20px);
+    opacity: 0;
+}
+
+@keyframes dotProgress {
+    0% { background: linear-gradient(to right, var(--accent-color) 0%, rgba(255,255,255,0.5) 0%); }
+    100% { background: linear-gradient(to right, var(--accent-color) 100%, rgba(255,255,255,0.5) 0%); }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translate3d(100px, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translate3d(-100px, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 40px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.banner-slider.enhanced .slide.active .slide-content h2 {
+    animation: fadeInUp 1s cubic-bezier(0.23, 1, 0.32, 1) 0.4s forwards;
+    opacity: 0;
+}
+
+.banner-slider.enhanced .slide.active .slide-content p {
+    animation: fadeInUp 1s cubic-bezier(0.23, 1, 0.32, 1) 0.7s forwards;
+    opacity: 0;
+}
+
+.banner-slider.enhanced .banner-arrow.banner-prev {
+    animation: fadeInLeft 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+.banner-slider.enhanced .banner-arrow.banner-next {
+    animation: fadeInRight 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+/* ---------- Section 滚动淡入动画 ---------- */
+section {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 1;
+}
+
+section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+section.visible::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+    pointer-events: none;
+    opacity: 0;
+    z-index: -1;
+    animation: sectionGlow 3s ease-in-out 0.5s forwards;
+}
+
+@keyframes sectionGlow {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* ---------- Section 淡入淡出（兼容旧版） ---------- */
+section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ---------- 卡片动画 ---------- */
+.animated {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+section.visible .animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ---------- Header 滚动阴影 ---------- */
+.header.scrolled {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------- 滚动指示器（右侧固定） ---------- */
+.scroll-indicator {
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.scroll-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(44, 82, 130, 0.3);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.scroll-dot.active {
+    transform: scale(1.5);
+    background-color: var(--accent-color);
+}
+
+/* ---------- 滚动进度条（顶部） ---------- */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+    z-index: 1000;
+    transition: width 0.1s ease;
+}
+
+/* ---------- 移动端菜单切换 ---------- */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 22px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.menu-toggle span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: var(--primary-color);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex;
+    }
+
+    .main-nav {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        height: 0;
+        overflow: hidden;
+        transition: height 0.3s ease;
+        z-index: 999;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .main-nav.active {
+        height: auto;
+        padding: 20px 0;
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+    }
+
+    .main-nav li {
+        margin: 10px 0;
+    }
+}
+
+/* ---------- 粒子背景容器 ---------- */
+#particles-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ---------- 粒子漂浮动画 ---------- */
+@keyframes float {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(10px, 10px) rotate(360deg); }
+}
+
+/* ---------- 视差层 ---------- */
+.parallax-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.parallax-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ---------- 元素入场动画 ---------- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 30px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translate3d(-30px, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translate3d(30px, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale3d(0.9, 0.9, 0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ---------- 鼠标跟随光效 ---------- */
+.mouse-follower {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: rgba(44, 82, 130, 0.3);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+    opacity: 0;
+}
+
+.mouse-cursor {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* ---------- 点击波纹效果 ---------- */
+@keyframes rippleEffect {
+    0% {
+        width: 10px;
+        height: 10px;
+        opacity: 0.8;
+    }
+    100% {
+        width: 80px;
+        height: 80px;
+        opacity: 0;
+    }
+}
+
+/* ---------- 3D卡片光泽效果 ---------- */
+.glow-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%),
+                                rgba(255,255,255,0.3) 0%,
+                                rgba(255,255,255,0) 60%);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
